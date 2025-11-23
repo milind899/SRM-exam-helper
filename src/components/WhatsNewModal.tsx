@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Keyboard, Palette, Package, Clock, Zap, PartyPopper, Share2 } from 'lucide-react';
+import { X, Sparkles, Keyboard, Palette, Clock, Zap, PartyPopper, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
