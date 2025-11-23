@@ -8,6 +8,7 @@ import { examContent } from './data/examContent';
 import { RotateCcw, Search, Filter, Github } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
@@ -297,6 +298,24 @@ function App() {
 
         <ResourcesSection />
       </Layout>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: 'rgba(var(--color-surface), 0.95)',
+            color: 'rgb(var(--color-text-main))',
+            border: '1px solid rgba(var(--color-primary), 0.2)',
+            backdropFilter: 'blur(10px)',
+          },
+          success: {
+            iconTheme: {
+              primary: 'rgb(var(--color-primary))',
+              secondary: 'rgb(var(--color-surface))',
+            },
+          },
+        }}
+      />
       <Analytics />
     </>
   );

@@ -61,6 +61,10 @@
   body {
     @apply bg-background text-text-main antialiased;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Custom Scrollbar */

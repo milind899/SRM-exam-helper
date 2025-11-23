@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Sparkles, Keyboard, Palette, Package, Clock, Zap, PartyPopper, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
 
 interface WhatsNewModalProps {
     isOpen: boolean;
@@ -25,7 +26,7 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
         } else {
             // Fallback: copy to clipboard
             navigator.clipboard.writeText(`${SHARE_TEXT}\n${SITE_URL}`);
-            alert('Link copied to clipboard! 📋');
+            toast.success('Link copied to clipboard! 📋');
         }
     };
 
