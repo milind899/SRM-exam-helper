@@ -43,7 +43,7 @@ export const useLeaderboard = (
 
         const syncProgress = async () => {
             try {
-                await fetch('/api/leaderboard/entries', {
+                const response = await fetch('/api/leaderboard/entries', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -54,6 +54,13 @@ export const useLeaderboard = (
                         totalItems
                     })
                 });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Sync error:', errorData);
+                    return;
+                }
+
                 refreshLeaderboard();
             } catch (err) {
                 console.error('Error syncing progress:', err);
@@ -69,15 +76,34 @@ export const useLeaderboard = (
     const refreshLeaderboard = async () => {
         try {
             setError(null);
-            const response = await fetch('/api/leaderboard/entries');
-            if (!response.ok) throw new Error('Failed to fetch leaderboard');
+
+            const response = await fetch('/api/leaderboard/entries', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('API Response Error:', response.status, errorText);
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
+            }
 
             const data = await response.json();
+            console.log('Leaderboard data:', data);
             setLeaderboard(data);
             setLoading(false);
         } catch (err: any) {
             console.error('Error fetching leaderboard:', err);
-            setError(err.message || 'Failed to load leaderboard');
+
+            // More specific error message
+            let errorMsg = 'Failed to load leaderboard';
+            if (err.message.includes('fetch')) {
+                errorMsg = 'Cannot connect to leaderboard server. Deploy to Vercel to enable.';
+            } else {
+                errorMsg = err.message || errorMsg;
+            }
+
+            setError(errorMsg);
             setLoading(false);
         }
     };
@@ -105,7 +131,7 @@ export const useLeaderboard = (
                     completedItems,
                     totalItems
                 })
-            }).then(refreshLeaderboard);
+            }).then(refreshLeaderboard).catch(console.error);
         }
     };
 
