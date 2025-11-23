@@ -13,8 +13,9 @@ import { Toaster } from 'react-hot-toast';
 import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
 import { WhatsNewModal } from './components/WhatsNewModal';
+import { WelcomeModal } from './components/WelcomeModal';
 import { useLeaderboard } from './hooks/useLeaderboard';
-import { Leaderboard } from './components/Leaderboard';
+import { StickyLeaderboard } from './components/StickyLeaderboard';
 
 function App() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
@@ -180,6 +181,7 @@ function App() {
     <>
       <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
       <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
+      <WelcomeModal onSubmit={updateNickname} />
       <Layout
         currentTheme={theme}
         onThemeChange={setTheme}
@@ -309,17 +311,6 @@ function App() {
           </div>
         </div>
 
-        <div className="mt-12 mb-12">
-          <Leaderboard
-            entries={leaderboard}
-            currentUserId={user?.uid}
-            currentUserNickname={nickname}
-            onUpdateNickname={updateNickname}
-            loading={leaderboardLoading}
-            error={leaderboardError}
-          />
-        </div>
-
         <ResourcesSection />
       </Layout>
       <Toaster
@@ -341,6 +332,14 @@ function App() {
         }}
       />
       <Analytics />
+      <StickyLeaderboard
+        entries={leaderboard}
+        currentUserId={user?.uid}
+        currentUserNickname={nickname}
+        onUpdateNickname={updateNickname}
+        loading={leaderboardLoading}
+        error={leaderboardError}
+      />
     </>
   );
 }
