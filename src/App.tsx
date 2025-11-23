@@ -281,39 +281,53 @@ function App() {
         </div>
 
         {focusMode ? (
-          <div className="space-y-6">
-            {/* Focus Mode Header */}
-            <div className="flex items-center justify-between mb-6 p-4 bg-primary/5 border border-primary/10 rounded-xl">
-              <div className="flex items-center gap-3">
-                <Focus className="text-primary" size={24} />
-                <div>
-                  <h2 className="text-lg font-bold text-text-main">Focus Mode Active</h2>
-                  <p className="text-xs text-text-muted">Showing Unit {focusedUnitIndex + 1} of {examContent.length}</p>
+          <div className="fixed inset-0 bg-gradient-to-br from-background via-background to-surface z-50 overflow-auto">
+            {/* Minimal Header */}
+            <div className="max-w-5xl mx-auto px-4 py-6">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-primary/10 rounded-xl border border-primary/20">
+                    <Focus className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-text-main">Focus Mode</h1>
+                    <p className="text-sm text-text-muted">Unit {focusedUnitIndex + 1} of {examContent.length}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setFocusedUnitIndex(prev => Math.max(0, prev - 1))}
+                    disabled={focusedUnitIndex === 0}
+                    className="px-4 py-2 text-sm font-medium rounded-xl bg-surface hover:bg-surface/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-white/10"
+                  >
+                    ← Previous Unit
+                  </button>
+                  <button
+                    onClick={() => setFocusedUnitIndex(prev => Math.min(examContent.length - 1, prev + 1))}
+                    disabled={focusedUnitIndex === examContent.length - 1}
+                    className="px-4 py-2 text-sm font-medium rounded-xl bg-surface hover:bg-surface/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-white/10"
+                  >
+                    Next Unit →
+                  </button>
+                  <button
+                    onClick={() => setFocusMode(false)}
+                    className="px-4 py-2 text-sm font-medium rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all"
+                  >
+                    Exit Focus
+                  </button>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setFocusedUnitIndex(prev => Math.max(0, prev - 1))}
-                  disabled={focusedUnitIndex === 0}
-                  className="px-3 py-1.5 text-xs rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  ← Previous
-                </button>
-                <button
-                  onClick={() => setFocusedUnitIndex(prev => Math.min(examContent.length - 1, prev + 1))}
-                  disabled={focusedUnitIndex === examContent.length - 1}
-                  className="px-3 py-1.5 text-xs rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  Next →
-                </button>
+
+              {/* Centered Content */}
+              <div className="max-w-4xl mx-auto">
+                <UnitSection
+                  unit={filteredContent[focusedUnitIndex] || examContent[focusedUnitIndex]}
+                  checkedItems={checkedItems}
+                  onToggleItem={handleToggleItem}
+                  forceExpanded={true}
+                />
               </div>
             </div>
-            <UnitSection
-              unit={filteredContent[focusedUnitIndex] || examContent[focusedUnitIndex]}
-              checkedItems={checkedItems}
-              onToggleItem={handleToggleItem}
-              forceExpanded={true}
-            />
           </div>
         ) : (
           <div className="space-y-6">

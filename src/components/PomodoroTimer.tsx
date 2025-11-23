@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Coffee, Brain, CheckCircle2, Settings } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Pause, RotateCcw, Coffee, Brain } from 'lucide-react';
 
 const WORK_TIME = 25 * 60;
 const SESSIONS_BEFORE_LONG_BREAK = 4;
@@ -12,16 +11,12 @@ export const PomodoroTimer: React.FC = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [mode, setMode] = useState<TimerMode>('work');
     const [sessionsCompleted, setSessionsCompleted] = useState(0);
-    const [showSettings, setShowSettings] = useState(false);
-    const [customWorkTime, setCustomWorkTime] = useState(25);
-    const [customShortBreak, setCustomShortBreak] = useState(5);
-    const [customLongBreak, setCustomLongBreak] = useState(15);
 
     const getTimeForMode = (currentMode: TimerMode) => {
         switch (currentMode) {
-            case 'work': return customWorkTime * 60;
-            case 'shortBreak': return customShortBreak * 60;
-            case 'longBreak': return customLongBreak * 60;
+            case 'work': return 25 * 60;
+            case 'shortBreak': return 5 * 60;
+            case 'longBreak': return 15 * 60;
         }
     };
 
@@ -43,7 +38,7 @@ export const PomodoroTimer: React.FC = () => {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         const modeText = mode === 'work' ? '🧠 Focus' : '☕ Break';
-        document.title = `${minutes}:${seconds.toString().padStart(2, '0')} - ${modeText} | Pomodoro`;
+        document.title = `${minutes}:${seconds.toString().padStart(2, '0')} - ${modeText}`;
     }, [timeLeft, mode]);
 
     const handleTimerComplete = () => {
@@ -97,126 +92,139 @@ export const PomodoroTimer: React.FC = () => {
 
     const getModeColor = () => {
         switch (mode) {
-            case 'work': return 'from-red-500 to-orange-500';
-            case 'shortBreak': return 'from-green-500 to-emerald-500';
-            case 'longBreak': return 'from-blue-500 to-cyan-500';
+            case 'work': return { bg: 'bg-orange-500', text: 'text-orange-500', border: 'border-orange-500' };
+            case 'shortBreak': return { bg: 'bg-emerald-500', text: 'text-emerald-500', border: 'border-emerald-500' };
+            case 'longBreak': return { bg: 'bg-blue-500', text: 'text-blue-500', border: 'border-blue-500' };
         }
     };
 
-    const getModeIcon = () => {
-        switch (mode) {
-            case 'work': return <Brain size={32} />;
-            case 'shortBreak': return <Coffee size={32} />;
-            case 'longBreak': return <Coffee size={32} />;
-        }
-    };
+    const colors = getModeColor();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex flex-col items-center justify-center p-4">
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between">
-                <h1 className="text-2xl font-bold">🍅 Pomodoro Timer</h1>
-                <button onClick={() => setShowSettings(!showSettings)} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                    <Settings size={24} />
+        <div className="min-h-screen bg-gradient-to-br from-[#2C3E50] via-[#34495E] to-[#2C3E50] text-white flex flex-col items-center justify-center p-4 sm:p-8">
+            {/* Mode Tabs */}
+            <div className="flex gap-1 bg-[#1E293B] p-1.5 rounded-2xl mb-16">
+                <button
+                    onClick={() => switchMode('work')}
+                    className={`px-8 py-3 rounded-xl font-semibold text-base transition-all ${mode === 'work' ? 'bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-500/30' : 'text-gray-400 hover:text-white'
+                        }`}
+                >
+                    Focus
+                </button>
+                <button
+                    onClick={() => switchMode('shortBreak')}
+                    className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${mode === 'shortBreak' ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/30' : 'text-gray-400 hover:text-white'
+                        }`}
+                >
+                    Short Break
+                </button>
+                <button
+                    onClick={() => switchMode('longBreak')}
+                    className={`px-6 py-3 rounded-xl font-semibold text-base transition-all ${mode === 'longBreak' ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30' : 'text-gray-400 hover:text-white'
+                        }`}
+                >
+                    Long Break
                 </button>
             </div>
 
-            <AnimatePresence>
-                {showSettings && (
-                    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-20 right-6 bg-gray-800 border border-white/10 rounded-xl p-4 shadow-2xl z-10">
-                        <h3 className="font-semibold mb-3">Timer Settings</h3>
-                        <div className="space-y-3">
-                            <div>
-                                <label className="text-xs text-gray-400">Work Time (min)</label>
-                                <input type="number" value={customWorkTime} onChange={(e) => setCustomWorkTime(Number(e.target.value))}
-                                    className="w-full px-3 py-2 bg-gray-700 rounded-lg text-sm mt-1" min="1" max="60" />
-                            </div>
-                            <div>
-                                <label className="text-xs text-gray-400">Short Break (min)</label>
-                                <input type="number" value={customShortBreak} onChange={(e) => setCustomShortBreak(Number(e.target.value))}
-                                    className="w-full px-3 py-2 bg-gray-700 rounded-lg text-sm mt-1" min="1" max="30" />
-                            </div>
-                            <div>
-                                <label className="text-xs text-gray-400">Long Break (min)</label>
-                                <input type="number" value={customLongBreak} onChange={(e) => setCustomLongBreak(Number(e.target.value))}
-                                    className="w-full px-3 py-2 bg-gray-700 rounded-lg text-sm mt-1" min="1" max="60" />
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* Timer Circle */}
+            <div className="relative mb-12">
+                {/* Progress Ring Background */}
+                <svg className="w-[380px] h-[380px] sm:w-[420px] sm:h-[420px] transform -rotate-90">
+                    <circle
+                        cx="210"
+                        cy="210"
+                        r="180"
+                        stroke="#374151"
+                        strokeWidth="8"
+                        fill="none"
+                        className="sm:block hidden"
+                    />
+                    <circle
+                        cx="190"
+                        cy="190"
+                        r="160"
+                        stroke="#374151"
+                        strokeWidth="8"
+                        fill="none"
+                        className="sm:hidden"
+                    />
 
-            <div className="flex flex-col items-center gap-8 max-w-md w-full">
-                <div className="flex gap-2 bg-gray-800/50 p-2 rounded-xl border border-white/10">
-                    <button onClick={() => switchMode('work')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-all ${mode === 'work' ? 'bg-gradient-to-r from-red-500 to-orange-500 shadow-lg' : 'hover:bg-white/5'}`}>
-                        Focus
-                    </button>
-                    <button onClick={() => switchMode('shortBreak')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-all ${mode === 'shortBreak' ? 'bg-gradient-to-r from-green-500 to-emerald-500 shadow-lg' : 'hover:bg-white/5'}`}>
-                        Short Break
-                    </button>
-                    <button onClick={() => switchMode('longBreak')}
-                        className={`px-6 py-2 rounded-lg font-medium transition-all ${mode === 'longBreak' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg' : 'hover:bg-white/5'}`}>
-                        Long Break
-                    </button>
-                </div>
+                    {/* Progress Ring */}
+                    <circle
+                        cx="210"
+                        cy="210"
+                        r="180"
+                        stroke="url(#progressGradient)"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 180}`}
+                        strokeDashoffset={`${2 * Math.PI * 180 * (1 - progress / 100)}`}
+                        className="transition-all duration-1000 ease-linear sm:block hidden"
+                    />
+                    <circle
+                        cx="190"
+                        cy="190"
+                        r="160"
+                        stroke="url(#progressGradient)"
+                        strokeWidth="8"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeDasharray={`${2 * Math.PI * 160}`}
+                        strokeDashoffset={`${2 * Math.PI * 160 * (1 - progress / 100)}`}
+                        className="transition-all duration-1000 ease-linear sm:hidden"
+                    />
 
-                <div className="relative">
-                    <svg className="w-80 h-80 transform -rotate-90">
-                        <circle cx="160" cy="160" r="140" stroke="rgba(255,255,255,0.1)" strokeWidth="12" fill="none" />
-                        <circle cx="160" cy="160" r="140" stroke="url(#gradient)" strokeWidth="12" fill="none" strokeLinecap="round"
-                            strokeDasharray={`${2 * Math.PI * 140}`} strokeDashoffset={`${2 * Math.PI * 140 * (1 - progress / 100)}`}
-                            style={{ transition: 'stroke-dashoffset 1s linear' }} />
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" className={mode === 'work' ? 'text-red-500' : mode === 'shortBreak' ? 'text-green-500' : 'text-blue-500'} stopColor="currentColor" />
-                                <stop offset="100%" className={mode === 'work' ? 'text-orange-500' : mode === 'shortBreak' ? 'text-emerald-500' : 'text-cyan-500'} stopColor="currentColor" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" className={colors.text} stopColor="currentColor" />
+                            <stop offset="100%" className={colors.text} stopColor="currentColor" stopOpacity="0.6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
 
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <div className="mb-2">{getModeIcon()}</div>
-                        <div className="text-7xl font-bold tabular-nums">
-                            {minutes}:{seconds.toString().padStart(2, '0')}
-                        </div>
-                        <div className="text-sm text-gray-400 mt-2">
-                            {mode === 'work' ? 'Focus Time' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}
-                        </div>
+                {/* Timer Display */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    {mode === 'work' ? <Brain size={40} className="mb-4 opacity-80" /> : <Coffee size={40} className="mb-4 opacity-80" />}
+                    <div className="text-[5.5rem] sm:text-[6.5rem] font-bold tabular-nums tracking-tight">
+                        {minutes}:{seconds.toString().padStart(2, '0')}
+                    </div>
+                    <div className="text-lg text-gray-400 mt-1">
+                        {mode === 'work' ? 'Focus Time' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}
                     </div>
                 </div>
+            </div>
 
-                <div className="flex gap-4">
-                    <button onClick={toggleTimer} className={`p-6 rounded-full bg-gradient-to-r ${getModeColor()} shadow-2xl hover:scale-110 transition-transform`}>
-                        {isRunning ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
-                    </button>
-                    <button onClick={resetTimer} className="p-6 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors">
-                        <RotateCcw size={32} />
-                    </button>
-                </div>
+            {/* Control Buttons */}
+            <div className="flex gap-4 mb-12">
+                <button
+                    onClick={toggleTimer}
+                    className={`${colors.bg} hover:opacity-90 w-20 h-20 rounded-full shadow-2xl ${colors.text.replace('text', 'shadow')}/40 hover:scale-105 transition-all flex items-center justify-center`}
+                >
+                    {isRunning ? <Pause size={32} fill="white" /> : <Play size={32} fill="white" className="ml-1" />}
+                </button>
+                <button
+                    onClick={resetTimer}
+                    className="bg-[#374151] hover:bg-[#4B5563] w-20 h-20 rounded-full transition-all flex items-center justify-center"
+                >
+                    <RotateCcw size={28} />
+                </button>
+            </div>
 
-                <div className="flex items-center gap-3 text-sm">
-                    <span className="text-gray-400">Sessions completed:</span>
-                    <div className="flex gap-1">
-                        {Array.from({ length: SESSIONS_BEFORE_LONG_BREAK }).map((_, i) => (
-                            <div key={i} className={`w-3 h-3 rounded-full ${i < sessionsCompleted % SESSIONS_BEFORE_LONG_BREAK ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-gray-700'}`} />
-                        ))}
-                    </div>
-                    <span className="font-bold">{sessionsCompleted}</span>
+            {/* Sessions Counter */}
+            <div className="flex items-center gap-4">
+                <span className="text-gray-400 text-sm">Sessions completed:</span>
+                <div className="flex gap-2">
+                    {Array.from({ length: SESSIONS_BEFORE_LONG_BREAK }).map((_, i) => (
+                        <div
+                            key={i}
+                            className={`w-3 h-3 rounded-full transition-all ${i < sessionsCompleted % SESSIONS_BEFORE_LONG_BREAK ? colors.bg : 'bg-gray-600'
+                                }`}
+                        />
+                    ))}
                 </div>
-
-                <div className="mt-8 p-4 bg-white/5 rounded-xl border border-white/10 max-w-sm">
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        <CheckCircle2 size={16} /> Pomodoro Tips
-                    </h3>
-                    <ul className="text-xs text-gray-400 space-y-1">
-                        <li>• Focus fully during work sessions</li>
-                        <li>• Take real breaks - step away from screen</li>
-                        <li>• After 4 sessions, take a longer break</li>
-                        <li>• Enable notifications for timer alerts</li>
-                    </ul>
-                </div>
+                <span className="font-bold text-lg">{sessionsCompleted}</span>
             </div>
         </div>
     );
