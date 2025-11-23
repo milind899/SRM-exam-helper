@@ -13,6 +13,8 @@ import { Toaster } from 'react-hot-toast';
 import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
 import { WhatsNewModal } from './components/WhatsNewModal';
+import { useLeaderboard } from './hooks/useLeaderboard';
+import { Leaderboard } from './components/Leaderboard';
 
 function App() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
@@ -42,9 +44,6 @@ function App() {
     setShowWhatsNew(false);
     localStorage.setItem('lastSeenVersion', CURRENT_VERSION);
   };
-
-  // Study Mode
-  const [studyMode, setStudyMode] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
@@ -168,6 +167,14 @@ function App() {
   const completedItems = checkedItems.size;
   const progressPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
 
+  const {
+    user,
+    leaderboard,
+    loading: leaderboardLoading,
+    nickname,
+    updateNickname
+  } = useLeaderboard(progressPercentage, completedItems, totalItems);
+
   return (
     <>
       <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
@@ -177,8 +184,6 @@ function App() {
         onThemeChange={setTheme}
         onShowShortcuts={() => setShowShortcutsHelp(true)}
         progressPercentage={progressPercentage}
-        studyMode={studyMode}
-        onToggleStudyMode={() => setStudyMode(!studyMode)}
       >
         <CountdownTimer />
 
@@ -301,6 +306,16 @@ function App() {
               View Repository
             </a>
           </div>
+        </div>
+
+        <div className="mt-12 mb-12">
+          <Leaderboard
+            entries={leaderboard}
+            currentUserId={user?.uid}
+            currentUserNickname={nickname}
+            onUpdateNickname={updateNickname}
+            loading={leaderboardLoading}
+          />
         </div>
 
         <ResourcesSection />

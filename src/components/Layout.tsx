@@ -11,8 +11,8 @@ interface LayoutProps {
     onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
     onShowShortcuts?: () => void;
     progressPercentage?: number;
-    studyMode?: boolean;
-    onToggleStudyMode?: () => void;
+    onShowShortcuts?: () => void;
+    progressPercentage?: number;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -21,8 +21,8 @@ export const Layout: React.FC<LayoutProps> = ({
     onThemeChange,
     onShowShortcuts,
     progressPercentage = 0,
-    studyMode = false,
-    onToggleStudyMode
+    onShowShortcuts,
+    progressPercentage = 0,
 }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -61,23 +61,20 @@ export const Layout: React.FC<LayoutProps> = ({
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             {/* Dot Pattern Background */}
-            {!studyMode && (
-                <div
-                    className="fixed inset-0 z-0 opacity-30"
-                    style={{
-                        backgroundImage: 'radial-gradient(circle, rgba(var(--color-primary), 0.1) 1px, transparent 1px)',
-                        backgroundSize: '24px 24px'
-                    }}
-                />
-            )}
+            <div
+                className="fixed inset-0 z-0 opacity-30"
+                style={{
+                    backgroundImage: 'radial-gradient(circle, rgba(var(--color-primary), 0.1) 1px, transparent 1px)',
+                    backgroundSize: '24px 24px'
+                }}
+            />
 
             {/* Mouse spotlight effect */}
-            {!studyMode && (
-                <motion.div
-                    className="pointer-events-none fixed inset-0 z-0"
-                    style={{ background }}
-                />
-            )}
+            {/* Mouse spotlight effect */}
+            <motion.div
+                className="pointer-events-none fixed inset-0 z-0"
+                style={{ background }}
+            />
 
             <div className="relative z-10">
                 {/* Header */}
@@ -97,20 +94,13 @@ export const Layout: React.FC<LayoutProps> = ({
                                 </nav>
 
                                 {/* Progress Ring */}
-                                {!studyMode && progressPercentage > 0 && (
+                                {progressPercentage > 0 && (
                                     <div className="hidden sm:block" title={`${Math.round(progressPercentage)}% Complete`}>
                                         <CircularProgress percentage={progressPercentage} size={50} strokeWidth={3} />
                                     </div>
                                 )}
 
-                                {/* Study Mode Toggle */}
-                                <button
-                                    onClick={onToggleStudyMode}
-                                    className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-primary transition-colors"
-                                    title={studyMode ? "Exit Study Mode" : "Enter Study Mode"}
-                                >
-                                    {studyMode ? <EyeOff size={18} /> : <Eye size={18} />}
-                                </button>
+
 
                                 {/* Share Button */}
                                 <button
