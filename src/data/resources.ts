@@ -1,13 +1,29 @@
 export interface Resource {
     title: string;
     url: string;
-},
-{
-    title: "Sujatha E Playlists",
-        url: "https://www.youtube.com/@sujathae4270/playlists",
-            author: "Sujatha E",
-                type: "Video"
+    author?: string;
+    type: 'Video' | 'Notes' | 'Other';
 }
+
+export const resources: Resource[] = [
+    {
+        title: "Discrete Mathematics Playlist",
+        url: "https://www.youtube.com/playlist?list=PLWkSUy9WubRZEAJHsX75g-Q7lyObRFBMs",
+        author: "Akash Kumar",
+        type: "Video"
+    },
+    {
+        title: "The Helpers - Discrete Mathematics",
+        url: "https://thehelpers.vercel.app/semesters/5/subjects/Discrete%20Mathematics",
+        author: "The Helpers",
+        type: "Notes"
+    },
+    {
+        title: "Sujatha E Playlists",
+        url: "https://www.youtube.com/@sujathae4270/playlists",
+        author: "Sujatha E",
+        type: "Video"
+    }
 ];
 
 export const socialLinks = {
