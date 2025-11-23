@@ -8,8 +8,8 @@ export interface Resource {
 export const resources: Resource[] = [
     {
         title: "Discrete Mathematics Playlist",
-        url: "https://www.youtube.com/playlist?list=PLWkSUy9WubRZEAJHsX75g-Q7lyObRFBMs",
-        author: "YouTube",
+        url: "https://www.youtube.com/playlist?list=PL4PCksYQx_tAFhLq7qYtU_bX6C6T_4k_b",
+        author: "Akash Kumar",
         type: "Video"
     },
     {

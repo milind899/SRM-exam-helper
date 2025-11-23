@@ -5,7 +5,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
 import { examContent } from './data/examContent';
-import { RotateCcw, Search, Filter } from 'lucide-react';
+import { RotateCcw, Search, Filter, Github } from 'lucide-react';
 import clsx from 'clsx';
 
 function App() {
@@ -154,6 +154,39 @@ function App() {
             <p>No topics found matching your criteria.</p>
           </div>
         )}
+      </div>
+
+      {/* More Subjects & Contribution Section */}
+      <div className="mt-12 grid md:grid-cols-2 gap-6">
+        <div className="p-6 rounded-2xl border border-white/5 bg-surface/50 backdrop-blur-sm">
+          <h3 className="text-lg font-bold text-slate-100 mb-2">More Subjects</h3>
+          <p className="text-slate-400 text-sm mb-4">
+            We are working on adding more subjects like DSA, OS, and CN. Stay tuned!
+          </p>
+          <div className="flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            Coming Soon
+          </div>
+        </div>
+
+        <div className="p-6 rounded-2xl border border-white/5 bg-gradient-to-br from-surface/50 to-primary/5 backdrop-blur-sm hover:border-primary/30 transition-colors group">
+          <h3 className="text-lg font-bold text-slate-100 mb-2 group-hover:text-primary transition-colors">Contribute</h3>
+          <p className="text-slate-400 text-sm mb-4">
+            Want to help fellow students? Contribute to the repository by adding questions or fixing errors.
+          </p>
+          <a
+            href="https://github.com/milind899/SRM-exam-helper"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-200 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg transition-all border border-white/5 hover:border-white/10"
+          >
+            <Github size={16} />
+            View Repository
+          </a>
+        </div>
       </div>
 
       <ResourcesSection />
