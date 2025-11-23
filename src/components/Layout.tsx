@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet, Keyboard, Share2, Eye, EyeOff } from 'lucide-react';
+import { Moon, Droplet, Keyboard, Share2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { CircularProgress } from './CircularProgress';
 
@@ -11,16 +11,12 @@ interface LayoutProps {
     onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
     onShowShortcuts?: () => void;
     progressPercentage?: number;
-    onShowShortcuts?: () => void;
-    progressPercentage?: number;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
     children,
     currentTheme,
     onThemeChange,
-    onShowShortcuts,
-    progressPercentage = 0,
     onShowShortcuts,
     progressPercentage = 0,
 }) => {
