@@ -19,9 +19,9 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
 
-  const [theme, setTheme] = useState<'emerald' | 'dark' | 'light'>(() => {
+  const [theme, setTheme] = useState<'emerald' | 'dark' | 'blue'>(() => {
     const saved = localStorage.getItem('theme');
-    return (saved as 'emerald' | 'dark' | 'light') || 'emerald';
+    return (saved as 'emerald' | 'dark' | 'blue') || 'emerald';
   });
 
   useEffect(() => {

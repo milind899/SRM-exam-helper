@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Droplet } from 'lucide-react';
 
 interface LayoutProps {
     children: React.ReactNode;
-    currentTheme: 'emerald' | 'dark' | 'light';
-    onThemeChange: (theme: 'emerald' | 'dark' | 'light') => void;
+    currentTheme: 'emerald' | 'dark' | 'blue';
+    onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeChange }) => {
@@ -84,11 +84,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
                                 <Moon size={16} />
                             </button>
                             <button
-                                onClick={() => onThemeChange('light')}
-                                className={`p-1.5 rounded-full transition-all ${currentTheme === 'light' ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-main'}`}
-                                title="Light Theme"
+                                onClick={() => onThemeChange('blue')}
+                                className={`p-1.5 rounded-full transition-all ${currentTheme === 'blue' ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-main'}`}
+                                title="Blue Ocean Theme"
                             >
-                                <Sun size={16} />
+                                <Droplet size={16} />
                             </button>
                         </div>
                     </div>

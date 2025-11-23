@@ -40,22 +40,22 @@
     /* zinc-400 */
   }
 
-  [data-theme="light"] {
-    /* Light theme with maximum contrast */
-    --color-background: 248, 250, 252;
-    /* slate-50 */
-    --color-surface: 255, 255, 255;
-    /* white */
-    --color-primary: 16, 185, 129;
-    /* emerald-500 */
-    --color-secondary: 51, 65, 85;
-    /* slate-700 */
-    --color-accent: 52, 211, 153;
-    /* emerald-400 */
-    --color-text-main: 0, 0, 0;
-    /* pure black for maximum visibility */
-    --color-text-muted: 51, 65, 85;
-    /* slate-700 */
+  [data-theme="blue"] {
+    /* Blue Ocean theme */
+    --color-background: 15, 23, 42;
+    /* slate-900 */
+    --color-surface: 30, 41, 59;
+    /* slate-800 */
+    --color-primary: 59, 130, 246;
+    /* blue-500 */
+    --color-secondary: 148, 163, 184;
+    /* slate-400 */
+    --color-accent: 96, 165, 250;
+    /* blue-400 */
+    --color-text-main: 241, 245, 249;
+    /* slate-100 */
+    --color-text-muted: 148, 163, 184;
+    /* slate-400 */
   }
 
   body {
