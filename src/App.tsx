@@ -316,6 +316,7 @@ function App() {
             currentUserNickname={nickname}
             onUpdateNickname={updateNickname}
             loading={leaderboardLoading}
+            error={leaderboardError}
           />
         </div>
 
