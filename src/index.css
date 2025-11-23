@@ -47,14 +47,14 @@
     /* white */
     --color-primary: 16, 185, 129;
     /* emerald-500 */
-    --color-secondary: 100, 116, 139;
-    /* slate-500 */
+    --color-secondary: 71, 85, 105;
+    /* slate-600 */
     --color-accent: 52, 211, 153;
     /* emerald-400 */
-    --color-text-main: 30, 41, 59;
-    /* slate-800 */
-    --color-text-muted: 100, 116, 139;
-    /* slate-500 */
+    --color-text-main: 15, 23, 42;
+    /* slate-900 */
+    --color-text-muted: 71, 85, 105;
+    /* slate-600 */
   }
 
   body {
