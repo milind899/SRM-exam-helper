@@ -7,6 +7,7 @@ import { ResourcesSection } from './components/ResourcesSection';
 import { examContent } from './data/examContent';
 import { RotateCcw, Search, Filter, Github } from 'lucide-react';
 import clsx from 'clsx';
+import confetti from 'canvas-confetti';
 
 import { CountdownTimer } from './components/CountdownTimer';
 
@@ -33,6 +34,22 @@ function App() {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Only trigger if not typing in an input
+      if (e.target instanceof HTMLInputElement) return;
+
+      if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        handleReset();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   const handleToggleItem = (id: string) => {
     setCheckedItems(prev => {
       const next = new Set(prev);
@@ -40,6 +57,13 @@ function App() {
         next.delete(id);
       } else {
         next.add(id);
+        // Confetti celebration! 🎉
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#10b981', '#34d399', '#6ee7b7']
+        });
       }
       return next;
     });
