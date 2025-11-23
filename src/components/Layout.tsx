@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet } from 'lucide-react';
+import { Moon, Droplet, Keyboard } from 'lucide-react';
 
 interface LayoutProps {
     children: React.ReactNode;
     currentTheme: 'emerald' | 'dark' | 'blue';
     onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
+    onShowShortcuts?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeChange }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeChange, onShowShortcuts }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -66,6 +67,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
                         <nav className="hidden md:flex gap-6 text-sm font-medium text-text-muted">
                             <a href="#resources" className="hover:text-primary transition-colors">Resources</a>
                         </nav>
+
+                        {/* Keyboard Shortcuts Button */}
+                        <button
+                            onClick={onShowShortcuts}
+                            className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-primary transition-colors"
+                            title="Keyboard Shortcuts (?)"
+                        >
+                            <Keyboard size={18} />
+                        </button>
 
                         {/* Theme Switcher */}
                         <div className="flex items-center gap-1 p-1 rounded-full bg-surface border border-white/5">
