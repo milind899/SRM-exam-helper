@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown, CheckCircle2, Circle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Unit } from '../data/examContent';
@@ -9,10 +9,18 @@ interface UnitSectionProps {
     unit: Unit;
     checkedItems: Set<string>;
     onToggleItem: (id: string) => void;
+    forceExpanded?: boolean;
 }
 
-export const UnitSection: React.FC<UnitSectionProps> = ({ unit, checkedItems, onToggleItem }) => {
+export const UnitSection: React.FC<UnitSectionProps> = ({ unit, checkedItems, onToggleItem, forceExpanded }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    // Handle external expand/collapse control
+    useEffect(() => {
+        if (forceExpanded !== undefined) {
+            setIsExpanded(forceExpanded);
+        }
+    }, [forceExpanded]);
 
     // Calculate progress for this unit
     const totalItems = unit.sections.reduce((acc, sec) => acc + sec.items.length, 0);

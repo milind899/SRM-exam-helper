@@ -27,6 +27,7 @@ function App() {
   });
 
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
@@ -59,6 +60,18 @@ function App() {
           if (e.target instanceof HTMLInputElement) return;
           e.preventDefault();
           setTheme(prev => prev === 'emerald' ? 'dark' : prev === 'dark' ? 'blue' : 'emerald');
+          break;
+        case 'e':
+        case 'E':
+          if (e.target instanceof HTMLInputElement) return;
+          e.preventDefault();
+          setExpandAll(true);
+          break;
+        case 'c':
+        case 'C':
+          if (e.target instanceof HTMLInputElement) return;
+          e.preventDefault();
+          setExpandAll(false);
           break;
         case '?':
           e.preventDefault();
@@ -224,6 +237,7 @@ function App() {
                 unit={unit}
                 checkedItems={checkedItems}
                 onToggleItem={handleToggleItem}
+                forceExpanded={expandAll}
               />
             ))
           ) : (
