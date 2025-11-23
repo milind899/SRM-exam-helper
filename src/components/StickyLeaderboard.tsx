@@ -62,24 +62,30 @@ export const StickyLeaderboard: React.FC<StickyLeaderboardProps> = (props) => {
 
             {/* Desktop: Sticky Sidebar */}
             <div className="hidden lg:block fixed right-0 top-20 bottom-0 z-30 transition-all duration-300"
-                style={{ width: isExpanded ? '380px' : '60px' }}
+                style={{ width: isExpanded ? '400px' : '60px' }}
             >
                 <div className="h-full flex">
                     {/* Toggle Button */}
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="flex-shrink-0 w-12 bg-surface/80 backdrop-blur-sm border-l border-y border-white/10 hover:bg-surface transition-colors flex flex-col items-center justify-center gap-2 text-text-muted hover:text-primary rounded-l-xl"
+                        className="flex-shrink-0 w-14 bg-gradient-to-b from-surface/90 to-surface/70 backdrop-blur-sm border-l border-y border-white/10 hover:bg-surface transition-all flex flex-col items-center justify-center gap-3 text-text-muted hover:text-primary rounded-l-2xl shadow-lg group"
                     >
                         {isExpanded ? (
                             <>
-                                <ChevronRight size={20} />
-                                <span className="text-xs writing-mode-vertical rotate-180">Hide</span>
+                                <ChevronRight size={22} className="group-hover:translate-x-0.5 transition-transform" />
+                                <span className="text-[10px] font-medium uppercase tracking-wider [writing-mode:vertical-lr]">
+                                    Hide
+                                </span>
                             </>
                         ) : (
                             <>
-                                <ChevronLeft size={20} />
-                                <Trophy size={20} className="text-primary" />
-                                <span className="text-xs writing-mode-vertical rotate-180">Leaderboard</span>
+                                <ChevronLeft size={22} className="group-hover:-translate-x-0.5 transition-transform" />
+                                <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                                    <Trophy size={22} className="text-primary" />
+                                </div>
+                                <span className="text-[10px] font-medium uppercase tracking-wider text-primary [writing-mode:vertical-lr]">
+                                    Board
+                                </span>
                             </>
                         )}
                     </button>
@@ -89,12 +95,12 @@ export const StickyLeaderboard: React.FC<StickyLeaderboardProps> = (props) => {
                         {isExpanded && (
                             <motion.div
                                 initial={{ width: 0, opacity: 0 }}
-                                animate={{ width: '330px', opacity: 1 }}
+                                animate={{ width: '360px', opacity: 1 }}
                                 exit={{ width: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="overflow-hidden bg-background/95 backdrop-blur-sm border-l border-white/10 shadow-2xl"
+                                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                className="overflow-hidden bg-gradient-to-b from-background/98 to-surface/95 backdrop-blur-md border-l border-white/10 shadow-2xl"
                             >
-                                <div className="h-full overflow-auto p-4">
+                                <div className="h-full overflow-auto p-4 custom-scrollbar">
                                     <Leaderboard {...props} />
                                 </div>
                             </motion.div>
