@@ -172,7 +172,8 @@ function App() {
     leaderboard,
     loading: leaderboardLoading,
     nickname,
-    updateNickname
+    updateNickname,
+    error: leaderboardError
   } = useLeaderboard(progressPercentage, completedItems, totalItems);
 
   return (

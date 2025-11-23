@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Medal, Crown, User as UserIcon } from 'lucide-react';
+import { Trophy, Medal, Crown, User as UserIcon, AlertCircle } from 'lucide-react';
 import type { LeaderboardEntry } from '../services/leaderboard';
 import { UserNickname } from './UserNickname';
 import { motion } from 'framer-motion';
@@ -10,6 +10,7 @@ interface LeaderboardProps {
     currentUserNickname: string;
     onUpdateNickname: (name: string) => void;
     loading: boolean;
+    error?: string | null;
 }
 
 export const Leaderboard: React.FC<LeaderboardProps> = ({
@@ -17,7 +18,8 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
     currentUserId,
     currentUserNickname,
     onUpdateNickname,
-    loading
+    loading,
+    error
 }) => {
     const getRankIcon = (index: number) => {
         switch (index) {
@@ -59,7 +61,12 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
             </div>
 
             <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                {loading ? (
+                {error ? (
+                    <div className="p-8 text-center text-red-400 flex flex-col items-center gap-2">
+                        <AlertCircle size={32} />
+                        <p>{error}</p>
+                    </div>
+                ) : loading ? (
                     <div className="p-8 text-center text-text-muted">
                         Loading rankings...
                     </div>

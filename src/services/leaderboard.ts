@@ -49,7 +49,7 @@ export const getTopLeaderboard = async (limitCount = 20): Promise<LeaderboardEnt
     const q = query(
         collection(db, LEADERBOARD_COLLECTION),
         orderBy('progressPercentage', 'desc'),
-        orderBy('lastUpdated', 'desc'),
+        // orderBy('lastUpdated', 'desc'), // Commented out to avoid needing a composite index immediately
         limit(limitCount)
     );
 
