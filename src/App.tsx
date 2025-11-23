@@ -11,6 +11,7 @@ import confetti from 'canvas-confetti';
 
 import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
+import { WhatsNewModal } from './components/WhatsNewModal';
 
 function App() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
@@ -28,6 +29,18 @@ function App() {
 
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
+
+  // What's New modal - version-based
+  const CURRENT_VERSION = 'v1.5.0'; // Update this when adding new features
+  const [showWhatsNew, setShowWhatsNew] = useState(() => {
+    const lastSeenVersion = localStorage.getItem('lastSeenVersion');
+    return lastSeenVersion !== CURRENT_VERSION;
+  });
+
+  const handleCloseWhatsNew = () => {
+    setShowWhatsNew(false);
+    localStorage.setItem('lastSeenVersion', CURRENT_VERSION);
+  };
 
   useEffect(() => {
     localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
@@ -153,6 +166,7 @@ function App() {
   return (
     <>
       <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
+      <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
       <Layout
         currentTheme={theme}
         onThemeChange={setTheme}

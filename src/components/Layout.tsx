@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet, Keyboard } from 'lucide-react';
+import { Moon, Droplet, Keyboard, Share2 } from 'lucide-react';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -67,6 +67,27 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
                         <nav className="hidden md:flex gap-6 text-sm font-medium text-text-muted">
                             <a href="#resources" className="hover:text-primary transition-colors">Resources</a>
                         </nav>
+
+                        {/* Share Button */}
+                        <button
+                            onClick={() => {
+                                const shareData = {
+                                    title: 'SRM Exam Helper',
+                                    text: '🎓 Check out SRM Exam Helper - Track your Discrete Math exam prep! 📚✨',
+                                    url: window.location.href
+                                };
+                                if (navigator.share) {
+                                    navigator.share(shareData);
+                                } else {
+                                    navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+                                    alert('Link copied to clipboard! 📋');
+                                }
+                            }}
+                            className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-primary transition-colors"
+                            title="Share Website"
+                        >
+                            <Share2 size={18} />
+                        </button>
 
                         {/* Keyboard Shortcuts Button */}
                         <button
