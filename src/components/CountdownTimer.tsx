@@ -51,26 +51,5 @@ export const CountdownTimer: React.FC = () => {
             </div>
         );
     });
-
-    return (
-        <div className="w-full mb-8 p-6 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-sm relative overflow-hidden group">
-            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
-                        <Timer size={24} />
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-bold text-text-main">Exam Countdown</h3>
-                        <p className="text-sm text-text-muted">Discrete Mathematics • Nov 24, 2025</p>
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-center bg-background/50 px-6 py-3 rounded-xl border border-white/5">
-                    {timerComponents.length ? timerComponents : <span className="text-xl font-bold text-primary">Exam Started!</span>}
-                </div>
-            </div>
-        </div>
     );
 };
