@@ -41,21 +41,21 @@
   }
 
   [data-theme="light"] {
-    /* Light (Softer) */
-    --color-background: 241, 245, 249;
-    /* slate-100 */
+    /* Light theme with maximum contrast */
+    --color-background: 248, 250, 252;
+    /* slate-50 */
     --color-surface: 255, 255, 255;
     /* white */
     --color-primary: 16, 185, 129;
     /* emerald-500 */
-    --color-secondary: 71, 85, 105;
-    /* slate-600 */
+    --color-secondary: 51, 65, 85;
+    /* slate-700 */
     --color-accent: 52, 211, 153;
     /* emerald-400 */
-    --color-text-main: 15, 23, 42;
-    /* slate-900 */
-    --color-text-muted: 71, 85, 105;
-    /* slate-600 */
+    --color-text-main: 0, 0, 0;
+    /* pure black for maximum visibility */
+    --color-text-muted: 51, 65, 85;
+    /* slate-700 */
   }
 
   body {
