@@ -48,8 +48,18 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
     const updates = [
         {
             icon: PartyPopper,
-            title: 'Confetti Celebration',
-            description: 'Celebrate each topic you complete!'
+            title: '🏆 Leaderboard Feature!',
+            description: 'Compete with fellow students in real-time rankings'
+        },
+        {
+            icon: Share2,
+            title: 'Sticky Leaderboard Sidebar',
+            description: 'Always visible on the right side (desktop) or floating button (mobile)'
+        },
+        {
+            icon: Sparkles,
+            title: 'Welcome Popup for New Users',
+            description: 'Choose your nickname and join the competition'
         },
         {
             icon: Keyboard,
@@ -62,19 +72,9 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
             description: 'New beautiful theme option'
         },
         {
-            icon: Package,
-            title: 'Auto-Collapsed Units',
-            description: 'Cleaner interface by default'
-        },
-        {
             icon: Clock,
             title: 'Tab Timer',
-            description: 'No need to check time again and again by opening website'
-        },
-        {
-            icon: Sparkles,
-            title: 'Enhanced UI',
-            description: 'Badges, icons, and completion status'
+            description: 'Countdown always visible in browser tab'
         },
         {
             icon: Zap,

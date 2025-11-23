@@ -35,7 +35,7 @@ function App() {
   const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
 
   // What's New modal - version-based
-  const CURRENT_VERSION = 'v1.5.0'; // Update this when adding new features
+  const CURRENT_VERSION = 'v2.0.0'; // Update this when adding new features
   const [showWhatsNew, setShowWhatsNew] = useState(() => {
     const lastSeenVersion = localStorage.getItem('lastSeenVersion');
     return lastSeenVersion !== CURRENT_VERSION;
