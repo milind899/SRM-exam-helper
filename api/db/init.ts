@@ -1,18 +1,20 @@
 import { neon } from '@neondatabase/serverless';
 
-export const config = {
-    runtime: 'edge',
-};
-
 const sql = neon(process.env.DATABASE_URL!);
 
-export default async function handler(req: Request) {
+export default async function handler(req: any, res: any) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     try {
         if (req.method !== 'GET') {
-            return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-                status: 405,
-                headers: { 'Content-Type': 'application/json' }
-            });
+            return res.status(405).json({ error: 'Method not allowed' });
         }
 
         // Create leaderboard table if it doesn't exist
@@ -34,21 +36,15 @@ export default async function handler(req: Request) {
       ON leaderboard(progress_percentage DESC, last_updated DESC)
     `;
 
-        return new Response(JSON.stringify({
+        return res.status(200).json({
             success: true,
             message: 'Database initialized successfully!'
-        }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
         });
     } catch (error: any) {
         console.error('Database init error:', error);
-        return new Response(JSON.stringify({
+        return res.status(500).json({
             error: error.message,
             hint: 'If table already exists, this is normal and can be ignored.'
-        }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
         });
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Trophy, Medal, Crown, User as UserIcon, AlertCircle } from 'lucide-react';
-import { UserNickname } from './UserNickname';
-import { motion } from 'framer-motion';
+import { Trophy, Medal, Crown, User as UserIcon, AlertCircle, Edit2, Check, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface LeaderboardEntry {
     user_id: string;
@@ -29,103 +28,183 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
     loading,
     error
 }) => {
-    const getRankIcon = (index: number) => {
-        switch (index) {
-            case 0: return <Crown className="text-yellow-400" size={20} />;
-            case 1: return <Medal className="text-gray-300" size={20} />;
-            case 2: return <Medal className="text-amber-600" size={20} />;
-            default: return <span className="text-text-muted font-bold w-5 text-center">{index + 1}</span>;
+    const [isEditing, setIsEditing] = React.useState(false);
+    const [tempNickname, setTempNickname] = React.useState(currentUserNickname);
+
+    const handleSave = () => {
+        if (tempNickname.trim()) {
+            onUpdateNickname(tempNickname.trim());
+            setIsEditing(false);
         }
     };
 
+    const handleCancel = () => {
+        setTempNickname(currentUserNickname);
+        setIsEditing(false);
+    };
+
+    const getRankBadge = (index: number) => {
+        const badges = [
+            { icon: <Crown size={18} />, color: 'from-yellow-400 to-yellow-600', glow: 'shadow-yellow-500/50' },
+            { icon: <Medal size={18} />, color: 'from-gray-300 to-gray-500', glow: 'shadow-gray-400/50' },
+            { icon: <Medal size={18} />, color: 'from-amber-500 to-amber-700', glow: 'shadow-amber-500/50' }
+        ];
+
+        if (index < 3) {
+            return (
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br ${badges[index].color} shadow-lg ${badges[index].glow} text-white`}>
+                    {badges[index].icon}
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-surface border-2 border-primary/20 text-text-main font-bold">
+                {index + 1}
+            </div>
+        );
+    };
+
     return (
-        <div className="bg-surface rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-white/5 bg-gradient-to-r from-surface to-surface/50">
-                <div className="flex items-center justify-between mb-4">
+        <div className="bg-gradient-to-br from-surface via-surface to-surface/50 rounded-3xl border border-white/10 overflow-hidden shadow-2xl backdrop-blur-sm">
+            {/* Compact Header */}
+            <div className="p-5 border-b border-white/5 bg-gradient-to-r from-primary/5 to-transparent">
+                <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-yellow-500/10 rounded-lg">
-                            <Trophy className="text-yellow-500" size={24} />
+                        <div className="p-2.5 bg-gradient-to-br from-yellow-400 to-amber-600 rounded-xl shadow-lg shadow-yellow-500/30">
+                            <Trophy className="text-white" size={22} />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-text-main">Leaderboard</h2>
-                            <p className="text-sm text-text-muted">Top students this week</p>
+                            <h2 className="text-lg font-bold text-text-main">Leaderboard</h2>
+                            <p className="text-xs text-text-muted">Top achievers</p>
                         </div>
                     </div>
-                    <div className="text-right">
-                        <p className="text-xs text-text-muted mb-1">You are playing as:</p>
-                        <UserNickname
-                            currentNickname={currentUserNickname}
-                            onUpdate={onUpdateNickname}
-                        />
-                    </div>
-                </div>
 
-                {/* Header Row */}
-                <div className="grid grid-cols-12 gap-4 text-xs font-medium text-text-muted uppercase tracking-wider px-2">
-                    <div className="col-span-2">Rank</div>
-                    <div className="col-span-6">Student</div>
-                    <div className="col-span-4 text-right">Progress</div>
+                    {/* User Nickname Badge */}
+                    <div className="flex items-center gap-2 bg-background/50 px-3 py-1.5 rounded-full border border-primary/20">
+                        <UserIcon size={14} className="text-primary" />
+                        {isEditing ? (
+                            <div className="flex items-center gap-1">
+                                <input
+                                    type="text"
+                                    value={tempNickname}
+                                    onChange={(e) => setTempNickname(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleSave();
+                                        if (e.key === 'Escape') handleCancel();
+                                    }}
+                                    className="w-24 px-2 py-0.5 text-xs bg-background border border-primary/30 rounded text-text-main focus:outline-none focus:border-primary"
+                                    autoFocus
+                                    maxLength={20}
+                                />
+                                <button onClick={handleSave} className="p-0.5 hover:bg-green-500/20 rounded text-green-500 transition-colors">
+                                    <Check size={14} />
+                                </button>
+                                <button onClick={handleCancel} className="p-0.5 hover:bg-red-500/20 rounded text-red-500 transition-colors">
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <span className="text-xs font-medium text-primary">{currentUserNickname}</span>
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="p-0.5 hover:bg-primary/20 rounded transition-colors text-text-muted hover:text-primary"
+                                >
+                                    <Edit2 size={12} />
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+            {/* Leaderboard Content */}
+            <div className="max-h-[450px] overflow-y-auto custom-scrollbar">
                 {error ? (
-                    <div className="p-8 text-center text-red-400 flex flex-col items-center gap-2">
-                        <AlertCircle size={32} />
-                        <p>{error}</p>
+                    <div className="p-8 text-center text-red-400 flex flex-col items-center gap-3">
+                        <div className="p-3 bg-red-500/10 rounded-full">
+                            <AlertCircle size={28} />
+                        </div>
+                        <p className="text-sm">{error}</p>
                     </div>
                 ) : loading ? (
-                    <div className="p-8 text-center text-text-muted">
-                        Loading rankings...
+                    <div className="p-12 flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+                        <p className="text-sm text-text-muted">Loading rankings...</p>
                     </div>
                 ) : entries.length === 0 ? (
-                    <div className="p-8 text-center text-text-muted">
-                        No players yet. Be the first!
+                    <div className="p-12 text-center">
+                        <Trophy className="mx-auto mb-3 text-text-muted opacity-30" size={40} />
+                        <p className="text-text-muted">No entries yet. Be the first!</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-white/5">
-                        {entries.map((entry, index) => {
-                            const isCurrentUser = entry.user_id === currentUserId;
-                            return (
-                                <motion.div
-                                    key={entry.user_id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.05 }}
-                                    className={`grid grid-cols-12 gap-4 items-center p-4 hover:bg-white/5 transition-colors ${isCurrentUser ? 'bg-primary/10 hover:bg-primary/15' : ''
-                                        }`}
-                                >
-                                    <div className="col-span-2 flex items-center gap-2">
-                                        {getRankIcon(index)}
-                                    </div>
-                                    <div className="col-span-6 flex items-center gap-2">
-                                        {isCurrentUser && <UserIcon size={14} className="text-primary" />}
-                                        <span className={`font-medium truncate ${isCurrentUser ? 'text-primary' : 'text-text-main'}`}>
-                                            {entry.nickname}
-                                        </span>
-                                    </div>
-                                    <div className="col-span-4 text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <div className="w-16 h-1.5 bg-background rounded-full overflow-hidden hidden sm:block">
-                                                <div
-                                                    className="h-full bg-primary rounded-full"
-                                                    style={{ width: `${entry.progress_percentage}%` }}
-                                                />
+                        <AnimatePresence>
+                            {entries.map((entry, index) => {
+                                const isCurrentUser = entry.user_id === currentUserId;
+                                return (
+                                    <motion.div
+                                        key={entry.user_id}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 20 }}
+                                        transition={{ delay: index * 0.03, duration: 0.3 }}
+                                        className={`flex items-center gap-4 p-3 transition-all ${isCurrentUser
+                                                ? 'bg-gradient-to-r from-primary/15 to-transparent border-l-2 border-primary'
+                                                : 'hover:bg-white/3'
+                                            }`}
+                                    >
+                                        {/* Rank Badge */}
+                                        <div className="flex-shrink-0">
+                                            {getRankBadge(index)}
+                                        </div>
+
+                                        {/* User Info */}
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <span className={`font-semibold truncate text-sm ${isCurrentUser ? 'text-primary' : 'text-text-main'
+                                                    }`}>
+                                                    {entry.nickname}
+                                                </span>
+                                                {isCurrentUser && (
+                                                    <span className="px-2 py-0.5 text-[10px] font-medium bg-primary/20 text-primary rounded-full">
+                                                        YOU
+                                                    </span>
+                                                )}
                                             </div>
-                                            <span className="font-bold text-text-main">
+                                            <div className="text-xs text-text-muted mt-0.5">
+                                                {entry.completed_items}/{entry.total_items} topics
+                                            </div>
+                                        </div>
+
+                                        {/* Progress */}
+                                        <div className="flex items-center gap-3 flex-shrink-0">
+                                            <div className="hidden sm:block w-24">
+                                                <div className="h-2 bg-background rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${entry.progress_percentage}%` }}
+                                                        transition={{ delay: index * 0.05, duration: 0.8, ease: 'easeOut' }}
+                                                        className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <span className="font-bold text-sm text-primary min-w-[3rem] text-right">
                                                 {Math.round(entry.progress_percentage)}%
                                             </span>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
                     </div>
                 )}
             </div>
 
-            <div className="p-3 text-center text-xs text-text-muted border-t border-white/5 bg-background/30">
-                Updates automatically every minute
+            {/* Footer */}
+            <div className="px-4 py-2 text-center text-[10px] text-text-muted/60 border-t border-white/5 bg-background/20">
+                Auto-updates every minute
             </div>
         </div>
     );

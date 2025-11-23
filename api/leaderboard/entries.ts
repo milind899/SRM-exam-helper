@@ -1,12 +1,17 @@
 import { neon } from '@neondatabase/serverless';
 
-export const config = {
-    runtime: 'edge',
-};
-
 const sql = neon(process.env.DATABASE_URL!);
 
-export default async function handler(req: Request) {
+export default async function handler(req: any, res: any) {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     try {
         if (req.method === 'GET') {
             // Fetch top 20 leaderboard entries
@@ -23,21 +28,15 @@ export default async function handler(req: Request) {
         LIMIT 20
       `;
 
-            return new Response(JSON.stringify(entries), {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' }
-            });
+            return res.status(200).json(entries);
         }
 
         if (req.method === 'POST') {
             // Update user's progress
-            const { userId, nickname, progressPercentage, completedItems, totalItems } = await req.json();
+            const { userId, nickname, progressPercentage, completedItems, totalItems } = req.body;
 
             if (!userId || !nickname) {
-                return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-                    status: 400,
-                    headers: { 'Content-Type': 'application/json' }
-                });
+                return res.status(400).json({ error: 'Missing required fields' });
             }
 
             await sql`
@@ -64,21 +63,12 @@ export default async function handler(req: Request) {
           last_updated = CURRENT_TIMESTAMP
       `;
 
-            return new Response(JSON.stringify({ success: true }), {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' }
-            });
+            return res.status(200).json({ success: true });
         }
 
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-            status: 405,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return res.status(405).json({ error: 'Method not allowed' });
     } catch (error: any) {
         console.error('Leaderboard API error:', error);
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return res.status(500).json({ error: error.message || 'Internal server error' });
     }
 }
