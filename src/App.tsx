@@ -8,6 +8,8 @@ import { examContent } from './data/examContent';
 import { RotateCcw, Search, Filter, Github } from 'lucide-react';
 import clsx from 'clsx';
 
+import { CountdownTimer } from './components/CountdownTimer';
+
 function App() {
   const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
     const saved = localStorage.getItem('discrete-math-progress');
@@ -17,9 +19,19 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
 
+  const [theme, setTheme] = useState<'emerald' | 'dark' | 'light'>(() => {
+    const saved = localStorage.getItem('theme');
+    return (saved as 'emerald' | 'dark' | 'light') || 'emerald';
+  });
+
   useEffect(() => {
     localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
   }, [checkedItems]);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const handleToggleItem = (id: string) => {
     setCheckedItems(prev => {
@@ -68,16 +80,18 @@ function App() {
   const completedItems = checkedItems.size;
 
   return (
-    <Layout>
+    <Layout currentTheme={theme} onThemeChange={setTheme}>
+      <CountdownTimer />
+
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center mb-8">
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={18} />
           <input
             type="text"
             placeholder="Search topics..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-surface/50 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-600"
+            className="w-full bg-surface/50 border border-text-main/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-text-main focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-text-muted"
           />
         </div>
 
@@ -88,7 +102,7 @@ function App() {
               "px-4 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap border",
               filter === 'all'
                 ? "bg-primary/20 text-primary border-primary/20"
-                : "bg-surface/50 text-slate-400 border-white/5 hover:bg-white/5"
+                : "bg-surface/50 text-text-muted border-text-main/5 hover:bg-text-main/5"
             )}
           >
             All Topics
@@ -98,8 +112,8 @@ function App() {
             className={clsx(
               "px-4 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap border",
               filter === 'repeated'
-                ? "bg-amber-500/20 text-amber-400 border-amber-500/20"
-                : "bg-surface/50 text-slate-400 border-white/5 hover:bg-white/5"
+                ? "bg-amber-500/20 text-amber-500 border-amber-500/20"
+                : "bg-surface/50 text-text-muted border-text-main/5 hover:bg-text-main/5"
             )}
           >
             Repeated Only
@@ -109,8 +123,8 @@ function App() {
             className={clsx(
               "px-4 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap border",
               filter === 'incomplete'
-                ? "bg-red-500/20 text-red-400 border-red-500/20"
-                : "bg-surface/50 text-slate-400 border-white/5 hover:bg-white/5"
+                ? "bg-red-500/20 text-red-500 border-red-500/20"
+                : "bg-surface/50 text-text-muted border-text-main/5 hover:bg-text-main/5"
             )}
           >
             Incomplete
@@ -123,7 +137,7 @@ function App() {
       <div className="flex justify-end mb-4">
         <button
           onClick={handleReset}
-          className="flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-red-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10"
+          className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-red-500 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10"
         >
           <RotateCcw size={14} />
           Reset Progress
@@ -133,7 +147,7 @@ function App() {
       <div className="space-y-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="h-8 w-1 bg-primary rounded-full"></div>
-          <h2 className="text-xl font-bold text-slate-100">Discrete Mathematics</h2>
+          <h2 className="text-xl font-bold text-text-main">Discrete Mathematics</h2>
           <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
             Active
           </span>
@@ -149,7 +163,7 @@ function App() {
             />
           ))
         ) : (
-          <div className="text-center py-12 text-slate-500">
+          <div className="text-center py-12 text-text-muted">
             <Filter size={48} className="mx-auto mb-4 opacity-20" />
             <p>No topics found matching your criteria.</p>
           </div>
@@ -158,12 +172,12 @@ function App() {
 
       {/* More Subjects & Contribution Section */}
       <div className="mt-12 grid md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-2xl border border-white/5 bg-surface/50 backdrop-blur-sm">
-          <h3 className="text-lg font-bold text-slate-100 mb-2">More Subjects</h3>
-          <p className="text-slate-400 text-sm mb-4">
+        <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
+          <h3 className="text-lg font-bold text-text-main mb-2">More Subjects</h3>
+          <p className="text-text-muted text-sm mb-4">
             We are working on adding more subjects like DSA, OS, and CN. Stay tuned!
           </p>
-          <div className="flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
+          <div className="flex items-center gap-2 text-xs font-medium text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -172,16 +186,16 @@ function App() {
           </div>
         </div>
 
-        <div className="p-6 rounded-2xl border border-white/5 bg-gradient-to-br from-surface/50 to-primary/5 backdrop-blur-sm hover:border-primary/30 transition-colors group">
-          <h3 className="text-lg font-bold text-slate-100 mb-2 group-hover:text-primary transition-colors">Contribute</h3>
-          <p className="text-slate-400 text-sm mb-4">
+        <div className="p-6 rounded-2xl border border-text-main/5 bg-gradient-to-br from-surface/50 to-primary/5 backdrop-blur-sm hover:border-primary/30 transition-colors group">
+          <h3 className="text-lg font-bold text-text-main mb-2 group-hover:text-primary transition-colors">Contribute</h3>
+          <p className="text-text-muted text-sm mb-4">
             Want to help fellow students? Contribute to the repository by adding questions or fixing errors.
           </p>
           <a
             href="https://github.com/milind899/SRM-exam-helper"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-200 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg transition-all border border-white/5 hover:border-white/10"
+            className="inline-flex items-center gap-2 text-sm font-medium text-text-main bg-text-main/5 hover:bg-text-main/10 px-4 py-2 rounded-lg transition-all border border-text-main/5 hover:border-text-main/10"
           >
             <Github size={16} />
             View Repository

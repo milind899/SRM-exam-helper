@@ -7,11 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#10b981', // emerald-500
-        secondary: '#94a3b8', // slate-400
-        background: '#020617', // slate-950 (darker, more tactical)
-        surface: '#0f172a', // slate-900
-        accent: '#34d399', // emerald-400
+        primary: 'rgba(var(--color-primary), <alpha-value>)',
+        secondary: 'rgba(var(--color-secondary), <alpha-value>)',
+        background: 'rgba(var(--color-background), <alpha-value>)',
+        surface: 'rgba(var(--color-surface), <alpha-value>)',
+        accent: 'rgba(var(--color-accent), <alpha-value>)',
+        'text-main': 'rgba(var(--color-text-main), <alpha-value>)',
+        'text-muted': 'rgba(var(--color-text-muted), <alpha-value>)',
       },
       animation: {
         'shimmer': 'shimmer 2s infinite',
