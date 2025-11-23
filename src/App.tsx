@@ -43,6 +43,9 @@ function App() {
     localStorage.setItem('lastSeenVersion', CURRENT_VERSION);
   };
 
+  // Study Mode
+  const [studyMode, setStudyMode] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
   }, [checkedItems]);
@@ -163,6 +166,7 @@ function App() {
   );
 
   const completedItems = checkedItems.size;
+  const progressPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
 
   return (
     <>
@@ -172,6 +176,9 @@ function App() {
         currentTheme={theme}
         onThemeChange={setTheme}
         onShowShortcuts={() => setShowShortcutsHelp(true)}
+        progressPercentage={progressPercentage}
+        studyMode={studyMode}
+        onToggleStudyMode={() => setStudyMode(!studyMode)}
       >
         <CountdownTimer />
 

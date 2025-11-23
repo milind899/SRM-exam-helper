@@ -1,17 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet, Keyboard, Share2 } from 'lucide-react';
+import { Moon, Droplet, Keyboard, Share2, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { CircularProgress } from './CircularProgress';
 
 interface LayoutProps {
     children: React.ReactNode;
     currentTheme: 'emerald' | 'dark' | 'blue';
     onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
     onShowShortcuts?: () => void;
+    progressPercentage?: number;
+    studyMode?: boolean;
+    onToggleStudyMode?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeChange, onShowShortcuts }) => {
+export const Layout: React.FC<LayoutProps> = ({
+    children,
+    currentTheme,
+    onThemeChange,
+    onShowShortcuts,
+    progressPercentage = 0,
+    studyMode = false,
+    onToggleStudyMode
+}) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -48,11 +60,24 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
 
     return (
         <div className="min-h-screen relative overflow-x-hidden">
+            {/* Dot Pattern Background */}
+            {!studyMode && (
+                <div
+                    className="fixed inset-0 z-0 opacity-30"
+                    style={{
+                        backgroundImage: 'radial-gradient(circle, rgba(var(--color-primary), 0.1) 1px, transparent 1px)',
+                        backgroundSize: '24px 24px'
+                    }}
+                />
+            )}
+
             {/* Mouse spotlight effect */}
-            <motion.div
-                className="pointer-events-none fixed inset-0 z-0"
-                style={{ background }}
-            />
+            {!studyMode && (
+                <motion.div
+                    className="pointer-events-none fixed inset-0 z-0"
+                    style={{ background }}
+                />
+            )}
 
             <div className="relative z-10">
                 {/* Header */}
@@ -70,6 +95,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
                                 <nav className="hidden md:flex gap-6 text-sm font-medium text-text-muted">
                                     <a href="#resources" className="hover:text-primary transition-colors">Resources</a>
                                 </nav>
+
+                                {/* Progress Ring */}
+                                {!studyMode && progressPercentage > 0 && (
+                                    <div className="hidden sm:block" title={`${Math.round(progressPercentage)}% Complete`}>
+                                        <CircularProgress percentage={progressPercentage} size={50} strokeWidth={3} />
+                                    </div>
+                                )}
+
+                                {/* Study Mode Toggle */}
+                                <button
+                                    onClick={onToggleStudyMode}
+                                    className="p-2 rounded-lg hover:bg-white/5 text-text-muted hover:text-primary transition-colors"
+                                    title={studyMode ? "Exit Study Mode" : "Enter Study Mode"}
+                                >
+                                    {studyMode ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
 
                                 {/* Share Button */}
                                 <button
