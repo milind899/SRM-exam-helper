@@ -5,7 +5,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
 import { examContent } from './data/examContent';
-import { RotateCcw, Search, Filter, Github } from 'lucide-react';
+import { RotateCcw, Search, Filter, Github, Focus, Timer } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
 import { Toaster } from 'react-hot-toast';
@@ -33,6 +33,8 @@ function App() {
 
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
+  const [focusMode, setFocusMode] = useState(false);
+  const [focusedUnitIndex, setFocusedUnitIndex] = useState(0);
 
   // What's New modal - version-based
   const CURRENT_VERSION = 'v2.0.0'; // Update this when adding new features
@@ -78,7 +80,9 @@ function App() {
           e.preventDefault();
           setTheme(prev => prev === 'emerald' ? 'dark' : prev === 'dark' ? 'blue' : 'emerald');
           break;
-        case 'e':
+        case 'e': setExpandAll(prev => prev === undefined ? false : !prev); break;
+        case 'c': setExpandAll(false); break;
+        case 'f': setFocusMode(prev => !prev); break;
         case 'E':
           if (e.target instanceof HTMLInputElement) return;
           e.preventDefault();
@@ -241,7 +245,7 @@ function App() {
 
         <ProgressBar total={totalItems} completed={completedItems} />
 
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-between items-center mb-4 gap-3">
           <button
             onClick={handleReset}
             className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-red-500 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10"
@@ -249,34 +253,96 @@ function App() {
             <RotateCcw size={14} />
             Reset Progress
           </button>
-        </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-8 w-1 bg-primary rounded-full"></div>
-            <h2 className="text-xl font-bold text-text-main">Discrete Mathematics</h2>
-            <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
-              Active
-            </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => window.open('/pomodoro.html', '_blank')}
+              className="flex items-center gap-2 text-xs font-medium bg-gradient-to-r from-red-500/10 to-orange-500/10 hover:from-red-500/20 hover:to-orange-500/20 border border-red-500/20 text-red-500 px-3 py-1.5 rounded-lg transition-all"
+              title="Open Pomodoro Timer (F key)"
+            >
+              <Timer size={14} />
+              Pomodoro Timer
+            </button>
+
+            <button
+              onClick={() => setFocusMode(!focusMode)}
+              className={clsx(
+                "flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg transition-all",
+                focusMode
+                  ? "bg-primary/20 text-primary border border-primary/30"
+                  : "bg-white/5 hover:bg-white/10 text-text-muted hover:text-text-main border border-white/10"
+              )}
+              title="Focus Mode (F key)"
+            >
+              <Focus size={14} />
+              {focusMode ? 'Exit Focus' : 'Focus Mode'}
+            </button>
           </div>
-
-          {filteredContent.length > 0 ? (
-            filteredContent.map(unit => (
-              <UnitSection
-                key={unit.id}
-                unit={unit}
-                checkedItems={checkedItems}
-                onToggleItem={handleToggleItem}
-                forceExpanded={expandAll}
-              />
-            ))
-          ) : (
-            <div className="text-center py-12 text-text-muted">
-              <Filter size={48} className="mx-auto mb-4 opacity-20" />
-              <p>No topics found matching your criteria.</p>
-            </div>
-          )}
         </div>
+
+        {focusMode ? (
+          <div className="space-y-6">
+            {/* Focus Mode Header */}
+            <div className="flex items-center justify-between mb-6 p-4 bg-primary/5 border border-primary/10 rounded-xl">
+              <div className="flex items-center gap-3">
+                <Focus className="text-primary" size={24} />
+                <div>
+                  <h2 className="text-lg font-bold text-text-main">Focus Mode Active</h2>
+                  <p className="text-xs text-text-muted">Showing Unit {focusedUnitIndex + 1} of {examContent.length}</p>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setFocusedUnitIndex(prev => Math.max(0, prev - 1))}
+                  disabled={focusedUnitIndex === 0}
+                  className="px-3 py-1.5 text-xs rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  ← Previous
+                </button>
+                <button
+                  onClick={() => setFocusedUnitIndex(prev => Math.min(examContent.length - 1, prev + 1))}
+                  disabled={focusedUnitIndex === examContent.length - 1}
+                  className="px-3 py-1.5 text-xs rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+            <UnitSection
+              unit={filteredContent[focusedUnitIndex] || examContent[focusedUnitIndex]}
+              checkedItems={checkedItems}
+              onToggleItem={handleToggleItem}
+              forceExpanded={true}
+            />
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-8 w-1 bg-primary rounded-full"></div>
+              <h2 className="text-xl font-bold text-text-main">Discrete Mathematics</h2>
+              <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
+                Active
+              </span>
+            </div>
+
+            {filteredContent.length > 0 ? (
+              filteredContent.map(unit => (
+                <UnitSection
+                  key={unit.id}
+                  unit={unit}
+                  checkedItems={checkedItems}
+                  onToggleItem={handleToggleItem}
+                  forceExpanded={expandAll}
+                />
+              ))
+            ) : (
+              <div className="text-center py-12 text-text-muted">
+                <Filter size={48} className="mx-auto mb-4 opacity-20" />
+                <p>No topics found matching your criteria.</p>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* More Subjects & Contribution Section */}
         <div className="mt-12 grid md:grid-cols-2 gap-6">
@@ -312,7 +378,7 @@ function App() {
         </div>
 
         <ResourcesSection />
-      </Layout>
+      </Layout >
       <Toaster
         position="bottom-right"
         toastOptions={{
