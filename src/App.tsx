@@ -8,7 +8,7 @@ import { examContent } from './data/examContent';
 import { RotateCcw, Search, Filter, Github } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
