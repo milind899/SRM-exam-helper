@@ -37,6 +37,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentTheme, onThemeC
     };
 
     const handleHeaderClick = () => {
+        window.history.pushState("", document.title, window.location.pathname + window.location.search);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 

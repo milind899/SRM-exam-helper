@@ -5,55 +5,55 @@
 @layer base {
   :root {
     /* Default (Emerald) */
-    --color-background: 2 6 23;
+    --color-background: 2, 6, 23;
     /* slate-950 */
-    --color-surface: 15 23 42;
+    --color-surface: 15, 23, 42;
     /* slate-900 */
-    --color-primary: 16 185 129;
+    --color-primary: 16, 185, 129;
     /* emerald-500 */
-    --color-secondary: 148 163 184;
+    --color-secondary: 148, 163, 184;
     /* slate-400 */
-    --color-accent: 52 211 153;
+    --color-accent: 52, 211, 153;
     /* emerald-400 */
-    --color-text-main: 241 245 249;
+    --color-text-main: 241, 245, 249;
     /* slate-100 */
-    --color-text-muted: 148 163 184;
+    --color-text-muted: 148, 163, 184;
     /* slate-400 */
   }
 
   [data-theme="dark"] {
     /* Dark (Violet/Zinc) */
-    --color-background: 9 9 11;
+    --color-background: 9, 9, 11;
     /* zinc-950 */
-    --color-surface: 24 24 27;
+    --color-surface: 24, 24, 27;
     /* zinc-900 */
-    --color-primary: 139 92 246;
+    --color-primary: 139, 92, 246;
     /* violet-500 */
-    --color-secondary: 161 161 170;
+    --color-secondary: 161, 161, 170;
     /* zinc-400 */
-    --color-accent: 167 139 250;
+    --color-accent: 167, 139, 250;
     /* violet-400 */
-    --color-text-main: 244 244 245;
+    --color-text-main: 244, 244, 245;
     /* zinc-100 */
-    --color-text-muted: 161 161 170;
+    --color-text-muted: 161, 161, 170;
     /* zinc-400 */
   }
 
   [data-theme="light"] {
-    /* Light (Clean) */
-    --color-background: 248 250 252;
-    /* slate-50 */
-    --color-surface: 255 255 255;
+    /* Light (Softer) */
+    --color-background: 241, 245, 249;
+    /* slate-100 */
+    --color-surface: 255, 255, 255;
     /* white */
-    --color-primary: 5 150 105;
-    /* emerald-600 */
-    --color-secondary: 100 116 139;
-    /* slate-500 */
-    --color-accent: 16 185 129;
+    --color-primary: 16, 185, 129;
     /* emerald-500 */
-    --color-text-main: 15 23 42;
-    /* slate-900 */
-    --color-text-muted: 100 116 139;
+    --color-secondary: 100, 116, 139;
+    /* slate-500 */
+    --color-accent: 52, 211, 153;
+    /* emerald-400 */
+    --color-text-main: 30, 41, 59;
+    /* slate-800 */
+    --color-text-muted: 100, 116, 139;
     /* slate-500 */
   }
 
