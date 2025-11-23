@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Trophy, Medal, Crown, User as UserIcon, AlertCircle, Edit2, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { validateNickname } from '../utils/nicknameValidator';
 
 interface LeaderboardEntry {
     user_id: string;
@@ -30,17 +31,26 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempNickname, setTempNickname] = useState(currentUserNickname);
+    const [editError, setEditError] = useState<string>('');
 
     const handleSave = () => {
         if (tempNickname.trim()) {
+            const validation = validateNickname(tempNickname.trim());
+            if (!validation.valid) {
+                setEditError(validation.error || 'Invalid nickname');
+                return;
+            }
+
             onUpdateNickname(tempNickname.trim());
             setIsEditing(false);
+            setEditError('');
         }
     };
 
     const handleCancel = () => {
         setTempNickname(currentUserNickname);
         setIsEditing(false);
+        setEditError('');
     };
 
     const getRankBadge = (index: number) => {
@@ -80,39 +90,54 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
                 </div>
 
                 {/* User Nickname Badge */}
-                <div className="flex items-center gap-2 bg-background/50 px-3 py-1.5 rounded-full border border-primary/20">
-                    <UserIcon size={12} className="text-primary flex-shrink-0" />
-                    {isEditing ? (
-                        <div className="flex items-center gap-1 flex-1">
-                            <input
-                                type="text"
-                                value={tempNickname}
-                                onChange={(e) => setTempNickname(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') handleSave();
-                                    if (e.key === 'Escape') handleCancel();
-                                }}
-                                className="flex-1 px-2 py-0.5 text-xs bg-background border border-primary/30 rounded text-text-main focus:outline-none focus:border-primary min-w-0"
-                                autoFocus
-                                maxLength={20}
-                            />
-                            <button onClick={handleSave} className="p-0.5 hover:bg-green-500/20 rounded text-green-500 transition-colors flex-shrink-0">
-                                <Check size={14} />
-                            </button>
-                            <button onClick={handleCancel} className="p-0.5 hover:bg-red-500/20 rounded text-red-500 transition-colors flex-shrink-0">
-                                <X size={14} />
-                            </button>
-                        </div>
-                    ) : (
-                        <>
-                            <span className="text-xs font-medium text-primary flex-1 min-w-0 truncate">{currentUserNickname}</span>
-                            <button
-                                onClick={() => setIsEditing(true)}
-                                className="p-0.5 hover:bg-primary/20 rounded transition-colors text-text-muted hover:text-primary flex-shrink-0"
-                            >
-                                <Edit2 size={12} />
-                            </button>
-                        </>
+                <div>
+                    <div className="flex items-center gap-2 bg-background/50 px-3 py-1.5 rounded-full border border-primary/20">
+                        <UserIcon size={12} className="text-primary flex-shrink-0" />
+                        {isEditing ? (
+                            <div className="flex items-center gap-1 flex-1">
+                                <input
+                                    type="text"
+                                    value={tempNickname}
+                                    onChange={(e) => {
+                                        setTempNickname(e.target.value);
+                                        setEditError(''); // Clear error on change
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleSave();
+                                        if (e.key === 'Escape') handleCancel();
+                                    }}
+                                    className={`flex-1 px-2 py-0.5 text-xs bg-background border ${editError ? 'border-red-500/50' : 'border-primary/30'
+                                        } rounded text-text-main focus:outline-none focus:border-primary min-w-0`}
+                                    autoFocus
+                                    maxLength={20}
+                                />
+                                <button onClick={handleSave} className="p-0.5 hover:bg-green-500/20 rounded text-green-500 transition-colors flex-shrink-0">
+                                    <Check size={14} />
+                                </button>
+                                <button onClick={handleCancel} className="p-0.5 hover:bg-red-500/20 rounded text-red-500 transition-colors flex-shrink-0">
+                                    <X size={14} />
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <span className="text-xs font-medium text-primary flex-1 min-w-0 truncate">{currentUserNickname}</span>
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="p-0.5 hover:bg-primary/20 rounded transition-colors text-text-muted hover:text-primary flex-shrink-0"
+                                >
+                                    <Edit2 size={12} />
+                                </button>
+                            </>
+                        )}
+                    </div>
+                    {editError && (
+                        <motion.p
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-[10px] text-red-400 mt-1 ml-1"
+                        >
+                            {editError}
+                        </motion.p>
                     )}
                 </div>
             </div>
@@ -149,8 +174,8 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
                                         exit={{ opacity: 0, x: 20 }}
                                         transition={{ delay: index * 0.03, duration: 0.3 }}
                                         className={`p-3 transition-all ${isCurrentUser
-                                                ? 'bg-gradient-to-r from-primary/15 to-transparent border-l-2 border-primary'
-                                                : 'hover:bg-white/3'
+                                            ? 'bg-gradient-to-r from-primary/15 to-transparent border-l-2 border-primary'
+                                            : 'hover:bg-white/3'
                                             }`}
                                     >
                                         {/* Row Layout */}

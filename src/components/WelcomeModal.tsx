@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, X, Sparkles } from 'lucide-react';
+import { Trophy, X, Sparkles, AlertCircle } from 'lucide-react';
+import { validateNickname } from '../utils/nicknameValidator';
 
 interface WelcomeModalProps {
     onSubmit: (nickname: string) => void;
@@ -9,6 +10,7 @@ interface WelcomeModalProps {
 export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onSubmit }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [nickname, setNickname] = useState('');
+    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         // Check if user has already set a nickname
@@ -23,16 +25,26 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onSubmit }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (nickname.trim()) {
-            onSubmit(nickname.trim());
-            localStorage.setItem('hasSeenWelcome', 'true');
-            setIsOpen(false);
+
+        const validation = validateNickname(nickname);
+        if (!validation.valid) {
+            setError(validation.error || 'Invalid nickname');
+            return;
         }
+
+        onSubmit(nickname.trim());
+        localStorage.setItem('hasSeenWelcome', 'true');
+        setIsOpen(false);
     };
 
     const handleSkip = () => {
         localStorage.setItem('hasSeenWelcome', 'true');
         setIsOpen(false);
+    };
+
+    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNickname(e.target.value);
+        setError(''); // Clear error on change
     };
 
     return (
@@ -90,16 +102,29 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onSubmit }) => {
                                         <input
                                             type="text"
                                             value={nickname}
-                                            onChange={(e) => setNickname(e.target.value)}
+                                            onChange={handleNicknameChange}
                                             placeholder="e.g., SwiftPanda42"
-                                            className="w-full px-4 py-4 sm:py-3 text-base sm:text-sm bg-background/50 border border-white/10 rounded-xl text-text-main placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all touch-manipulation"
+                                            className={`w-full px-4 py-4 sm:py-3 text-base sm:text-sm bg-background/50 border ${error ? 'border-red-500/50' : 'border-white/10'
+                                                } rounded-xl text-text-main placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all touch-manipulation`}
                                             maxLength={20}
                                             autoFocus
                                             autoComplete="off"
                                         />
-                                        <p className="text-xs text-text-muted mt-2">
-                                            You can change this anytime
-                                        </p>
+                                        {error && (
+                                            <motion.p
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                className="text-xs text-red-400 mt-2 flex items-center gap-1"
+                                            >
+                                                <AlertCircle size={12} />
+                                                {error}
+                                            </motion.p>
+                                        )}
+                                        {!error && (
+                                            <p className="text-xs text-text-muted mt-2">
+                                                You can change this anytime
+                                            </p>
+                                        )}
                                     </div>
 
                                     {/* Mobile Optimized Buttons */}

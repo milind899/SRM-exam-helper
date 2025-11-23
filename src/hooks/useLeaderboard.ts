@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { validateNickname } from '../utils/nicknameValidator';
 
 export interface LeaderboardEntry {
     user_id: string;
@@ -116,6 +117,13 @@ export const useLeaderboard = (
     }, []);
 
     const updateNickname = (newNickname: string) => {
+        // Validate nickname before updating
+        const validation = validateNickname(newNickname);
+        if (!validation.valid) {
+            console.error('Invalid nickname:', validation.error);
+            return false;
+        }
+
         setNickname(newNickname);
         localStorage.setItem('userNickname', newNickname);
 
@@ -133,6 +141,8 @@ export const useLeaderboard = (
                 })
             }).then(refreshLeaderboard).catch(console.error);
         }
+
+        return true;
     };
 
     return {
