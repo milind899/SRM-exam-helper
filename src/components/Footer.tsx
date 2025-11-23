@@ -24,22 +24,7 @@ export const Footer: React.FC = () => {
                             href="https://www.linkedin.com/in/milind-shandilya-7b9606296/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 transition-all"
-                        >
-                            <Linkedin size={20} />
-                        </a>
-                    </div>
-
-                    <div className="max-w-2xl text-center space-y-2">
-                        <p className="text-xs text-slate-500">
-                            Disclaimer: This is a student-created resource. Please verify all topics and questions with official university materials.
-                        </p>
-                        <p className="text-[10px] text-slate-600">
-                            Use at your own risk. The creator is not responsible for any discrepancies or exam outcomes.
-                        </p>
-                    </div>
-                </div>
             </div>
-        </footer>
-    );
+                </footer>
+                );
 };
