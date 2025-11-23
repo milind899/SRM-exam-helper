@@ -12,6 +12,13 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
+// Validation check
+if (!firebaseConfig.apiKey) {
+    console.error("Firebase API Key is missing! Make sure you have a .env.local file and have restarted your dev server.");
+} else {
+    console.log("Firebase Config Loaded. API Key starts with:", firebaseConfig.apiKey.substring(0, 5) + "...");
+}
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);

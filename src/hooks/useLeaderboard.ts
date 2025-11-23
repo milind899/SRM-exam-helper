@@ -38,7 +38,7 @@ export const useLeaderboard = (
                     await signInAnonymously(auth);
                 } catch (err) {
                     console.error("Auth error:", err);
-                    setError("Authentication failed. Please check your connection.");
+                    setError(`Authentication failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
                 }
             }
         });
