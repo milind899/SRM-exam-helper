@@ -1,112 +1,88 @@
 import { useState, useEffect } from 'react';
-import { signInAnonymously, onAuthStateChanged, type User } from 'firebase/auth';
-import { auth, isFirebaseConfigured } from '../config/firebase';
-import {
-    updateLeaderboardEntry,
-    getTopLeaderboard,
-    type LeaderboardEntry
-} from '../services/leaderboard';
-import { generateNickname } from '../utils/nicknameGenerator';
+
+export interface LeaderboardEntry {
+    user_id: string;
+    nickname: string;
+    progress_percentage: number;
+    completed_items: number;
+    total_items: number;
+    last_updated: string;
+}
 
 export const useLeaderboard = (
     progressPercentage: number,
     completedItems: number,
     totalItems: number
 ) => {
-    const [user, setUser] = useState<User | null>(null);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [nickname, setNickname] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
 
-    // Early return if Firebase is not configured
+    // Initialize user ID and nickname
     useEffect(() => {
-        if (!isFirebaseConfigured) {
-            setLoading(false);
-            setError("Leaderboard is not configured. Please contact the administrator.");
-            return;
+        let storedUserId = localStorage.getItem('userId');
+        if (!storedUserId) {
+            storedUserId = crypto.randomUUID();
+            localStorage.setItem('userId', storedUserId);
         }
+        setUserId(storedUserId);
+
+        let storedNickname = localStorage.getItem('userNickname');
+        if (!storedNickname) {
+            storedNickname = generateNickname();
+            localStorage.setItem('userNickname', storedNickname);
+        }
+        setNickname(storedNickname);
     }, []);
 
-    // Auth & Initial Setup
+    // Sync progress to database
     useEffect(() => {
-        if (!isFirebaseConfigured || !auth) return;
-
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                setUser(currentUser);
-                // Load saved nickname or generate one
-                const savedName = localStorage.getItem('userNickname');
-                if (savedName) {
-                    setNickname(savedName);
-                } else {
-                    const newName = generateNickname();
-                    setNickname(newName);
-                    localStorage.setItem('userNickname', newName);
-                }
-            } else {
-                try {
-                    await signInAnonymously(auth);
-                } catch (err) {
-                    console.error("Auth error:", err);
-                    setError(`Authentication failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
-                }
-            }
-        });
-        return () => unsubscribe();
-    }, []);
-
-    // Sync Progress
-    useEffect(() => {
-        if (!isFirebaseConfigured || !user || !nickname || totalItems === 0) return;
+        if (!userId || !nickname || totalItems === 0) return;
 
         const syncProgress = async () => {
             try {
-                await updateLeaderboardEntry(user.uid, {
-                    nickname,
-                    progressPercentage,
-                    completedItems,
-                    totalItems
+                await fetch('/api/leaderboard/entries', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId,
+                        nickname,
+                        progressPercentage,
+                        completedItems,
+                        totalItems
+                    })
                 });
                 refreshLeaderboard();
-            } catch (error) {
-                console.error("Error syncing progress:", error);
+            } catch (err) {
+                console.error('Error syncing progress:', err);
             }
         };
 
         // Debounce sync
         const timeoutId = setTimeout(syncProgress, 5000);
         return () => clearTimeout(timeoutId);
-    }, [user, nickname, progressPercentage, completedItems, totalItems]);
+    }, [userId, nickname, progressPercentage, completedItems, totalItems]);
 
-    // Fetch Leaderboard
+    // Fetch leaderboard
     const refreshLeaderboard = async () => {
-        if (!isFirebaseConfigured) {
-            setLoading(false);
-            return;
-        }
-
         try {
             setError(null);
-            const data = await getTopLeaderboard();
+            const response = await fetch('/api/leaderboard/entries');
+            if (!response.ok) throw new Error('Failed to fetch leaderboard');
+
+            const data = await response.json();
             setLeaderboard(data);
             setLoading(false);
         } catch (err: any) {
-            console.error("Error fetching leaderboard:", err);
+            console.error('Error fetching leaderboard:', err);
+            setError(err.message || 'Failed to load leaderboard');
             setLoading(false);
-            if (err.code === 'failed-precondition') {
-                setError("Database index missing. Please check console.");
-            } else if (err.code === 'permission-denied') {
-                setError("Permission denied. Check security rules.");
-            } else {
-                setError("Failed to load leaderboard. Please try again later.");
-            }
         }
     };
 
     useEffect(() => {
-        if (!isFirebaseConfigured) return;
-
         refreshLeaderboard();
         // Refresh every minute
         const interval = setInterval(refreshLeaderboard, 60000);
@@ -114,22 +90,27 @@ export const useLeaderboard = (
     }, []);
 
     const updateNickname = (newNickname: string) => {
-        if (!isFirebaseConfigured) return;
-
         setNickname(newNickname);
         localStorage.setItem('userNickname', newNickname);
-        if (user) {
-            updateLeaderboardEntry(user.uid, {
-                nickname: newNickname,
-                progressPercentage,
-                completedItems,
-                totalItems
+
+        // Immediately sync to database
+        if (userId) {
+            fetch('/api/leaderboard/entries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId,
+                    nickname: newNickname,
+                    progressPercentage,
+                    completedItems,
+                    totalItems
+                })
             }).then(refreshLeaderboard);
         }
     };
 
     return {
-        user,
+        user: userId ? { uid: userId } : null,
         leaderboard,
         loading,
         error,
@@ -138,3 +119,13 @@ export const useLeaderboard = (
         refreshLeaderboard
     };
 };
+
+// Simple nickname generator
+function generateNickname(): string {
+    const adjectives = ['Happy', 'Swift', 'Brave', 'Clever', 'Bright', 'Smart', 'Quick', 'Bold'];
+    const animals = ['Panda', 'Tiger', 'Eagle', 'Fox', 'Wolf', 'Bear', 'Falcon', 'Lion'];
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const animal = animals[Math.floor(Math.random() * animals.length)];
+    const num = Math.floor(Math.random() * 100);
+    return `${adj}${animal}${num}`;
+}
