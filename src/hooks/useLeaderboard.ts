@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { signInAnonymously, onAuthStateChanged, type User } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { auth, isFirebaseConfigured } from '../config/firebase';
 import {
     updateLeaderboardEntry,
     getTopLeaderboard,
@@ -19,8 +19,19 @@ export const useLeaderboard = (
     const [error, setError] = useState<string | null>(null);
     const [nickname, setNickname] = useState<string>('');
 
+    // Early return if Firebase is not configured
+    useEffect(() => {
+        if (!isFirebaseConfigured) {
+            setLoading(false);
+            setError("Leaderboard is not configured. Please contact the administrator.");
+            return;
+        }
+    }, []);
+
     // Auth & Initial Setup
     useEffect(() => {
+        if (!isFirebaseConfigured || !auth) return;
+
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
                 setUser(currentUser);
@@ -47,30 +58,34 @@ export const useLeaderboard = (
 
     // Sync Progress
     useEffect(() => {
-        if (user && nickname && totalItems > 0) {
-            const syncProgress = async () => {
-                try {
-                    await updateLeaderboardEntry(user.uid, {
-                        nickname,
-                        progressPercentage,
-                        completedItems,
-                        totalItems
-                    });
-                    refreshLeaderboard();
-                } catch (error) {
-                    console.error("Error syncing progress:", error);
-                    // Don't set global error for sync failure, just log it
-                }
-            };
+        if (!isFirebaseConfigured || !user || !nickname || totalItems === 0) return;
 
-            // Debounce sync
-            const timeoutId = setTimeout(syncProgress, 5000);
-            return () => clearTimeout(timeoutId);
-        }
+        const syncProgress = async () => {
+            try {
+                await updateLeaderboardEntry(user.uid, {
+                    nickname,
+                    progressPercentage,
+                    completedItems,
+                    totalItems
+                });
+                refreshLeaderboard();
+            } catch (error) {
+                console.error("Error syncing progress:", error);
+            }
+        };
+
+        // Debounce sync
+        const timeoutId = setTimeout(syncProgress, 5000);
+        return () => clearTimeout(timeoutId);
     }, [user, nickname, progressPercentage, completedItems, totalItems]);
 
     // Fetch Leaderboard
     const refreshLeaderboard = async () => {
+        if (!isFirebaseConfigured) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setError(null);
             const data = await getTopLeaderboard();
@@ -90,6 +105,8 @@ export const useLeaderboard = (
     };
 
     useEffect(() => {
+        if (!isFirebaseConfigured) return;
+
         refreshLeaderboard();
         // Refresh every minute
         const interval = setInterval(refreshLeaderboard, 60000);
@@ -97,6 +114,8 @@ export const useLeaderboard = (
     }, []);
 
     const updateNickname = (newNickname: string) => {
+        if (!isFirebaseConfigured) return;
+
         setNickname(newNickname);
         localStorage.setItem('userNickname', newNickname);
         if (user) {

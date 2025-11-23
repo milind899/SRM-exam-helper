@@ -12,13 +12,32 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Validation check
-if (!firebaseConfig.apiKey) {
-    console.error("Firebase API Key is missing! Make sure you have a .env.local file and have restarted your dev server.");
-} else {
-    console.log("Firebase Config Loaded. API Key starts with:", firebaseConfig.apiKey.substring(0, 5) + "...");
+// Check if Firebase is properly configured
+export const isFirebaseConfigured = !!(
+    firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId
+);
+
+if (!isFirebaseConfigured) {
+    console.warn("⚠️ Firebase is not configured. Leaderboard features will be disabled.");
+    console.warn("To enable Firebase, add environment variables to .env.local (local) or Vercel (production).");
 }
 
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+// Only initialize if configured
+let app: any = null;
+let db: any = null;
+let auth: any = null;
+
+if (isFirebaseConfigured) {
+    try {
+        app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        console.log("✅ Firebase initialized successfully");
+    } catch (error) {
+        console.error("❌ Firebase initialization failed:", error);
+    }
+}
+
+export { db, auth };

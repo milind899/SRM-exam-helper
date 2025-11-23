@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Medal, Crown, User as UserIcon, AlertCircle } from 'lucide-react';
+import { Trophy, Medal, Crown, User as UserIcon, AlertCircle, Settings } from 'lucide-react';
 import type { LeaderboardEntry } from '../services/leaderboard';
 import { UserNickname } from './UserNickname';
 import { motion } from 'framer-motion';
@@ -30,6 +30,8 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
         }
     };
 
+    const isConfigError = error?.includes("not configured") || error?.includes("contact the administrator");
+
     return (
         <div className="bg-surface rounded-2xl border border-white/10 overflow-hidden shadow-xl">
             <div className="p-6 border-b border-white/5 bg-gradient-to-r from-surface to-surface/50">
@@ -43,25 +45,42 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
                             <p className="text-sm text-text-muted">Top students this week</p>
                         </div>
                     </div>
-                    <div className="text-right">
-                        <p className="text-xs text-text-muted mb-1">You are playing as:</p>
-                        <UserNickname
-                            currentNickname={currentUserNickname}
-                            onUpdate={onUpdateNickname}
-                        />
-                    </div>
+                    {!isConfigError && (
+                        <div className="text-right">
+                            <p className="text-xs text-text-muted mb-1">You are playing as:</p>
+                            <UserNickname
+                                currentNickname={currentUserNickname}
+                                onUpdate={onUpdateNickname}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {/* Header Row */}
-                <div className="grid grid-cols-12 gap-4 text-xs font-medium text-text-muted uppercase tracking-wider px-2">
-                    <div className="col-span-2">Rank</div>
-                    <div className="col-span-6">Student</div>
-                    <div className="col-span-4 text-right">Progress</div>
-                </div>
+                {!isConfigError && (
+                    <div className="grid grid-cols-12 gap-4 text-xs font-medium text-text-muted uppercase tracking-wider px-2">
+                        <div className="col-span-2">Rank</div>
+                        <div className="col-span-6">Student</div>
+                        <div className="col-span-4 text-right">Progress</div>
+                    </div>
+                )}
             </div>
 
             <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                {error ? (
+                {isConfigError ? (
+                    <div className="p-8 text-center">
+                        <div className="flex flex-col items-center gap-4">
+                            <Settings className="text-text-muted opacity-50" size={48} />
+                            <div>
+                                <p className="text-text-main font-medium mb-2">Leaderboard Not Configured</p>
+                                <p className="text-text-muted text-sm max-w-md">
+                                    The leaderboard feature requires Firebase setup.
+                                    Check the console for configuration details or contact the site administrator.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ) : error ? (
                     <div className="p-8 text-center text-red-400 flex flex-col items-center gap-2">
                         <AlertCircle size={32} />
                         <p>{error}</p>
@@ -116,9 +135,11 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
                 )}
             </div>
 
-            <div className="p-3 text-center text-xs text-text-muted border-t border-white/5 bg-background/30">
-                Updates automatically every minute
-            </div>
+            {!isConfigError && (
+                <div className="p-3 text-center text-xs text-text-muted border-t border-white/5 bg-background/30">
+                    Updates automatically every minute
+                </div>
+            )}
         </div>
     );
 };
