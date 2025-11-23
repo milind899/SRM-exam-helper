@@ -108,7 +108,7 @@ function App() {
     if (!searchQuery && filter === 'all') return examContent;
 
     return examContent.map(unit => {
-      const filtered Sections = unit.sections.map(section => {
+      const filteredSections = unit.sections.map(section => {
         const filteredItems = section.items.filter(item => {
           // Search filter
           const matchesSearch = !searchQuery ||
