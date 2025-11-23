@@ -1,34 +1,43 @@
 import React from 'react';
 import { Github, Linkedin } from 'lucide-react';
-import { socialLinks } from '../data/resources';
 
 export const Footer: React.FC = () => {
     return (
-        <footer className="border-t border-slate-800 bg-surface/50 py-8 mt-12">
-            <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p className="text-slate-400 text-sm">
-                    Created by <span className="text-slate-200 font-medium">{socialLinks.name}</span>
-                </p>
+        <footer className="border-t border-white/10 bg-surface/50 backdrop-blur-md py-8 mt-auto">
+            <div className="container mx-auto px-4">
+                <div className="flex flex-col items-center gap-6">
+                    <div className="flex items-center gap-2 text-slate-400">
+                        <span>Created by</span>
+                        <span className="font-semibold text-slate-200">Milind Shandilya</span>
+                    </div>
 
-                <div className="flex items-center gap-4">
-                    <a
-                        href={socialLinks.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800 rounded-full"
-                        aria-label="GitHub"
-                    >
-                        <Github size={20} />
-                    </a>
-                    <a
-                        href={socialLinks.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-slate-400 hover:text-blue-400 transition-colors p-2 hover:bg-slate-800 rounded-full"
-                        aria-label="LinkedIn"
-                    >
-                        <Linkedin size={20} />
-                    </a>
+                    <div className="flex items-center gap-4">
+                        <a
+                            href="https://github.com/milind899"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 transition-all"
+                        >
+                            <Github size={20} />
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/in/milind-shandilya-7b9606296/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-full bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 transition-all"
+                        >
+                            <Linkedin size={20} />
+                        </a>
+                    </div>
+
+                    <div className="max-w-2xl text-center space-y-2">
+                        <p className="text-xs text-slate-500">
+                            Disclaimer: This is a student-created resource. Please verify all topics and questions with official university materials.
+                        </p>
+                        <p className="text-[10px] text-slate-600">
+                            Use at your own risk. The creator is not responsible for any discrepancies or exam outcomes.
+                        </p>
+                    </div>
                 </div>
             </div>
         </footer>

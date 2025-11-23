@@ -131,6 +131,14 @@ function App() {
       </div>
 
       <div className="space-y-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-8 w-1 bg-primary rounded-full"></div>
+          <h2 className="text-xl font-bold text-slate-100">Discrete Mathematics</h2>
+          <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
+            Active
+          </span>
+        </div>
+
         {filteredContent.length > 0 ? (
           filteredContent.map(unit => (
             <UnitSection
