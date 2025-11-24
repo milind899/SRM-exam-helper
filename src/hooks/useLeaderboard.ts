@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { validateNickname } from '../utils/nicknameValidator';
 
 export interface LeaderboardEntry {
@@ -7,7 +8,7 @@ export interface LeaderboardEntry {
     progress_percentage: number;
     completed_items: number;
     total_items: number;
-    last_updated: string;
+    updated_at: string;
 }
 
 export const useLeaderboard = (
@@ -38,27 +39,27 @@ export const useLeaderboard = (
         setNickname(storedNickname);
     }, []);
 
-    // Sync progress to database
+    // Sync progress to Supabase
     useEffect(() => {
-        if (!userId || !nickname || totalItems === 0) return;
+        if (!userId || !nickname || totalItems === 0 || !isSupabaseConfigured || !supabase) return;
 
         const syncProgress = async () => {
             try {
-                const response = await fetch('/api/leaderboard/entries', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId,
-                        nickname,
-                        progressPercentage,
-                        completedItems,
-                        totalItems
-                    })
-                });
+                const { error } = await supabase
+                    .from('leaderboard')
+                    .upsert({
+                        user_id: userId,
+                        nickname: nickname,
+                        progress_percentage: progressPercentage,
+                        completed_items: completedItems,
+                        total_items: totalItems,
+                        updated_at: new Date().toISOString()
+                    }, {
+                        onConflict: 'user_id'
+                    });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Sync error:', errorData);
+                if (error) {
+                    console.error('Sync error:', error);
                     return;
                 }
 
@@ -73,95 +74,67 @@ export const useLeaderboard = (
         return () => clearTimeout(timeoutId);
     }, [userId, nickname, progressPercentage, completedItems, totalItems]);
 
-    // Fetch leaderboard
+    // Fetch leaderboard from Supabase
     const refreshLeaderboard = async () => {
+        if (!isSupabaseConfigured || !supabase) {
+            setLoading(false);
+            return;
+        }
+
         try {
             setError(null);
 
-            const response = await fetch('/api/leaderboard/entries', {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
+            const { data, error } = await supabase
+                .from('leaderboard')
+                .select('*')
+                .order('progress_percentage', { ascending: false })
+                .order('updated_at', { ascending: false })
+                .limit(20);
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('API Response Error:', response.status, errorText);
-                throw new Error(`HTTP ${response.status}: ${errorText}`);
-            }
+            if (error) throw error;
 
-            const data = await response.json();
-            console.log('Leaderboard data:', data);
-            setLeaderboard(data);
+            setLeaderboard(data || []);
             setLoading(false);
         } catch (err: any) {
             console.error('Error fetching leaderboard:', err);
-
-            // More specific error message
-            let errorMsg = 'Failed to load leaderboard';
-            if (err.message.includes('fetch')) {
-                errorMsg = 'Cannot connect to leaderboard server. Deploy to Vercel to enable.';
-            } else {
-                errorMsg = err.message || errorMsg;
-            }
-
-            setError(errorMsg);
+            setError(err.message);
             setLoading(false);
         }
     };
 
+    // Initial fetch and periodic refresh
     useEffect(() => {
         refreshLeaderboard();
-        // Refresh every minute
-        const interval = setInterval(refreshLeaderboard, 60000);
+        const interval = setInterval(refreshLeaderboard, 60000); // Refresh every minute
         return () => clearInterval(interval);
     }, []);
 
     const updateNickname = (newNickname: string) => {
-        // Validate nickname before updating
         const validation = validateNickname(newNickname);
-        if (!validation.valid) {
-            console.error('Invalid nickname:', validation.error);
-            return false;
+        if (!validation.isValid) {
+            throw new Error(validation.error);
         }
 
         setNickname(newNickname);
         localStorage.setItem('userNickname', newNickname);
-
-        // Immediately sync to database
-        if (userId) {
-            fetch('/api/leaderboard/entries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId,
-                    nickname: newNickname,
-                    progressPercentage,
-                    completedItems,
-                    totalItems
-                })
-            }).then(refreshLeaderboard).catch(console.error);
-        }
-
-        return true;
     };
 
     return {
-        user: userId ? { uid: userId } : null,
         leaderboard,
         loading,
         error,
         nickname,
-        updateNickname,
-        refreshLeaderboard
+        refreshLeaderboard,
+        updateNickname
     };
 };
 
-// Simple nickname generator
+// Helper function to generate random nickname
 function generateNickname(): string {
-    const adjectives = ['Happy', 'Swift', 'Brave', 'Clever', 'Bright', 'Smart', 'Quick', 'Bold'];
-    const animals = ['Panda', 'Tiger', 'Eagle', 'Fox', 'Wolf', 'Bear', 'Falcon', 'Lion'];
+    const adjectives = ['Swift', 'Clever', 'Brave', 'Wise', 'Quick', 'Noble', 'Bright', 'Bold'];
+    const nouns = ['Scholar', 'Learner', 'Student', 'Ace', 'Pro', 'Guru', 'Expert', 'Master'];
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const animal = animals[Math.floor(Math.random() * animals.length)];
-    const num = Math.floor(Math.random() * 100);
-    return `${adj}${animal}${num}`;
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const num = Math.floor(Math.random() * 999);
+    return `${adj}${noun}${num}`;
 }
