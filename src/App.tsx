@@ -14,6 +14,7 @@ import { CountdownTimer } from './components/CountdownTimer';
 import { ShortcutsHelp } from './components/ShortcutsHelp';
 import { WhatsNewModal } from './components/WhatsNewModal';
 import { WelcomeModal } from './components/WelcomeModal';
+import { SignInModal } from './components/SignInModal';
 import { useLeaderboard } from './hooks/useLeaderboard';
 import { StickyLeaderboard } from './components/StickyLeaderboard';
 
@@ -57,6 +58,9 @@ function App() {
     const lastSeenVersion = localStorage.getItem('lastSeenVersion');
     return lastSeenVersion !== CURRENT_VERSION;
   });
+
+  // Sign In modal
+  const [showSignInModal, setShowSignInModal] = useState(false);
 
   const handleCloseWhatsNew = () => {
     setShowWhatsNew(false);
@@ -205,6 +209,7 @@ function App() {
       <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
       <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
       <WelcomeModal onSubmit={updateNickname} />
+      <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
       <Layout
         currentTheme={theme}
         onThemeChange={setTheme}
@@ -215,7 +220,7 @@ function App() {
         <CountdownTimer targetDate={currentSubject.examDate} />
 
         {/* Subject Switcher */}
-        <div className="mb-6 flex justify-center">
+        <div className="mb-6 flex justify-center gap-4 items-center flex-wrap">
           <div className="relative inline-block text-left">
             <select
               value={currentSubjectId}
@@ -232,6 +237,17 @@ function App() {
               <ChevronDown size={16} />
             </div>
           </div>
+
+          {/* Sign In Button */}
+          <button
+            onClick={() => setShowSignInModal(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white text-sm font-medium transition-all shadow-lg shadow-primary/20"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+            </svg>
+            Sign In
+          </button>
         </div>
 
         {/* Enhanced Search and Filter Card */}
