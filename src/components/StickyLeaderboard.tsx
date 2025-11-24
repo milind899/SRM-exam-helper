@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { Trophy, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Leaderboard } from './Leaderboard';
-
-interface LeaderboardEntry {
-    user_id: string;
-    nickname: string;
-    progress_percentage: number;
-    completed_items: number;
-    total_items: number;
-    last_updated: string;
-}
+import type { LeaderboardEntry } from '../types/leaderboard';
 
 interface StickyLeaderboardProps {
     entries: LeaderboardEntry[];
