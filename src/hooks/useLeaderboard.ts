@@ -44,6 +44,8 @@ export const useLeaderboard = (
         if (!userId || !nickname || totalItems === 0 || !isSupabaseConfigured || !supabase) return;
 
         const syncProgress = async () => {
+            if (!supabase) return;
+
             try {
                 const { error } = await supabase
                     .from('leaderboard')
@@ -111,7 +113,7 @@ export const useLeaderboard = (
 
     const updateNickname = (newNickname: string) => {
         const validation = validateNickname(newNickname);
-        if (!validation.isValid) {
+        if (!validation.valid) {
             throw new Error(validation.error);
         }
 

@@ -196,7 +196,6 @@ function App() {
   const progressPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
 
   const {
-    user,
     leaderboard,
     loading: leaderboardLoading,
     nickname,
@@ -489,7 +488,7 @@ function App() {
       <Analytics />
       <StickyLeaderboard
         entries={leaderboard}
-        currentUserId={user?.uid}
+        currentUserId={localStorage.getItem('userId') || undefined}
         currentUserNickname={nickname}
         onUpdateNickname={updateNickname}
         loading={leaderboardLoading}

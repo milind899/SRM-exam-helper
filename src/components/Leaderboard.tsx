@@ -9,7 +9,7 @@ interface LeaderboardEntry {
     progress_percentage: number;
     completed_items: number;
     total_items: number;
-    last_updated: string;
+    updated_at: string;
 }
 
 interface LeaderboardProps {
