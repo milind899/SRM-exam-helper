@@ -8,9 +8,13 @@ interface TimeLeft {
     seconds: number;
 }
 
-export const CountdownTimer: React.FC = () => {
+interface CountdownTimerProps {
+    targetDate?: string;
+}
+
+export const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate = '2025-11-24T10:00:00' }) => {
     const calculateTimeLeft = (): TimeLeft => {
-        const difference = +new Date('2025-11-24T10:00:00') - +new Date();
+        const difference = +new Date(targetDate) - +new Date();
         let timeLeft: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
         if (difference > 0) {
@@ -28,17 +32,18 @@ export const CountdownTimer: React.FC = () => {
     const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        setTimeLeft(calculateTimeLeft()); // Recalculate immediately when targetDate changes
+        const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+        return () => clearInterval(timer);
+    }, [targetDate]); // Add targetDate to dependency array
 
     // Update browser tab title with countdown
     useEffect(() => {
         if (timeLeft.days > 0 || timeLeft.hours > 0 || timeLeft.minutes > 0 || timeLeft.seconds > 0) {
-            document.title = `${timeLeft.days}d ${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')} - DM Exam`;
+            document.title = `${timeLeft.days}d ${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')} - Exam`;
         } else {
             document.title = 'SRM EXAM HELPER';
         }
@@ -72,7 +77,9 @@ export const CountdownTimer: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="text-xl font-bold text-text-main">Exam Countdown</h3>
-                        <p className="text-sm text-text-muted">Discrete Mathematics • Nov 24, 2025</p>
+                        <p className="text-sm text-text-muted">
+                            {new Date(targetDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • {new Date(targetDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                        </p>
                     </div>
                 </div>
 

@@ -4,8 +4,8 @@ import { Layout } from './components/Layout';
 import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
-import { examContent } from './data/examContent';
-import { RotateCcw, Search, Filter, Github, Focus, Timer } from 'lucide-react';
+import { subjects } from './data/subjects';
+import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
 import { Toaster } from 'react-hot-toast';
@@ -18,10 +18,25 @@ import { useLeaderboard } from './hooks/useLeaderboard';
 import { StickyLeaderboard } from './components/StickyLeaderboard';
 
 function App() {
+  const [currentSubjectId, setCurrentSubjectId] = useState(() => {
+    return localStorage.getItem('current-subject') || 'computer-networks';
+  });
+
+  const currentSubject = useMemo(() =>
+    subjects.find(s => s.id === currentSubjectId) || subjects[0],
+    [currentSubjectId]
+  );
+
   const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
-    const saved = localStorage.getItem('discrete-math-progress');
+    const saved = localStorage.getItem(`progress-${currentSubjectId}`);
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
+
+  // Reset checked items when subject changes
+  useEffect(() => {
+    const saved = localStorage.getItem(`progress-${currentSubjectId}`);
+    setCheckedItems(saved ? new Set(JSON.parse(saved)) : new Set());
+  }, [currentSubjectId]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
@@ -37,7 +52,7 @@ function App() {
   const [focusedUnitIndex, setFocusedUnitIndex] = useState(0);
 
   // What's New modal - version-based
-  const CURRENT_VERSION = 'v2.0.0'; // Update this when adding new features
+  const CURRENT_VERSION = 'v2.1.0'; // Update this when adding new features
   const [showWhatsNew, setShowWhatsNew] = useState(() => {
     const lastSeenVersion = localStorage.getItem('lastSeenVersion');
     return lastSeenVersion !== CURRENT_VERSION;
@@ -49,8 +64,12 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('discrete-math-progress', JSON.stringify(Array.from(checkedItems)));
-  }, [checkedItems]);
+    localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(Array.from(checkedItems)));
+  }, [checkedItems, currentSubjectId]);
+
+  useEffect(() => {
+    localStorage.setItem('current-subject', currentSubjectId);
+  }, [currentSubjectId]);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -132,16 +151,16 @@ function App() {
   };
 
   const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all progress?')) {
+    if (window.confirm('Are you sure you want to reset all progress for this subject?')) {
       setCheckedItems(new Set());
     }
   };
 
   // Filter content
   const filteredContent = useMemo(() => {
-    if (!searchQuery && filter === 'all') return examContent;
+    if (!searchQuery && filter === 'all') return currentSubject.content;
 
-    return examContent.map(unit => {
+    return currentSubject.content.map(unit => {
       const filteredSections = unit.sections.map(section => {
         const filteredItems = section.items.filter(item => {
           // Search filter
@@ -161,11 +180,11 @@ function App() {
       }).filter(Boolean) as typeof unit.sections;
 
       return filteredSections.length > 0 ? { ...unit, sections: filteredSections } : null;
-    }).filter(Boolean) as typeof examContent;
-  }, [searchQuery, filter, checkedItems]);
+    }).filter(Boolean) as typeof currentSubject.content;
+  }, [searchQuery, filter, checkedItems, currentSubject]);
 
   // Calculate total stats (based on original content)
-  const totalItems = examContent.reduce((acc, unit) =>
+  const totalItems = currentSubject.content.reduce((acc, unit) =>
     acc + unit.sections.reduce((sAcc, sec) => sAcc + sec.items.length, 0), 0
   );
 
@@ -191,8 +210,29 @@ function App() {
         onThemeChange={setTheme}
         onShowShortcuts={() => setShowShortcutsHelp(true)}
         progressPercentage={progressPercentage}
+        currentSubjectTitle={currentSubject.shortTitle}
       >
-        <CountdownTimer />
+        <CountdownTimer targetDate={currentSubject.examDate} />
+
+        {/* Subject Switcher */}
+        <div className="mb-6 flex justify-center">
+          <div className="relative inline-block text-left">
+            <select
+              value={currentSubjectId}
+              onChange={(e) => setCurrentSubjectId(e.target.value)}
+              className="appearance-none bg-surface border border-white/10 text-text-main py-2 pl-4 pr-10 rounded-xl font-bold text-lg focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer shadow-lg"
+            >
+              {subjects.map(subject => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.title}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-muted">
+              <ChevronDown size={16} />
+            </div>
+          </div>
+        </div>
 
         {/* Enhanced Search and Filter Card */}
         <div className="bg-gradient-to-br from-surface via-surface to-surface/50 border border-white/10 rounded-2xl p-6 mb-6 shadow-xl">
@@ -249,7 +289,7 @@ function App() {
         {/* Enhanced Progress Card */}
         <div className="bg-gradient-to-br from-primary/5 via-surface to-accent/5 border border-primary/20 rounded-2xl p-6 mb-6 shadow-xl">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-bold text-text-main">Your Progress</h3>
+            <h3 className="text-lg font-bold text-text-main">Your Progress ({currentSubject.shortTitle})</h3>
             <div className="flex items-center gap-2 text-sm">
               <span className="text-text-muted">Overall:</span>
               <span className="font-bold text-2xl text-primary">
@@ -310,7 +350,7 @@ function App() {
                   </div>
                   <div>
                     <h1 className="text-2xl font-bold text-text-main">Focus Mode</h1>
-                    <p className="text-sm text-text-muted">Unit {focusedUnitIndex + 1} of {examContent.length}</p>
+                    <p className="text-sm text-text-muted">Unit {focusedUnitIndex + 1} of {currentSubject.content.length}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -322,8 +362,8 @@ function App() {
                     ← Previous Unit
                   </button>
                   <button
-                    onClick={() => setFocusedUnitIndex(prev => Math.min(examContent.length - 1, prev + 1))}
-                    disabled={focusedUnitIndex === examContent.length - 1}
+                    onClick={() => setFocusedUnitIndex(prev => Math.min(currentSubject.content.length - 1, prev + 1))}
+                    disabled={focusedUnitIndex === currentSubject.content.length - 1}
                     className="px-4 py-2 text-sm font-medium rounded-xl bg-surface hover:bg-surface/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all border border-white/10"
                   >
                     Next Unit →
@@ -340,7 +380,7 @@ function App() {
               {/* Centered Content */}
               <div className="max-w-4xl mx-auto">
                 <UnitSection
-                  unit={filteredContent[focusedUnitIndex] || examContent[focusedUnitIndex]}
+                  unit={filteredContent[focusedUnitIndex] || currentSubject.content[focusedUnitIndex]}
                   checkedItems={checkedItems}
                   onToggleItem={handleToggleItem}
                   forceExpanded={true}
@@ -352,7 +392,7 @@ function App() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="h-8 w-1 bg-primary rounded-full"></div>
-              <h2 className="text-xl font-bold text-text-main">Discrete Mathematics</h2>
+              <h2 className="text-xl font-bold text-text-main">{currentSubject.title}</h2>
               <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
                 Active
               </span>
@@ -382,7 +422,7 @@ function App() {
           <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
             <h3 className="text-lg font-bold text-text-main mb-2">More Subjects</h3>
             <p className="text-text-muted text-sm mb-4">
-              We are working on adding more subjects like DSA, OS, and CN. Stay tuned!
+              We are working on adding more subjects like DSA, OS, and FLA. Stay tuned!
             </p>
             <div className="flex items-center gap-2 text-xs font-medium text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
               <span className="relative flex h-2 w-2">
@@ -410,7 +450,7 @@ function App() {
           </div>
         </div>
 
-        <ResourcesSection />
+        <ResourcesSection currentSubjectId={currentSubjectId} />
       </Layout >
       <Toaster
         position="bottom-right"

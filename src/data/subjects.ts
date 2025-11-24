@@ -1,0 +1,28 @@
+import { examContent } from './examContent';
+import type { Unit } from './examContent';
+import { computerNetworks } from './computerNetworks';
+
+export interface Subject {
+    id: string;
+    title: string;
+    shortTitle: string;
+    examDate: string;
+    content: Unit[];
+}
+
+export const subjects: Subject[] = [
+    {
+        id: 'discrete-math',
+        title: 'Discrete Mathematics',
+        shortTitle: 'DM',
+        examDate: '2025-11-24T14:00:00', // Exam over
+        content: examContent
+    },
+    {
+        id: 'computer-networks',
+        title: 'Computer Networks',
+        shortTitle: 'CN',
+        examDate: '2025-11-28T14:00:00',
+        content: computerNetworks
+    }
+];

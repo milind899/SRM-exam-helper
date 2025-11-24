@@ -11,6 +11,7 @@ interface LayoutProps {
     onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
     onShowShortcuts?: () => void;
     progressPercentage?: number;
+    currentSubjectTitle?: string;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -19,6 +20,7 @@ export const Layout: React.FC<LayoutProps> = ({
     onThemeChange,
     onShowShortcuts,
     progressPercentage = 0,
+    currentSubjectTitle = "DM",
 }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -66,7 +68,6 @@ export const Layout: React.FC<LayoutProps> = ({
             />
 
             {/* Mouse spotlight effect */}
-            {/* Mouse spotlight effect */}
             <motion.div
                 className="pointer-events-none fixed inset-0 z-0"
                 style={{ background }}
@@ -77,12 +78,17 @@ export const Layout: React.FC<LayoutProps> = ({
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-white/5">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                         <div className="flex items-center justify-between">
-                            <button
-                                onClick={handleHeaderClick}
-                                className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity text-left"
-                            >
-                                SRM EXAM HELPER
-                            </button>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    onClick={handleHeaderClick}
+                                    className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity text-left"
+                                >
+                                    SRM EXAM HELPER
+                                </button>
+                                <span className="hidden sm:inline-block px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                                    {currentSubjectTitle}
+                                </span>
+                            </div>
 
                             <div className="flex items-center gap-4">
                                 <nav className="hidden md:flex gap-6 text-sm font-medium text-text-muted">

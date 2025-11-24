@@ -2,7 +2,13 @@ import React from 'react';
 import { ExternalLink, Youtube, BookOpen } from 'lucide-react';
 import { resources } from '../data/resources';
 
-export const ResourcesSection: React.FC = () => {
+interface ResourcesSectionProps {
+    currentSubjectId: string;
+}
+
+export const ResourcesSection: React.FC<ResourcesSectionProps> = ({ currentSubjectId }) => {
+    const filteredResources = resources.filter(resource => resource.subjectId === currentSubjectId);
+
     return (
         <section id="resources" className="mt-16 space-y-6">
             <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
@@ -11,7 +17,7 @@ export const ResourcesSection: React.FC = () => {
             </h2>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {resources.map((resource, index) => (
+                {filteredResources.map((resource, index) => (
                     <a
                         key={index}
                         href={resource.url}

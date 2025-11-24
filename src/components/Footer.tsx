@@ -18,6 +18,24 @@ export const Footer: React.FC = () => {
                         </a>
                     </div>
 
+                    <div className="text-center">
+                        <h3 className="font-bold text-text-main mb-2">Contribute</h3>
+                        <p className="text-sm text-text-muted mb-2">
+                            Help improve! Found an error or want to add content? Contribute on GitHub.
+                            <br />
+                            We need help adding subjects for different years and branches.
+                        </p>
+                        <a
+                            href="https://github.com/milind899/discrete-math-tracker"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        >
+                            View Repository
+                            <Github size={16} />
+                        </a>
+                    </div>
+
                     <div className="flex items-center gap-4">
                         <a
                             href="https://github.com/milind899"
