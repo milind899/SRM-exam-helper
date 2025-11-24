@@ -1,10 +1,16 @@
 import React from 'react';
 import { LogIn, LogOut, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { isSupabaseConfigured } from '../lib/supabase';
 import toast from 'react-hot-toast';
 
 export const AuthButton: React.FC = () => {
     const { user, loading, signInWithGoogle, signOut } = useAuth();
+
+    // Don't show button if Supabase is not configured
+    if (!isSupabaseConfigured) {
+        return null;
+    }
 
     const handleSignIn = async () => {
         try {
