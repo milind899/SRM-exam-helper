@@ -1,15 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { validateNickname } from '../utils/nicknameValidator';
-
-export interface LeaderboardEntry {
-    user_id: string;
-    nickname: string;
-    progress_percentage: number;
-    completed_items: number;
-    total_items: number;
-    updated_at: string;
-}
+import type { LeaderboardEntry } from '../types/leaderboard';
 
 export const useLeaderboard = (
     progressPercentage: number,

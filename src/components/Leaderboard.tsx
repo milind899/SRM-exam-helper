@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { Trophy, Medal, Crown, User as UserIcon, AlertCircle, Edit2, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { validateNickname } from '../utils/nicknameValidator';
-
-interface LeaderboardEntry {
-    user_id: string;
-    nickname: string;
-    progress_percentage: number;
-    completed_items: number;
-    total_items: number;
-    updated_at: string;
-}
+import type { LeaderboardEntry } from '../types/leaderboard';
 
 interface LeaderboardProps {
     entries: LeaderboardEntry[];
