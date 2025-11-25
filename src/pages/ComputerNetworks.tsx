@@ -66,19 +66,20 @@ export default function ComputerNetworks() {
             } else {
                 toast.error('No questions found. Database might be empty.');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching questions:', error);
             toast.error(
                 <div className="flex flex-col gap-2">
-                    <span>Failed to load questions.</span>
+                    <span className="font-bold">Failed to load questions</span>
+                    <span className="text-xs opacity-80">{error.message || 'Unknown error'}</span>
                     <button
                         onClick={() => window.open('/api/setup_mcq', '_blank')}
-                        className="px-2 py-1 bg-white/20 rounded text-xs hover:bg-white/30"
+                        className="px-2 py-1 bg-white/20 rounded text-xs hover:bg-white/30 mt-1"
                     >
                         Initialize Database
                     </button>
                 </div>,
-                { duration: 5000 }
+                { duration: 6000 }
             );
         } finally {
             setLoading(false);
