@@ -1,5 +1,4 @@
 import { neon } from '@neondatabase/serverless';
-import questionsData from './questions_data.json';
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -14,12 +13,9 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        console.log('Starting seed process via API...');
+        console.log('Creating MCQ tables...');
 
-        // Optional: Add a simple secret key check if needed, but for now we'll leave it open or check for admin role if we had one.
-        // Or just let it be open for this setup phase.
-
-        // Create tables if they don't exist (just in case)
+        // Create tables if they don't exist
         await sql`
             CREATE TABLE IF NOT EXISTS questions(
                 id SERIAL PRIMARY KEY,
@@ -41,34 +37,34 @@ export default async function handler(req: any, res: any) {
             )
         `;
 
-        // Check if data already exists
-        const count = await sql`SELECT COUNT(*) FROM questions`;
-        if (count[0].count > 0) {
-            // If force param is not present, return
-            if (req.query.force !== 'true') {
-                return res.status(200).json({ message: 'Data already exists. Use ?force=true to re-seed.' });
-            }
-            // If force, maybe delete? Or just append?
-            // Let's delete to be clean
-            await sql`DELETE FROM questions`;
-        }
+        // Enable RLS
+        await sql`ALTER TABLE questions ENABLE ROW LEVEL SECURITY`;
+        await sql`DROP POLICY IF EXISTS "Public read questions" ON questions`;
+        await sql`CREATE POLICY "Public read questions" ON questions FOR SELECT USING(true)`;
 
-        // Insert data
-        for (const q of questionsData) {
-            await sql`
-                INSERT INTO questions (unit, question, options, answer)
-                VALUES (${q.unit}, ${q.question}, ${JSON.stringify(q.options)}, ${q.answer})
-            `;
-        }
+        await sql`ALTER TABLE user_test_results ENABLE ROW LEVEL SECURITY`;
+        await sql`DROP POLICY IF EXISTS "Public read results" ON user_test_results`;
+        await sql`CREATE POLICY "Public read results" ON user_test_results FOR SELECT USING(true)`;
+        await sql`DROP POLICY IF EXISTS "Authenticated insert results" ON user_test_results`;
+        await sql`CREATE POLICY "Authenticated insert results" ON user_test_results FOR INSERT WITH CHECK(true)`;
+
+        // Check if data exists
+        const count = await sql`SELECT COUNT(*) FROM questions`;
+        const questionCount = parseInt(count[0].count);
 
         return res.status(200).json({
             success: true,
-            message: `Successfully seeded ${questionsData.length} questions.`,
-            count: questionsData.length
+            message: questionCount > 0
+                ? `Tables created. Database has ${questionCount} questions.`
+                : 'Tables created. Please seed questions using the seed_mcq.ts script locally, then push to production database.',
+            questionCount
         });
 
     } catch (error: any) {
-        console.error('Error seeding data:', error);
-        return res.status(500).json({ error: error.message });
+        console.error('Error setting up MCQ:', error);
+        return res.status(500).json({
+            error: error.message,
+            hint: 'Check Vercel logs for details'
+        });
     }
 }
