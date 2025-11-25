@@ -34,7 +34,7 @@ export const useLeaderboard = (
             }
         }
 
-        setNickname(storedNickname);
+        setNickname(storedNickname!);
 
         const storedTagline = localStorage.getItem('userTagline') || '';
         setTagline(storedTagline);
