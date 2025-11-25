@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Layout } from '../components/Layout';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Play, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
