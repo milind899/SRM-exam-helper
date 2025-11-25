@@ -87,7 +87,6 @@ export default async function handler(req: any, res: any) {
         `;
 
             await sql`
-            await sql`
                 CREATE POLICY "Enable update for users based on user_id" ON leaderboard 
                 FOR UPDATE USING(auth.uid():: text = user_id)
             `;
