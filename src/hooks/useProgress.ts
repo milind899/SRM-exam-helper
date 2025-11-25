@@ -155,7 +155,7 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
                         if (error) {
                             console.error('Error saving progress:', error);
                             // Revert on error (optional, but good practice)
-                            toast.error('Failed to save progress');
+                            toast.error(`Failed to save progress: ${error.message}`);
                             syncFromSupabase(); // Re-sync to restore correct state
                         }
                     });
