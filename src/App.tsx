@@ -210,6 +210,29 @@ function App() {
         onShowShortcuts={() => setShowShortcutsHelp(true)}
         progressPercentage={progressPercentage}
         currentSubjectTitle={currentSubject.shortTitle}
+        headerActions={
+          user ? (
+            <button
+              onClick={() => setShowProfileModal(true)}
+              className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 border border-primary/20 text-primary rounded-lg transition-all font-medium text-sm"
+              title="Profile"
+            >
+              {user.user_metadata?.avatar_url ? (
+                <img src={user.user_metadata.avatar_url} alt="Profile" className="w-5 h-5 rounded-full border border-primary/30" />
+              ) : (
+                <UserIcon size={16} />
+              )}
+              <span className="hidden sm:inline">Profile</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowSignInModal(true)}
+              className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all font-medium text-sm shadow-lg shadow-primary/20"
+            >
+              Sign In
+            </button>
+          )
+        }
       >
         <SignInBanner onSignIn={() => setShowSignInModal(true)} />
         <CountdownTimer targetDate={currentSubject.examDate} />
@@ -232,28 +255,6 @@ function App() {
               <ChevronDown size={16} />
             </div>
           </div>
-
-          {/* Profile / Sign In Button */}
-          {user ? (
-            <button
-              onClick={() => setShowProfileModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/30 text-white rounded-xl transition-all font-medium text-sm"
-            >
-              {user.user_metadata?.avatar_url ? (
-                <img src={user.user_metadata.avatar_url} alt="Profile" className="w-6 h-6 rounded-full border border-white/20" />
-              ) : (
-                <UserIcon size={16} />
-              )}
-              Profile
-            </button>
-          ) : (
-            <button
-              onClick={() => setShowSignInModal(true)}
-              className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl transition-all font-medium text-sm shadow-lg shadow-primary/20"
-            >
-              Sign In
-            </button>
-          )}
         </div>
 
         {/* Enhanced Search and Filter Card */}

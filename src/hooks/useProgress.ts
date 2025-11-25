@@ -42,21 +42,29 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
                     const serverProgress = data.progress_data as Record<string, string[]>;
                     setRemoteProgress(serverProgress);
 
-                    // Merge current subject progress
+                    // SERVER WINS STRATEGY
+                    // If we have data from the server, we trust it over local state to ensure
+                    // that unchecking items works across devices.
+
+                    // Update current subject
                     const remoteSubjectProgress = serverProgress[currentSubjectId] || [];
-                    const localSaved = localStorage.getItem(`progress-${currentSubjectId}`);
-                    const localSubjectProgress = localSaved ? JSON.parse(localSaved) : [];
 
-                    // Union of local and remote
-                    const merged = new Set([...localSubjectProgress, ...remoteSubjectProgress]);
-                    setCheckedItems(merged);
+                    if (serverProgress[currentSubjectId]) {
+                        setCheckedItems(new Set(remoteSubjectProgress));
+                        localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(remoteSubjectProgress));
+                    } else {
+                        // Keep local if server has no data for this subject
+                        const localSaved = localStorage.getItem(`progress-${currentSubjectId}`);
+                        if (localSaved) {
+                            setCheckedItems(new Set(JSON.parse(localSaved)));
+                        }
+                    }
 
-                    // Update localStorage for ALL subjects from remote
+                    // Update localStorage for ALL other subjects from remote
                     Object.entries(serverProgress).forEach(([subjectId, items]) => {
-                        const local = localStorage.getItem(`progress-${subjectId}`);
-                        const localItems = local ? JSON.parse(local) : [];
-                        const mergedItems = [...new Set([...localItems, ...items])];
-                        localStorage.setItem(`progress-${subjectId}`, JSON.stringify(mergedItems));
+                        if (subjectId !== currentSubjectId) {
+                            localStorage.setItem(`progress-${subjectId}`, JSON.stringify(items));
+                        }
                     });
 
                     toast.success('Progress synced! 🔄');

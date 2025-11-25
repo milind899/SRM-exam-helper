@@ -12,6 +12,7 @@ interface LayoutProps {
     onShowShortcuts?: () => void;
     progressPercentage?: number;
     currentSubjectTitle?: string;
+    headerActions?: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -21,6 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({
     onShowShortcuts,
     progressPercentage = 0,
     currentSubjectTitle = "DM",
+    headerActions,
 }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -102,7 +104,8 @@ export const Layout: React.FC<LayoutProps> = ({
                                     </div>
                                 )}
 
-
+                                {/* Header Actions (Profile/Sign In) */}
+                                {headerActions}
 
                                 {/* Share Button */}
                                 <button
@@ -110,7 +113,7 @@ export const Layout: React.FC<LayoutProps> = ({
                                         const shareData = {
                                             title: 'SRM Exam Helper',
                                             text: '🎓 Check out SRM Exam Helper - Track your Discrete Math exam prep! 📚✨',
-                                            url: window.location.href
+                                            url: window.location.origin
                                         };
                                         if (navigator.share) {
                                             navigator.share(shareData);
