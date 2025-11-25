@@ -21,6 +21,7 @@ import { useAuth } from './contexts/AuthContext';
 import { StickyLeaderboard } from './components/StickyLeaderboard';
 import { SignInBanner } from './components/SignInBanner';
 import { User as UserIcon } from 'lucide-react';
+import { InstallPrompt } from './components/InstallPrompt';
 
 function App() {
   // Get current user first
@@ -204,6 +205,7 @@ function App() {
         onUpdateTagline={updateTagline}
         progressPercentage={progressPercentage}
       />
+      <InstallPrompt />
       <Layout
         currentTheme={theme}
         onThemeChange={setTheme}
