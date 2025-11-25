@@ -47,6 +47,33 @@ export default async function handler(req: any, res: any) {
       ON leaderboard(progress_percentage DESC, updated_at DESC)
     `;
 
+        // Enable Row Level Security (RLS)
+        try {
+            await sql`ALTER TABLE leaderboard ENABLE ROW LEVEL SECURITY`;
+
+            // Drop existing policies to avoid conflicts
+            await sql`DROP POLICY IF EXISTS "Enable read access for all users" ON leaderboard`;
+            await sql`DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON leaderboard`;
+            await sql`DROP POLICY IF EXISTS "Enable update for users based on user_id" ON leaderboard`;
+
+            // Create policies
+            await sql`
+                CREATE POLICY "Enable read access for all users" ON leaderboard FOR SELECT USING (true)
+            `;
+
+            await sql`
+                CREATE POLICY "Enable insert for authenticated users only" ON leaderboard 
+                FOR INSERT WITH CHECK (auth.uid()::text = user_id)
+            `;
+
+            await sql`
+                CREATE POLICY "Enable update for users based on user_id" ON leaderboard 
+                FOR UPDATE USING (auth.uid()::text = user_id)
+            `;
+        } catch (e) {
+            console.log('Error setting up RLS:', e);
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Database initialized successfully!'
