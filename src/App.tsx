@@ -19,6 +19,7 @@ import { useLeaderboard } from './hooks/useLeaderboard';
 import { useProgress } from './hooks/useProgress';
 import { useAuth } from './contexts/AuthContext';
 import { StickyLeaderboard } from './components/StickyLeaderboard';
+import { SignInBanner } from './components/SignInBanner';
 import { User as UserIcon } from 'lucide-react';
 
 function App() {
@@ -210,6 +211,7 @@ function App() {
         progressPercentage={progressPercentage}
         currentSubjectTitle={currentSubject.shortTitle}
       >
+        <SignInBanner onSignIn={() => setShowSignInModal(true)} />
         <CountdownTimer targetDate={currentSubject.examDate} />
 
         {/* Subject Switcher */}
@@ -247,29 +249,12 @@ function App() {
           ) : (
             <button
               onClick={() => setShowSignInModal(true)}
-              className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl transition-all font-medium text-sm shadow-lg shadow-primary/20 animate-[pulse_2s_ease-in-out_2] hover:animate-none"
-              style={{
-                animation: 'signInPulse 2s ease-in-out 2'
-              }}
+              className="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-xl transition-all font-medium text-sm shadow-lg shadow-primary/20"
             >
               Sign In
             </button>
           )}
         </div>
-
-        {/* Add custom keyframe animation */}
-        <style>{`
-          @keyframes signInPulse {
-            0%, 100% {
-              transform: scale(1);
-              box-shadow: 0 10px 15px -3px rgba(var(--color-primary), 0.2);
-            }
-            50% {
-              transform: scale(1.05);
-              box-shadow: 0 0 30px rgba(var(--color-primary), 0.6), 0 0 60px rgba(var(--color-primary), 0.4);
-            }
-          }
-        `}</style>
 
         {/* Enhanced Search and Filter Card */}
         <div className="bg-gradient-to-br from-surface via-surface to-surface/50 border border-white/10 rounded-2xl p-6 mb-6 shadow-xl">
