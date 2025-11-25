@@ -100,7 +100,6 @@ export const Layout: React.FC<LayoutProps> = ({
                                     >
                                         Resources
                                     </a>
-                                    <a href="/computer-networks" className="hover:text-primary transition-colors">CN MCQ</a>
                                 </nav>
 
                                 {/* Progress Ring */}

@@ -47,9 +47,11 @@ export default function ComputerNetworks() {
             if (unit) query.append('unit', unit);
 
             const res = await fetch(`/api/questions?${query.toString()}`);
+            if (!res.ok) throw new Error('Failed to fetch');
+
             const data = await res.json();
 
-            if (data.questions) {
+            if (data.questions && data.questions.length > 0) {
                 setQuestions(data.questions);
                 setCurrentQuestionIndex(0);
                 setUserAnswers({});
@@ -61,10 +63,23 @@ export default function ComputerNetworks() {
                 }
 
                 setMode(selectedMode);
+            } else {
+                toast.error('No questions found. Database might be empty.');
             }
         } catch (error) {
             console.error('Error fetching questions:', error);
-            toast.error('Failed to load questions');
+            toast.error(
+                <div className="flex flex-col gap-2">
+                    <span>Failed to load questions.</span>
+                    <button
+                        onClick={() => window.open('/api/setup_mcq', '_blank')}
+                        className="px-2 py-1 bg-white/20 rounded text-xs hover:bg-white/30"
+                    >
+                        Initialize Database
+                    </button>
+                </div>,
+                { duration: 5000 }
+            );
         } finally {
             setLoading(false);
         }

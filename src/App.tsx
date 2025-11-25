@@ -5,7 +5,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
 import { subjects } from './data/subjects';
-import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown } from 'lucide-react';
+import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
 import { Toaster } from 'react-hot-toast';
@@ -269,6 +269,32 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* CN MCQ Banner */}
+        {currentSubjectId === 'computer-networks' && (
+          <div className="mb-6">
+            <button
+              onClick={() => window.location.href = '/computer-networks'}
+              className="w-full p-4 rounded-2xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30 hover:border-blue-500/50 transition-all group relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors" />
+              <div className="relative flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-xl bg-blue-500/20 text-blue-400">
+                    <Trophy size={24} />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-bold text-blue-100">Computer Networks MCQ</h3>
+                    <p className="text-sm text-blue-200/70">Practice unit-wise questions or take a full mock test</p>
+                  </div>
+                </div>
+                <div className="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium text-sm group-hover:scale-105 transition-transform">
+                  Start Practice →
+                </div>
+              </div>
+            </button>
+          </div>
+        )}
 
         {/* Enhanced Search and Filter Card */}
         <div className="bg-gradient-to-br from-surface via-surface to-surface/50 border border-white/10 rounded-2xl p-6 mb-6 shadow-xl">
