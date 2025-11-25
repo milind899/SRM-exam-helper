@@ -112,7 +112,7 @@ export const Layout: React.FC<LayoutProps> = ({
                                     onClick={() => {
                                         const shareData = {
                                             title: 'SRM Exam Helper',
-                                            text: '🎓 Check out SRM Exam Helper - Track your Discrete Math exam prep! 📚✨',
+                                            text: '🎓 Check out SRM Exam Helper - Track your exam prep! 📚✨',
                                             url: window.location.origin
                                         };
                                         if (navigator.share) {

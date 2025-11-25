@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 export const useProgress = (user: User | null, currentSubjectId: string) => {
     const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
     const [isLoading, setIsLoading] = useState(true);
-    // Store the full progress object from Supabase to ensure we don't overwrite other subjects
     const [remoteProgress, setRemoteProgress] = useState<Record<string, string[]>>({});
 
     // Load initial progress from localStorage
@@ -20,62 +19,106 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
         setIsLoading(false);
     }, [currentSubjectId]);
 
-    // Sync with Supabase when user logs in
+    // Function to fetch and sync progress from Supabase
+    const syncFromSupabase = useCallback(async () => {
+        if (!user || !isSupabaseConfigured || !supabase) return;
+
+        try {
+            const { data, error } = await supabase
+                .from('leaderboard')
+                .select('progress_data')
+                .eq('user_id', user.id)
+                .single();
+
+            if (error && error.code !== 'PGRST116') {
+                console.error('Error fetching progress:', error);
+                return;
+            }
+
+            if (data?.progress_data) {
+                const serverProgress = data.progress_data as Record<string, string[]>;
+                setRemoteProgress(serverProgress);
+
+                // SERVER WINS STRATEGY
+                // Update current subject from server
+                if (serverProgress[currentSubjectId]) {
+                    const serverItems = serverProgress[currentSubjectId];
+                    // Only update if different to avoid unnecessary re-renders
+                    setCheckedItems(prev => {
+                        const current = Array.from(prev);
+                        if (JSON.stringify(current.sort()) !== JSON.stringify(serverItems.sort())) {
+                            localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(serverItems));
+                            return new Set(serverItems);
+                        }
+                        return prev;
+                    });
+                }
+
+                // Update localStorage for ALL other subjects from remote
+                Object.entries(serverProgress).forEach(([subjectId, items]) => {
+                    if (subjectId !== currentSubjectId) {
+                        localStorage.setItem(`progress-${subjectId}`, JSON.stringify(items));
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Error syncing progress:', err);
+        }
+    }, [user, currentSubjectId]);
+
+    // Initial Sync and Realtime Subscription
     useEffect(() => {
         if (!user || !isSupabaseConfigured || !supabase) return;
 
-        const fetchAndMergeProgress = async () => {
-            if (!supabase) return;
-            try {
-                const { data, error } = await supabase
-                    .from('leaderboard')
-                    .select('progress_data')
-                    .eq('user_id', user.id)
-                    .single();
+        // Initial fetch
+        syncFromSupabase();
 
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Error fetching progress:', error);
-                    return;
-                }
+        // Realtime subscription
+        const channel = supabase
+            .channel('progress_changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'leaderboard',
+                    filter: `user_id=eq.${user.id}`
+                },
+                (payload) => {
+                    // When an update comes in, refetch to ensure we have the full consistent state
+                    // or parse payload.new.progress_data directly
+                    if (payload.new && payload.new.progress_data) {
+                        const newProgress = payload.new.progress_data as Record<string, string[]>;
+                        setRemoteProgress(newProgress);
 
-                if (data?.progress_data) {
-                    const serverProgress = data.progress_data as Record<string, string[]>;
-                    setRemoteProgress(serverProgress);
-
-                    // SERVER WINS STRATEGY
-                    // If we have data from the server, we trust it over local state to ensure
-                    // that unchecking items works across devices.
-
-                    // Update current subject
-                    const remoteSubjectProgress = serverProgress[currentSubjectId] || [];
-
-                    if (serverProgress[currentSubjectId]) {
-                        setCheckedItems(new Set(remoteSubjectProgress));
-                        localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(remoteSubjectProgress));
-                    } else {
-                        // Keep local if server has no data for this subject
-                        const localSaved = localStorage.getItem(`progress-${currentSubjectId}`);
-                        if (localSaved) {
-                            setCheckedItems(new Set(JSON.parse(localSaved)));
+                        // Update current subject if changed
+                        if (newProgress[currentSubjectId]) {
+                            setCheckedItems(new Set(newProgress[currentSubjectId]));
+                            localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(newProgress[currentSubjectId]));
                         }
+
+                        // Update other subjects in localStorage
+                        Object.entries(newProgress).forEach(([subjectId, items]) => {
+                            if (subjectId !== currentSubjectId) {
+                                localStorage.setItem(`progress-${subjectId}`, JSON.stringify(items));
+                            }
+                        });
                     }
-
-                    // Update localStorage for ALL other subjects from remote
-                    Object.entries(serverProgress).forEach(([subjectId, items]) => {
-                        if (subjectId !== currentSubjectId) {
-                            localStorage.setItem(`progress-${subjectId}`, JSON.stringify(items));
-                        }
-                    });
-
-                    toast.success('Progress synced! 🔄');
                 }
-            } catch (err) {
-                console.error('Error syncing progress:', err);
-            }
-        };
+            )
+            .subscribe();
 
-        fetchAndMergeProgress();
-    }, [user, currentSubjectId]);
+        // Refetch on window focus
+        const handleFocus = () => {
+            syncFromSupabase();
+        };
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            if (supabase) supabase.removeChannel(channel);
+            window.removeEventListener('focus', handleFocus);
+        };
+    }, [user, currentSubjectId, syncFromSupabase]);
 
     const toggleItem = useCallback(async (id: string) => {
         setCheckedItems(prev => {
@@ -93,35 +136,14 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
 
             // 2. Update Supabase if logged in
             if (user && isSupabaseConfigured && supabase) {
-                // Prepare the new full progress object
-                // We start with the last known remote state to preserve other subjects
+                // Optimistic update: We assume remoteProgress is up to date because of Realtime/Focus sync
+                // We create a NEW object to avoid mutating state directly
                 const updatedProgress = { ...remoteProgress };
-
-                // Update the current subject
                 updatedProgress[currentSubjectId] = itemsArray;
 
-                // Also check if we have other local subjects that might be newer than remote
-                // (This is a simple heuristic, ideally we'd have timestamps)
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    if (key?.startsWith('progress-')) {
-                        const subjectId = key.replace('progress-', '');
-                        if (subjectId !== currentSubjectId) {
-                            try {
-                                const localItems = JSON.parse(localStorage.getItem(key) || '[]');
-                                // If local has items and remote doesn't, or just to be safe, we can merge or overwrite
-                                // For now, let's trust local if it exists, but ideally we merge
-                                const remoteItems = updatedProgress[subjectId] || [];
-                                updatedProgress[subjectId] = [...new Set([...remoteItems, ...localItems])];
-                            } catch (e) { }
-                        }
-                    }
-                }
-
-                // Update state
+                // Update local state immediately
                 setRemoteProgress(updatedProgress);
 
-                // Send to Supabase
                 supabase
                     .from('leaderboard')
                     .update({
@@ -130,13 +152,18 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
                     })
                     .eq('user_id', user.id)
                     .then(({ error }) => {
-                        if (error) console.error('Error saving progress:', error);
+                        if (error) {
+                            console.error('Error saving progress:', error);
+                            // Revert on error (optional, but good practice)
+                            toast.error('Failed to save progress');
+                            syncFromSupabase(); // Re-sync to restore correct state
+                        }
                     });
             }
 
             return next;
         });
-    }, [currentSubjectId, user, remoteProgress]);
+    }, [currentSubjectId, user, remoteProgress, syncFromSupabase]);
 
     const resetProgress = useCallback(() => {
         if (window.confirm('Are you sure you want to reset all progress for this subject?')) {
@@ -157,11 +184,14 @@ export const useProgress = (user: User | null, currentSubjectId: string) => {
                     })
                     .eq('user_id', user.id)
                     .then(({ error }) => {
-                        if (error) console.error('Error resetting progress:', error);
+                        if (error) {
+                            console.error('Error resetting progress:', error);
+                            syncFromSupabase();
+                        }
                     });
             }
         }
-    }, [currentSubjectId, user, remoteProgress]);
+    }, [currentSubjectId, user, remoteProgress, syncFromSupabase]);
 
     return {
         checkedItems,

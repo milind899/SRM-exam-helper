@@ -10,7 +10,7 @@ interface WhatsNewModalProps {
 
 export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose }) => {
     const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://srm-exam-helper.vercel.app';
-    const SHARE_TEXT = '🎓 Check out SRM Exam Helper - Track your Discrete Math exam prep! 📚✨';
+    const SHARE_TEXT = '🎓 Check out SRM Exam Helper - Track your exam prep! 📚✨';
 
     const handleShare = async () => {
         if (navigator.share) {
