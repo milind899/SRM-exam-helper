@@ -14,16 +14,9 @@ export const useLeaderboard = (
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [nickname, setNickname] = useState<string>('');
-<<<<<<< HEAD
     const [tagline, setTagline] = useState<string>('');
 
     // Initialize nickname and tagline
-=======
-    const [userId, setUserId] = useState<string>('');
-    const [tagline, setTagline] = useState<string>('');
-
-    // Initialize user ID, nickname, and tagline
->>>>>>> ce49697 (feat: implement user progress sync and fix build errors)
     useEffect(() => {
         let storedNickname = localStorage.getItem('userNickname');
         if (!storedNickname && user?.user_metadata?.name) {
@@ -34,13 +27,6 @@ export const useLeaderboard = (
             localStorage.setItem('userNickname', storedNickname);
         }
         setNickname(storedNickname);
-<<<<<<< HEAD
-=======
-
-        const storedTagline = localStorage.getItem('userTagline') || '';
-        setTagline(storedTagline);
-    }, []);
->>>>>>> ce49697 (feat: implement user progress sync and fix build errors)
 
         const storedTagline = localStorage.getItem('userTagline') || '';
         setTagline(storedTagline);
@@ -52,7 +38,7 @@ export const useLeaderboard = (
 
         const syncProgress = async () => {
             if (!supabase) return;
-            
+
             try {
                 const { error } = await supabase
                     .from('leaderboard')
@@ -81,11 +67,7 @@ export const useLeaderboard = (
 
         const timeoutId = setTimeout(syncProgress, 5000);
         return () => clearTimeout(timeoutId);
-<<<<<<< HEAD
     }, [user, nickname, tagline, progressPercentage, completedItems, totalItems]);
-=======
-    }, [userId, nickname, tagline, progressPercentage, completedItems, totalItems]);
->>>>>>> ce49697 (feat: implement user progress sync and fix build errors)
 
     // Fetch leaderboard from Supabase
     const refreshLeaderboard = async () => {
@@ -133,17 +115,9 @@ export const useLeaderboard = (
     };
 
     const updateTagline = (newTagline: string) => {
-<<<<<<< HEAD
-        const words = newTagline.trim().split(/\s+/).filter(w => w);
-        if (words.length > 20) {
-            throw new Error('Tagline must be 20 words or less');
-        }
-
-=======
         if (newTagline.length > 50) {
             throw new Error('Tagline must be 50 characters or less');
         }
->>>>>>> ce49697 (feat: implement user progress sync and fix build errors)
         setTagline(newTagline);
         localStorage.setItem('userTagline', newTagline);
     };
@@ -156,11 +130,7 @@ export const useLeaderboard = (
         tagline,
         refreshLeaderboard,
         updateNickname,
-<<<<<<< HEAD
-        updateTagline,
-=======
         updateTagline
->>>>>>> ce49697 (feat: implement user progress sync and fix build errors)
     };
 };
 
