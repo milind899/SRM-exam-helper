@@ -69,18 +69,26 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(var(--color-surface), 0.5);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(var(--color-primary), 0.3);
-  border-radius: 4px;
+  background: rgba(var(--color-primary), 0.2);
+  border-radius: 9999px;
+  border: 2px solid rgba(var(--color-background), 1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(var(--color-primary), 0.5);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-primary), 0.2) transparent;
 }
