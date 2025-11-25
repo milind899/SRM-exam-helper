@@ -18,20 +18,23 @@ export const useLeaderboard = (
 
     // Initialize nickname and tagline
     useEffect(() => {
-        if (user?.user_metadata?.full_name || user?.user_metadata?.name) {
-            // Always use Google name if available
-            const googleName = user.user_metadata.full_name || user.user_metadata.name;
-            setNickname(googleName);
-            localStorage.setItem('userNickname', googleName);
-        } else {
-            // Fallback for unauthenticated or missing name (though auth is required for leaderboard now)
-            let storedNickname = localStorage.getItem('userNickname');
-            if (!storedNickname) {
+        // Check if user has a saved custom nickname first
+        let storedNickname = localStorage.getItem('userNickname');
+
+        if (!storedNickname) {
+            // No saved nickname - use Gmail name as default if available
+            if (user?.user_metadata?.full_name || user?.user_metadata?.name) {
+                const googleName = user.user_metadata.full_name || user.user_metadata.name;
+                storedNickname = googleName;
+                localStorage.setItem('userNickname', googleName);
+            } else {
+                // Generate random nickname if no Gmail name available
                 storedNickname = generateNickname();
                 localStorage.setItem('userNickname', storedNickname);
             }
-            setNickname(storedNickname);
         }
+
+        setNickname(storedNickname);
 
         const storedTagline = localStorage.getItem('userTagline') || '';
         setTagline(storedTagline);
