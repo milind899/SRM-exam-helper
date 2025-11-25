@@ -1,6 +1,6 @@
-# Discrete Math Tracker
+# SRM Exam Helper
 
-A simple tracker for Discrete Mathematics topics.
+A comprehensive exam preparation tracker for SRM University students. Track progress, compete on leaderboards, and access resources for various subjects.
 
 ## Features
 - **Progress Tracking**: Saves my progress automatically so I don't lose it.
