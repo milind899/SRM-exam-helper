@@ -93,8 +93,14 @@ export const Layout: React.FC<LayoutProps> = ({
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <nav className="hidden md:flex gap-6 text-sm font-medium text-text-muted">
-                                    <a href="#resources" className="hover:text-primary transition-colors">Resources</a>
+                                <nav className="hidden md:flex items-center gap-4 text-sm font-medium text-text-muted">
+                                    <a
+                                        href="#resources"
+                                        className="px-4 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)]"
+                                    >
+                                        Resources
+                                    </a>
+                                    <a href="/computer-networks" className="hover:text-primary transition-colors">CN MCQ</a>
                                 </nav>
 
                                 {/* Progress Ring */}

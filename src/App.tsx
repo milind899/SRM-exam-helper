@@ -22,8 +22,19 @@ import { StickyLeaderboard } from './components/StickyLeaderboard';
 import { SignInBanner } from './components/SignInBanner';
 import { User as UserIcon } from 'lucide-react';
 import { InstallPrompt } from './components/InstallPrompt';
+import ComputerNetworks from './pages/ComputerNetworks';
 
 function App() {
+  // Simple routing
+  if (window.location.pathname === '/computer-networks') {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <ComputerNetworks />
+      </>
+    );
+  }
+
   // Get current user first
   const { user } = useAuth();
 

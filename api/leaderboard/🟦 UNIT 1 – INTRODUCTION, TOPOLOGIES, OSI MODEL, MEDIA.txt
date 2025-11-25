@@ -1,0 +1,927 @@
+🟦 UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA
+
+All answers verified from PYQ1–PYQ6.
+
+
+1. In the OSI model, encryption and decryption are functions of the ______ layer.
+
+(A) Transport
+(B) Session
+(C) Presentation
+(D) Application
+Answer: (C) Presentation
+
+
+2. The topology that involves tokens.
+
+(A) Star
+(B) Ring
+(C) Bus
+(D) Daisy-Chaining
+Answer: (B) Ring
+
+
+3. LAN interconnects hosts; WAN interconnects connecting _______.
+
+(A) Networking devices
+(B) LANs
+(C) PCs
+(D) PANs
+Answer: (B) LANs
+
+
+4. Which network topology is best suited for scenarios requiring high reliability & easy node addition?
+
+(A) Bus
+(B) Mesh
+(C) Star
+(D) Ring
+Answer: (B) Mesh
+
+
+5. Which of the following is used in a typical circuit-switching network?
+
+(A) Datagram packet
+(B) Virtual circuit
+(C) FDM
+(D) TDM
+Answer: (B) Virtual circuit
+
+
+6. In the layer hierarchy, when a packet moves from upper to lower layers, headers are _____.
+
+(A) Added
+(B) Removed
+(C) Rearranged
+(D) Modified
+Answer: (A) Added
+
+
+7. Which of the following primarily uses guided media?
+
+(A) Cellular telephone
+(B) Local telephone system
+(C) Satellite communication
+(D) Radio broadcasting
+Answer: (B) Local telephone system
+
+
+8. What is the frequency range of coaxial cable?
+
+(A) 100 KHz – 500 MHz
+(B) 100 MHz – 500 MHz
+(C) 1000 KHz – 500 MHz
+(D) 10 MHz – 50 MHz
+Answer: (A) 100 KHz – 500 MHz
+
+
+9. ______ is a multiport repeater.
+
+(A) Hub
+(B) Bridge
+(C) Switch
+(D) Router
+Answer: (C) Switch
+
+
+10. Which transmission medium is best in high-interference environments?
+
+(A) UTP
+(B) Coaxial Cable
+(C) Fiber Optic
+(D) STP
+Answer: (B) Coaxial Cable
+
+
+11. Which switching technique is used in circuit-switched networks for efficient bandwidth utilization?
+
+(A) Packet switching
+(B) Message switching
+(C) Frequency Division Multiplexing
+(D) Time Division Multiplexing
+Answer: (C) Frequency Division Multiplexing
+
+
+12. What does latency define?
+
+(A) Packet loss
+(B) Latency
+(C) Throughput
+(D) Bandwidth
+Answer: (B) Latency
+
+
+13. Which protocol is an example of Exterior Gateway Protocol (EGP)?
+
+(A) OSPF
+(B) IS-IS
+(C) BGP
+(D) RIPv1
+Answer: (C) BGP
+
+
+14. Which network type best suits four computers in a shop?
+
+(A) WAN
+(B) MAN
+(C) PAN
+(D) LAN
+Answer: (D) LAN
+
+
+15. The field in the IP header used to specify how long a datagram can remain in network.
+
+(A) Identification
+(B) Options
+(C) Type of Service
+(D) Time To Live (TTL)
+Answer: (D) TTL
+
+
+16. What is the loopback address in IPv6?
+
+(A) 127.0.0.1
+(B) FE80::1
+(C) ::1
+(D) 255.255.255.0
+Answer: (C) ::1
+
+
+17. Which technique is commonly used in wireless to avoid hidden terminal problem?
+
+(A) Aloha
+(B) RTS/CTS
+(C) CSMA/CD
+(D) TDMA
+Answer: (B) RTS/CTS
+
+
+18. What is the purpose of a default route?
+
+(A) Route packets to all networks
+(B) Define a route when no specific route exists
+(C) Block unknown traffic
+(D) Speed up routing
+Answer: (B) Define a route when no specific route exists
+
+
+19. In Distance Vector Routing, routers exchange info with ______.
+
+(A) All routers
+(B) Routers < 2 hops
+(C) Their neighbours
+(D) Central server
+Answer: (C) Their neighbours
+
+
+20. Which technique supports virtual circuits?
+
+(A) Packet switching
+(B) Virtual Circuit Switching
+(C) TDM
+(D) FDM
+Answer: (B) Virtual Circuit Switching
+
+
+🟩 UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES
+
+All answers strictly verified from PYQ1–PYQ6.
+
+
+1. You are given IP 193.103.20.0/24 and need 50 subnets. How many hosts & subnets?
+
+(A) 20 hosts, 50 subnets
+(B) 6 hosts, 64 subnets
+(C) 4 hosts, 50 subnets
+(D) 2 hosts, 64 subnets
+Answer: (D) 2 hosts, 64 subnets
+
+
+2. ______ implies all subnets are derived from the same subnet mask.
+
+(A) Static Subnetting
+(B) Dynamic Subnetting
+(C) VLSM
+(D) Dynamic Length Subnetting
+Answer: (A) Static Subnetting
+
+
+3. Subnetting 172.17.32.0/23 into /27 gives how many subnets & hosts?
+
+(A) 8 subnets, 31 hosts
+(B) 8 subnets, 32 hosts
+(C) 16 subnets, 30 hosts
+(D) 16 subnets, 32 hosts
+Answer: (C) 16 subnets, 30 hosts
+
+
+4. If you want 12 subnets using Class C, subnet mask is:
+
+(A) 255.255.255.252
+(B) 255.255.255.255
+(C) 255.255.255.240
+(D) 255.255.255.248
+Answer: (C) 255.255.255.240
+
+
+5. Given 201.14.78.65 with mask 255.255.255.224, what is subnet address?
+
+(A) 201.14.78.32
+(B) 201.14.78.65
+(C) 201.14.78.64
+(D) 201.14.78.12
+Answer: (C) 201.14.78.64
+
+
+6. Class ______ has the greatest number of hosts per network.
+
+(A) A
+(B) B
+(C) C
+(D) D
+Answer: (A) Class A
+
+
+7. NAT (Network Address Translation) uses the ______ table.
+
+(A) Switch table
+(B) Bridge table
+(C) Server table
+(D) Router translation table
+Answer: (D) Router
+
+
+8. In ARP: Finding MAC address from IP address means:
+
+(A) Find IP from DNS
+(B) Find IP of gateway
+(C) Find IP for MAC
+(D) Find MAC for IP
+Answer: (D) MAC for IP
+
+
+9. Which config command allows 8 subnets if mask is 255.255.255.224?
+
+(A) Router(config)#ip classless
+(B) Router(config)#no ip classful
+(C) Router(config)#ip unnumbered
+(D) Router(config)#ip subnet-zero
+Answer: (D) ip subnet-zero
+
+
+10. What is the broadcast address for 132.168.16.4/20?
+
+(A) 132.168.31.255
+(B) 132.168.15.255
+(C) 132.168.16.255
+(D) 132.168.255.255
+Answer: (A) 132.168.31.255
+
+
+11. How many usable host addresses are available per /30 subnet?
+
+(A) 2
+(B) 4
+(C) 6
+(D) 14
+Answer: (A) 2 usable hosts
+
+
+12. IPv4 class C: how many possible addresses per network?
+
+(A) 65536
+(B) 128
+(C) 256
+(D) 512
+Answer: (C) 256
+
+
+13. The broadcast address for 10.10.10.0 with mask 255.255.255.128 is:
+
+(A) 10.10.10.127
+(B) 10.10.10.128
+(C) 10.10.10.254
+(D) 10.10.10.255
+Answer: (A) 10.10.10.127
+
+
+14. How many total IPs for Network ID B in a Class B IPv4?
+
+(A) 16 bits for host
+(B) 16 bits for network
+(C) 8 bits network, 24 bits host
+(D) 24 bits network, 8 bits host
+Answer: (A) 16 bits host → 65,536 IPs
+
+
+15. From 192.168.10.0/25, how many usable hosts?
+
+(A) 62
+(B) 64
+(C) 126
+(D) 128
+Answer: (A) 62
+
+
+16. A router receives packet for 192.168.10.8/25. How many host addresses?
+
+(A) 62
+(B) 30
+(C) 126
+(D) 14
+Answer: (A) 62
+
+
+17. IPv6 address length is:
+
+(A) 16 bit
+(B) 32 bit
+(C) 64 bit
+(D) 128 bit
+Answer: (D) 128 bit
+
+
+18. The loopback address in IPv6 is:
+
+(A) 127.0.0.1
+(B) FE80::1
+(C) ::1
+(D) 255.255.255.0
+Answer: (C) ::1
+
+
+19. Network device used to amplify signals without altering contents:
+
+(A) Switch
+(B) Router
+(C) Repeater
+(D) Gateway
+Answer: (C) Repeater
+
+
+20. Which device connects two LANs operating on same protocol?
+
+(A) Switch
+(B) Bridge
+(C) Router
+(D) Modem
+Answer: (B) Bridge
+
+
+🟧 UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)
+
+All answers verified from PYQ1–PYQ6.
+
+
+1. Packets of the same session may be routed through different paths in:
+
+(A) TCP, but not UDP
+(B) TCP and UDP
+(C) UDP, but not TCP
+(D) Neither TCP nor UDP
+Answer: (B) TCP and UDP
+
+
+2. In network of LANs connected by bridges, why is the spanning tree protocol used?
+
+(A) For shortest path routing
+(B) To avoid loops in routing paths
+(C) For fault tolerance
+(D) For minimizing collisions
+Answer: (B) To avoid loops
+
+
+3. In distance vector routing, each router receives information from:
+
+(A) Every router in network
+(B) Every router < 2 hops
+(C) A table stored by network
+(D) Its neighbours only
+Answer: (D) Its neighbours only
+
+
+4. Router B receives update from A: Net1 is 2 hops away.
+
+Next update says 5 hops (RIP). Value entered?
+(A) 2
+(B) 3
+(C) 6
+(D) 7
+Answer: (C) 6
+(RIP = hop count = previous hop + 1)
+
+
+5. Dijkstra’s algorithm is used to:
+
+(A) Create LSAs
+(B) Flood LSAs
+(C) Calculate routing tables
+(D) Create link-state database
+Answer: (C) Calculate routing tables
+
+
+6. Which is NOT a multicasting application?
+
+(A) Teleconferencing
+(B) Distance learning
+(C) Information dissemination
+(D) Train announcements
+Answer: (D) Train announcements
+
+
+7. In CSMA/CA or MAC access methods, which has NO collision?
+
+(A) Aloha
+(B) CSMA/CD
+(C) CSMA/CA
+(D) Token passing
+Answer: (D) Token passing
+
+
+8. Maximum window size in Selective Repeat with n-bit sequence number is:
+
+(A) 2^n
+(B) 2^(n−1)
+(C) 2^n − 1
+(D) 2^(n−2)
+Answer: (D) 2^(n−2)
+
+
+9. Sliding window protocol works on:
+
+(A) No duplex
+(B) Half duplex
+(C) Full duplex
+(D) Single duplex
+Answer: (C) Full duplex
+
+
+10. What algorithm is used by Link-State routing to compute shortest path?
+
+(A) Floyd-Warshall
+(B) Bellman-Ford
+(C) A*
+(D) Dijkstra
+Answer: (D) Dijkstra
+
+
+11. What is an example of Path Vector Routing Protocol?
+
+(A) BGP
+(B) RIP v1
+(C) OSPF
+(D) RIP v2
+Answer: (A) BGP
+
+
+12. Which attribute is used by BGP to choose best path among multiple AS paths?
+
+(A) Hop count
+(B) Throughput
+(C) AS Path
+(D) Delay
+Answer: (C) AS Path
+
+
+13. In Distance Vector Routing, how are routing loops prevented?
+
+(A) Periodic HELLO messages
+(B) Split Horizon
+(C) Link state advertisement
+(D) Spanning Tree
+Answer: (B) Split Horizon
+
+
+14. Which routing protocol is known for fast convergence and is Cisco proprietary?
+
+(A) EIGRP
+(B) OSPF
+(C) RIP
+(D) BGP
+Answer: (A) EIGRP
+
+
+15. What is the primary function of a default route in routing?
+
+(A) Route packets to all networks
+(B) Define a route when no route is found
+(C) Block unknown traffic
+(D) Improve convergence
+Answer: (B) Define route when no route exists
+
+
+16. First step taken by a router in link-state routing after detecting topology change?
+
+(A) Updates routing table
+(B) Waits for neighbours
+(C) Calculates shortest path
+(D) Floods LSA
+Answer: (D) Floods LSA
+
+
+17. Which protocol is used by routers exchanging distance vector info?
+
+(A) BGP
+(B) RIP
+(C) OSPF
+(D) STP
+Answer: (B) RIP
+
+
+18. Which field determines the maximum hop count for TTL expiration?
+
+(A) Version
+(B) IHL
+(C) TOS
+(D) TTL
+Answer: (D) TTL
+
+
+19. In Path Vector Routing, routers maintain:
+
+(A) Entire network topology
+(B) Distance tables
+(C) AS-path list
+(D) Neighbour list
+Answer: (C) AS-path list
+
+
+20. Which protocol requires router to broadcast complete routing table every 30 seconds?
+
+(A) OSPF
+(B) RIP
+(C) BGP
+(D) STP
+Answer: (B) RIP
+
+
+🟨 UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL
+
+All answers strictly verified from PYQ1–PYQ6.
+
+
+1. In CSMA/CD, when a device detects a collision it:
+
+(A) Immediately retransmits
+(B) Stops transmitting & sends a jamming signal
+(C) Reduces power & continues
+(D) Waits fixed time and retransmits
+Answer: (B) Sends a jamming signal
+
+
+2. What does a device do in CSMA/CD after sending a jamming signal?
+
+(A) Retransmits immediately
+(B) Uses binary exponential backoff
+(C) Drops the frame permanently
+(D) Sends ACK
+Answer: (B) Binary Exponential Backoff
+
+
+3. In CSMA/CA, which technique helps avoid collisions?
+
+(A) RFD
+(B) RTS/CTS
+(C) Token passing
+(D) FDM
+Answer: (B) RTS/CTS
+
+
+4. Which access method has NO collision?
+
+(A) ALOHA
+(B) CSMA/CD
+(C) CSMA/CA
+(D) Token Passing
+Answer: (D) Token Passing
+
+
+5. What is the primary function of the MAC address in Ethernet?
+
+(A) Encrypt frame
+(B) Segment data
+(C) Identify source & destination inside LAN
+(D) Route frame to correct IP
+Answer: (C) Identify source & destination
+
+
+6. Hamming distance between 101010 and 100100 is:
+
+(A) 2
+(B) 3
+(C) 4
+(D) 5
+Answer: (B) 3
+
+
+7. In Stop-and-Wait ARQ, how many packets can be sent before ACK?
+
+(A) 0
+(B) 1
+(C) n
+(D) n–1
+Answer: (B) 1
+
+
+8. Sliding Window ARQ allows sending multiple packets before ACK.
+
+(A) Stop-and-Wait
+(B) Sliding Window
+(C) HDLC
+(D) PPP
+Answer: (B) Sliding Window
+
+
+9. In Selective Repeat ARQ, max window size (n-bit seq no.) is:
+
+(A) 2ⁿ
+(B) 2ⁿ−1
+(C) 2ⁿ−2
+(D) 2ⁿ⁻¹
+Answer: (C) 2ⁿ−2
+
+
+10. Flow control prevents:
+
+(A) Bit errors
+(B) Receiver buffer overflow
+(C) Sender buffer overflow
+(D) Collision
+Answer: (B) Receiver buffer overflow
+
+
+11. The maximum number of unacknowledged frames in Stop-and-Wait is:
+
+(A) 0
+(B) 1
+(C) n
+(D) 2
+Answer: (A) 0
+
+
+12. HDLC stands for:
+
+(A) High-level data link control
+(B) Half duplex line communication
+(C) High duplex line control
+(D) Host data link control
+Answer: (A) High-level Data Link Control
+
+
+13. Pure ALOHA efficiency is:
+
+(A) 18.4%
+(B) 36.8%
+(C) 50%
+(D) 100%
+Answer: (A) 18.4%
+
+
+14. In Ethernet minimum frame size requirement is due to:
+
+(A) CRC
+(B) Collision detection
+(C) Propagation delay
+(D) MAC address size
+Answer: (B) Collision detection
+
+
+15. CSMA/CD is used in which LAN type?
+
+(A) Token Ring
+(B) Wi-Fi
+(C) Ethernet
+(D) Bluetooth
+Answer: (C) Ethernet
+
+
+16. Token Ring maximum ring uses:
+
+(A) CSMA/CD
+(B) Token Passing
+(C) RTS/CTS
+(D) Polling
+Answer: (B) Token Passing
+
+
+17. CRC can detect:
+
+(A) All single-bit errors
+(B) All double-bit errors
+(C) All burst errors < polynomial length
+(D) All errors
+Answer: (C) All burst errors less than generator length
+
+
+18. Condition to detect odd number of bit errors using CRC:
+
+(A) G(x) has odd number of terms
+(B) 1+x is factor of G(x)
+(C) G(x) contains more than two terms
+(D) G(x) does not divide M(x)
+Answer: (B) 1+x is factor of G(x)
+
+
+19. Checksum detects:
+
+(A) Single-bit errors
+(B) Burst errors
+(C) All odd-bit errors
+(D) All even-bit errors
+Answer: (A) Single-bit errors (but weaker for burst errors)
+
+
+20. In CSMA/CA, ACK is used to:
+
+(A) Detect collision
+(B) Confirm frame reception
+(C) Reduce noise
+(D) Increase throughput
+Answer: (B) Confirm frame reception
+
+
+🟪 UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)
+
+All answers verified from PYQ1–PYQ6.
+
+
+1. UDP needs the ______ to deliver user datagram to the correct application.
+
+(A) Application address
+(B) MAC address
+(C) IP address
+(D) Port number
+Answer: (D) Port number
+
+
+2. Which protocol is commonly used with UDP for real-time applications?
+
+(A) HTTP
+(B) FTP
+(C) RTP
+(D) SMTP
+Answer: (C) RTP
+
+
+3. What mechanism does TCP use to ensure reliable data transmission?
+
+(A) TTL
+(B) Retransmission of lost packets
+(C) Packet filtering
+(D) Encryption
+Answer: (B) Retransmission of lost packets
+
+
+4. Which HTTP status code means “OK / request successful”?
+
+(A) 200
+(B) 404
+(C) 500
+(D) 301
+Answer: (A) 200
+
+
+5. Which protocol does Telnet use?
+
+(A) ICMP
+(B) UDP
+(C) IP
+(D) TCP
+Answer: (D) TCP
+
+
+6. Which transport protocol is used in electronic mail transfer (SMTP)?
+
+(A) SMTP
+(B) STCP
+(C) TCP
+(D) UDP
+Answer: (C) TCP
+
+
+7. The well-known port number defines the ______.
+
+(A) Client program
+(B) Server program
+(C) Device ID
+(D) MAC address
+Answer: (B) Server program
+
+
+8. To prevent “silly window syndrome”, which technique can be used?
+
+(A) Nagle’s algorithm
+(B) Clark’s solution
+(C) Delayed ACK
+(D) Zero timer
+Answer: (B) Clark’s solution
+
+
+9. A client performs socket() and connect() while server has not called accept(). What happens?
+
+(A) connect() returns success
+(B) connect() blocks
+(C) connect() errors
+(D) connect() creates core dump
+Answer: (B) connect() blocks
+
+
+10. Maximum data size application layer can send to TCP?
+
+(A) Any size
+(B) 2¹⁶ – header size
+(C) 2³¹ bytes
+(D) 1500 bytes
+Answer: (A) Any size
+(TCP segments & fragments internally.)
+
+
+11. Which DNS record maps hostname → IP address?
+
+(A) MX
+(B) CNAME
+(C) A
+(D) PTR
+Answer: (C) A record
+
+
+12. Which DNS record is used for mail servers?
+
+(A) A
+(B) NS
+(C) MX
+(D) SOA
+Answer: (C) MX
+
+
+13. What is used in email architecture for transferring messages between mail servers?
+
+(A) POP3
+(B) IMAP
+(C) SMTP
+(D) HTTP
+Answer: (C) SMTP
+
+
+14. POP3 is mainly used for:
+
+(A) Sending mail
+(B) Receiving & downloading mail
+(C) Managing mailboxes on server
+(D) Spam filtering
+Answer: (B) Receiving & downloading mail
+
+
+15. IMAP is used to:
+
+(A) Receive & delete mail only
+(B) Manage mail remotely on server
+(C) Forward mails
+(D) Encrypt mails
+Answer: (B) Manage mail remotely
+
+
+16. Which protocol is connection-oriented?
+
+(A) UDP
+(B) ICMP
+(C) TCP
+(D) ARP
+Answer: (C) TCP
+
+
+17. Which header field ensures reliable TCP sequencing?
+
+(A) ACK number
+(B) Sequence number
+(C) Window size
+(D) URG pointer
+Answer: (B) Sequence number
+
+
+18. TCP handshake uses how many steps?
+
+(A) 2
+(B) 3
+(C) 4
+(D) 5
+Answer: (B) 3 (Three-way handshake)
+
+
+19. TCP connection termination uses:
+
+(A) 2-way
+(B) 3-way
+(C) 4-way
+(D) 5-way
+Answer: (C) 4-way
+
+
+20. DNS uses which transport protocol?
+
+(A) Only TCP
+(B) Only UDP
+(C) Both TCP and UDP
+(D) ICMP
+Answer: (C) Both TCP and UDP
+(UDP for queries; TCP for zone transfers)

@@ -1,0 +1,1102 @@
+[
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "In the OSI model, encryption and decryption are functions of the ______ layer.",
+    "options": {
+      "A": "Transport",
+      "B": "Session",
+      "C": "Presentation",
+      "D": "Application"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "The topology that involves tokens.",
+    "options": {
+      "A": "Star",
+      "B": "Ring",
+      "C": "Bus",
+      "D": "Daisy-Chaining"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "LAN interconnects hosts; WAN interconnects connecting _______.",
+    "options": {
+      "A": "Networking devices",
+      "B": "LANs",
+      "C": "PCs",
+      "D": "PANs"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which network topology is best suited for scenarios requiring high reliability & easy node addition?",
+    "options": {
+      "A": "Bus",
+      "B": "Mesh",
+      "C": "Star",
+      "D": "Ring"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which of the following is used in a typical circuit-switching network?",
+    "options": {
+      "A": "Datagram packet",
+      "B": "Virtual circuit",
+      "C": "FDM",
+      "D": "TDM"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "In the layer hierarchy, when a packet moves from upper to lower layers, headers are _____.",
+    "options": {
+      "A": "Added",
+      "B": "Removed",
+      "C": "Rearranged",
+      "D": "Modified"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which of the following primarily uses guided media?",
+    "options": {
+      "A": "Cellular telephone",
+      "B": "Local telephone system",
+      "C": "Satellite communication",
+      "D": "Radio broadcasting"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "What is the frequency range of coaxial cable?",
+    "options": {
+      "A": "100 KHz – 500 MHz",
+      "B": "100 MHz – 500 MHz",
+      "C": "1000 KHz – 500 MHz",
+      "D": "10 MHz – 50 MHz"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "______ is a multiport repeater.",
+    "options": {
+      "A": "Hub",
+      "B": "Bridge",
+      "C": "Switch",
+      "D": "Router"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which transmission medium is best in high-interference environments?",
+    "options": {
+      "A": "UTP",
+      "B": "Coaxial Cable",
+      "C": "Fiber Optic",
+      "D": "STP"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which switching technique is used in circuit-switched networks for efficient bandwidth utilization?",
+    "options": {
+      "A": "Packet switching",
+      "B": "Message switching",
+      "C": "Frequency Division Multiplexing",
+      "D": "Time Division Multiplexing"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "What does latency define?",
+    "options": {
+      "A": "Packet loss",
+      "B": "Latency",
+      "C": "Throughput",
+      "D": "Bandwidth"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which protocol is an example of Exterior Gateway Protocol (EGP)?",
+    "options": {
+      "A": "OSPF",
+      "B": "IS-IS",
+      "C": "BGP",
+      "D": "RIPv1"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which network type best suits four computers in a shop?",
+    "options": {
+      "A": "WAN",
+      "B": "MAN",
+      "C": "PAN",
+      "D": "LAN"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "The field in the IP header used to specify how long a datagram can remain in network.",
+    "options": {
+      "A": "Identification",
+      "B": "Options",
+      "C": "Type of Service",
+      "D": "Time To Live (TTL)"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "What is the loopback address in IPv6?",
+    "options": {
+      "A": "127.0.0.1",
+      "B": "FE80::1",
+      "C": "::1",
+      "D": "255.255.255.0"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "Which technique is commonly used in wireless to avoid hidden terminal problem?",
+    "options": {
+      "A": "Aloha",
+      "B": "RTS/CTS",
+      "C": "CSMA/CD",
+      "D": "TDMA"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "What is the purpose of a default route?",
+    "options": {
+      "A": "Route packets to all networks",
+      "B": "Define a route when no specific route exists",
+      "C": "Block unknown traffic",
+      "D": "Speed up routing"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA",
+    "question": "In Distance Vector Routing, routers exchange info with ______.",
+    "options": {
+      "A": "All routers",
+      "B": "Routers < 2 hops",
+      "C": "Their neighbours",
+      "D": "Central server"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Which technique supports virtual circuits?",
+    "options": {
+      "A": "Packet switching",
+      "B": "Virtual Circuit Switching",
+      "C": "TDM",
+      "D": "FDM"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "You are given IP 193.103.20.0/24 and need 50 subnets. How many hosts & subnets?",
+    "options": {
+      "A": "20 hosts, 50 subnets",
+      "B": "6 hosts, 64 subnets",
+      "C": "4 hosts, 50 subnets",
+      "D": "2 hosts, 64 subnets"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "______ implies all subnets are derived from the same subnet mask.",
+    "options": {
+      "A": "Static Subnetting",
+      "B": "Dynamic Subnetting",
+      "C": "VLSM",
+      "D": "Dynamic Length Subnetting"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Subnetting 172.17.32.0/23 into /27 gives how many subnets & hosts?",
+    "options": {
+      "A": "8 subnets, 31 hosts",
+      "B": "8 subnets, 32 hosts",
+      "C": "16 subnets, 30 hosts",
+      "D": "16 subnets, 32 hosts"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "If you want 12 subnets using Class C, subnet mask is:",
+    "options": {
+      "A": "255.255.255.252",
+      "B": "255.255.255.255",
+      "C": "255.255.255.240",
+      "D": "255.255.255.248"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Given 201.14.78.65 with mask 255.255.255.224, what is subnet address?",
+    "options": {
+      "A": "201.14.78.32",
+      "B": "201.14.78.65",
+      "C": "201.14.78.64",
+      "D": "201.14.78.12"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Class ______ has the greatest number of hosts per network.",
+    "options": {
+      "A": "A",
+      "B": "B",
+      "C": "C",
+      "D": "D"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "NAT (Network Address Translation) uses the ______ table.",
+    "options": {
+      "A": "Switch table",
+      "B": "Bridge table",
+      "C": "Server table",
+      "D": "Router translation table"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "In ARP: Finding MAC address from IP address means:",
+    "options": {
+      "A": "Find IP from DNS",
+      "B": "Find IP of gateway",
+      "C": "Find IP for MAC",
+      "D": "Find MAC for IP"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Which config command allows 8 subnets if mask is 255.255.255.224?",
+    "options": {
+      "A": "Router(config)#ip classless",
+      "B": "Router(config)#no ip classful",
+      "C": "Router(config)#ip unnumbered",
+      "D": "Router(config)#ip subnet-zero"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "What is the broadcast address for 132.168.16.4/20?",
+    "options": {
+      "A": "132.168.31.255",
+      "B": "132.168.15.255",
+      "C": "132.168.16.255",
+      "D": "132.168.255.255"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "How many usable host addresses are available per /30 subnet?",
+    "options": {
+      "A": "2",
+      "B": "4",
+      "C": "6",
+      "D": "14"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "IPv4 class C: how many possible addresses per network?",
+    "options": {
+      "A": "65536",
+      "B": "128",
+      "C": "256",
+      "D": "512"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "The broadcast address for 10.10.10.0 with mask 255.255.255.128 is:",
+    "options": {
+      "A": "10.10.10.127",
+      "B": "10.10.10.128",
+      "C": "10.10.10.254",
+      "D": "10.10.10.255"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "How many total IPs for Network ID B in a Class B IPv4?",
+    "options": {
+      "A": "16 bits for host",
+      "B": "16 bits for network",
+      "C": "8 bits network, 24 bits host",
+      "D": "24 bits network, 8 bits host"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "From 192.168.10.0/25, how many usable hosts?",
+    "options": {
+      "A": "62",
+      "B": "64",
+      "C": "126",
+      "D": "128"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "A router receives packet for 192.168.10.8/25. How many host addresses?",
+    "options": {
+      "A": "62",
+      "B": "30",
+      "C": "126",
+      "D": "14"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "IPv6 address length is:",
+    "options": {
+      "A": "16 bit",
+      "B": "32 bit",
+      "C": "64 bit",
+      "D": "128 bit"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "The loopback address in IPv6 is:",
+    "options": {
+      "A": "127.0.0.1",
+      "B": "FE80::1",
+      "C": "::1",
+      "D": "255.255.255.0"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 2 – IP ADDRESSING, SUBNETTING, NAT, NETWORK DEVICES",
+    "question": "Network device used to amplify signals without altering contents:",
+    "options": {
+      "A": "Switch",
+      "B": "Router",
+      "C": "Repeater",
+      "D": "Gateway"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which device connects two LANs operating on same protocol?",
+    "options": {
+      "A": "Switch",
+      "B": "Bridge",
+      "C": "Router",
+      "D": "Modem"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Packets of the same session may be routed through different paths in:",
+    "options": {
+      "A": "TCP, but not UDP",
+      "B": "TCP and UDP",
+      "C": "UDP, but not TCP",
+      "D": "Neither TCP nor UDP"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "In network of LANs connected by bridges, why is the spanning tree protocol used?",
+    "options": {
+      "A": "For shortest path routing",
+      "B": "To avoid loops in routing paths",
+      "C": "For fault tolerance",
+      "D": "For minimizing collisions"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "In distance vector routing, each router receives information from:",
+    "options": {
+      "A": "Every router in network",
+      "B": "Every router < 2 hops",
+      "C": "A table stored by network",
+      "D": "Its neighbours only"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Router B receives update from A: Net1 is 2 hops away. Next update says 5 hops (RIP). Value entered?",
+    "options": {
+      "A": "2",
+      "B": "3",
+      "C": "6",
+      "D": "7"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Dijkstra’s algorithm is used to:",
+    "options": {
+      "A": "Create LSAs",
+      "B": "Flood LSAs",
+      "C": "Calculate routing tables",
+      "D": "Create link-state database"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which is NOT a multicasting application?",
+    "options": {
+      "A": "Teleconferencing",
+      "B": "Distance learning",
+      "C": "Information dissemination",
+      "D": "Train announcements"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "In CSMA/CA or MAC access methods, which has NO collision?",
+    "options": {
+      "A": "Aloha",
+      "B": "CSMA/CD",
+      "C": "CSMA/CA",
+      "D": "Token passing"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Maximum window size in Selective Repeat with n-bit sequence number is:",
+    "options": {
+      "A": "2^n",
+      "B": "2^(n−1)",
+      "C": "2^n − 1",
+      "D": "2^(n−2)"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Sliding window protocol works on:",
+    "options": {
+      "A": "No duplex",
+      "B": "Half duplex",
+      "C": "Full duplex",
+      "D": "Single duplex"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "What algorithm is used by Link-State routing to compute shortest path?",
+    "options": {
+      "A": "Floyd-Warshall",
+      "B": "Bellman-Ford",
+      "C": "A*",
+      "D": "Dijkstra"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "What is an example of Path Vector Routing Protocol?",
+    "options": {
+      "A": "BGP",
+      "B": "RIP v1",
+      "C": "OSPF",
+      "D": "RIP v2"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which attribute is used by BGP to choose best path among multiple AS paths?",
+    "options": {
+      "A": "Hop count",
+      "B": "Throughput",
+      "C": "AS Path",
+      "D": "Delay"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "In Distance Vector Routing, how are routing loops prevented?",
+    "options": {
+      "A": "Periodic HELLO messages",
+      "B": "Split Horizon",
+      "C": "Link state advertisement",
+      "D": "Spanning Tree"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which routing protocol is known for fast convergence and is Cisco proprietary?",
+    "options": {
+      "A": "EIGRP",
+      "B": "OSPF",
+      "C": "RIP",
+      "D": "BGP"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "What is the primary function of a default route in routing?",
+    "options": {
+      "A": "Route packets to all networks",
+      "B": "Define a route when no route is found",
+      "C": "Block unknown traffic",
+      "D": "Improve convergence"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "First step taken by a router in link-state routing after detecting topology change?",
+    "options": {
+      "A": "Updates routing table",
+      "B": "Waits for neighbours",
+      "C": "Calculates shortest path",
+      "D": "Floods LSA"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which protocol is used by routers exchanging distance vector info?",
+    "options": {
+      "A": "BGP",
+      "B": "RIP",
+      "C": "OSPF",
+      "D": "STP"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "Which field determines the maximum hop count for TTL expiration?",
+    "options": {
+      "A": "Version",
+      "B": "IHL",
+      "C": "TOS",
+      "D": "TTL"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 3 – ROUTING (DV, LS, RIP, OSPF, BGP, Forwarding)",
+    "question": "In Path Vector Routing, routers maintain:",
+    "options": {
+      "A": "Entire network topology",
+      "B": "Distance tables",
+      "C": "AS-path list",
+      "D": "Neighbour list"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Which protocol requires router to broadcast complete routing table every 30 seconds?",
+    "options": {
+      "A": "OSPF",
+      "B": "RIP",
+      "C": "BGP",
+      "D": "STP"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "In CSMA/CD, when a device detects a collision it:",
+    "options": {
+      "A": "Immediately retransmits",
+      "B": "Stops transmitting & sends a jamming signal",
+      "C": "Reduces power & continues",
+      "D": "Waits fixed time and retransmits"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "What does a device do in CSMA/CD after sending a jamming signal?",
+    "options": {
+      "A": "Retransmits immediately",
+      "B": "Uses binary exponential backoff",
+      "C": "Drops the frame permanently",
+      "D": "Sends ACK"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "In CSMA/CA, which technique helps avoid collisions?",
+    "options": {
+      "A": "RFD",
+      "B": "RTS/CTS",
+      "C": "Token passing",
+      "D": "FDM"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Which access method has NO collision?",
+    "options": {
+      "A": "ALOHA",
+      "B": "CSMA/CD",
+      "C": "CSMA/CA",
+      "D": "Token Passing"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "What is the primary function of the MAC address in Ethernet?",
+    "options": {
+      "A": "Encrypt frame",
+      "B": "Segment data",
+      "C": "Identify source & destination inside LAN",
+      "D": "Route frame to correct IP"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Hamming distance between 101010 and 100100 is:",
+    "options": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "5"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "In Stop-and-Wait ARQ, how many packets can be sent before ACK?",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "n",
+      "D": "n–1"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Sliding Window ARQ allows sending multiple packets before ACK.",
+    "options": {
+      "A": "Stop-and-Wait",
+      "B": "Sliding Window",
+      "C": "HDLC",
+      "D": "PPP"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "In Selective Repeat ARQ, max window size (n-bit seq no.) is:",
+    "options": {
+      "A": "2ⁿ",
+      "B": "2ⁿ−1",
+      "C": "2ⁿ−2",
+      "D": "2ⁿ⁻¹"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Flow control prevents:",
+    "options": {
+      "A": "Bit errors",
+      "B": "Receiver buffer overflow",
+      "C": "Sender buffer overflow",
+      "D": "Collision"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "The maximum number of unacknowledged frames in Stop-and-Wait is:",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "n",
+      "D": "2"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "HDLC stands for:",
+    "options": {
+      "A": "High-level data link control",
+      "B": "Half duplex line communication",
+      "C": "High duplex line control",
+      "D": "Host data link control"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Pure ALOHA efficiency is:",
+    "options": {
+      "A": "18.4%",
+      "B": "36.8%",
+      "C": "50%",
+      "D": "100%"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "In Ethernet minimum frame size requirement is due to:",
+    "options": {
+      "A": "CRC",
+      "B": "Collision detection",
+      "C": "Propagation delay",
+      "D": "MAC address size"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "CSMA/CD is used in which LAN type?",
+    "options": {
+      "A": "Token Ring",
+      "B": "Wi-Fi",
+      "C": "Ethernet",
+      "D": "Bluetooth"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Token Ring maximum ring uses:",
+    "options": {
+      "A": "CSMA/CD",
+      "B": "Token Passing",
+      "C": "RTS/CTS",
+      "D": "Polling"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "CRC can detect:",
+    "options": {
+      "A": "All single-bit errors",
+      "B": "All double-bit errors",
+      "C": "All burst errors < polynomial length",
+      "D": "All errors"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Condition to detect odd number of bit errors using CRC:",
+    "options": {
+      "A": "G(x) has odd number of terms",
+      "B": "1+x is factor of G(x)",
+      "C": "G(x) contains more than two terms",
+      "D": "G(x) does not divide M(x)"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 4 – MAC, CSMA/CD, CSMA/CA, ARQ, CRC, ERROR CONTROL",
+    "question": "Checksum detects:",
+    "options": {
+      "A": "Single-bit errors",
+      "B": "Burst errors",
+      "C": "All odd-bit errors",
+      "D": "All even-bit errors"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "In CSMA/CA, ACK is used to:",
+    "options": {
+      "A": "Detect collision",
+      "B": "Confirm frame reception",
+      "C": "Reduce noise",
+      "D": "Increase throughput"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "UDP needs the ______ to deliver user datagram to the correct application.",
+    "options": {
+      "A": "Application address",
+      "B": "MAC address",
+      "C": "IP address",
+      "D": "Port number"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which protocol is commonly used with UDP for real-time applications?",
+    "options": {
+      "A": "HTTP",
+      "B": "FTP",
+      "C": "RTP",
+      "D": "SMTP"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "What mechanism does TCP use to ensure reliable data transmission?",
+    "options": {
+      "A": "TTL",
+      "B": "Retransmission of lost packets",
+      "C": "Packet filtering",
+      "D": "Encryption"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which HTTP status code means “OK / request successful”?",
+    "options": {
+      "A": "200",
+      "B": "404",
+      "C": "500",
+      "D": "301"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which protocol does Telnet use?",
+    "options": {
+      "A": "ICMP",
+      "B": "UDP",
+      "C": "IP",
+      "D": "TCP"
+    },
+    "answer": "D"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which transport protocol is used in electronic mail transfer (SMTP)?",
+    "options": {
+      "A": "SMTP",
+      "B": "STCP",
+      "C": "TCP",
+      "D": "UDP"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "The well-known port number defines the ______.",
+    "options": {
+      "A": "Client program",
+      "B": "Server program",
+      "C": "Device ID",
+      "D": "MAC address"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "To prevent “silly window syndrome”, which technique can be used?",
+    "options": {
+      "A": "Nagle’s algorithm",
+      "B": "Clark’s solution",
+      "C": "Delayed ACK",
+      "D": "Zero timer"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "A client performs socket() and connect() while server has not called accept(). What happens?",
+    "options": {
+      "A": "connect() returns success",
+      "B": "connect() blocks",
+      "C": "connect() errors",
+      "D": "connect() creates core dump"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Maximum data size application layer can send to TCP?",
+    "options": {
+      "A": "Any size",
+      "B": "2¹⁶ – header size",
+      "C": "2³¹ bytes",
+      "D": "1500 bytes"
+    },
+    "answer": "A"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which DNS record maps hostname → IP address?",
+    "options": {
+      "A": "MX",
+      "B": "CNAME",
+      "C": "A",
+      "D": "PTR"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which DNS record is used for mail servers?",
+    "options": {
+      "A": "A",
+      "B": "NS",
+      "C": "MX",
+      "D": "SOA"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "What is used in email architecture for transferring messages between mail servers?",
+    "options": {
+      "A": "POP3",
+      "B": "IMAP",
+      "C": "SMTP",
+      "D": "HTTP"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "POP3 is mainly used for:",
+    "options": {
+      "A": "Sending mail",
+      "B": "Receiving & downloading mail",
+      "C": "Managing mailboxes on server",
+      "D": "Spam filtering"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "IMAP is used to:",
+    "options": {
+      "A": "Receive & delete mail only",
+      "B": "Manage mail remotely on server",
+      "C": "Forward mails",
+      "D": "Encrypt mails"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which protocol is connection-oriented?",
+    "options": {
+      "A": "UDP",
+      "B": "ICMP",
+      "C": "TCP",
+      "D": "ARP"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "Which header field ensures reliable TCP sequencing?",
+    "options": {
+      "A": "ACK number",
+      "B": "Sequence number",
+      "C": "Window size",
+      "D": "URG pointer"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "TCP handshake uses how many steps?",
+    "options": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "5"
+    },
+    "answer": "B"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "TCP connection termination uses:",
+    "options": {
+      "A": "2-way",
+      "B": "3-way",
+      "C": "4-way",
+      "D": "5-way"
+    },
+    "answer": "C"
+  },
+  {
+    "unit": "UNIT 5 – TRANSPORT LAYER & APPLICATION LAYER (TCP, UDP, DNS, HTTP, EMAIL)",
+    "question": "DNS uses which transport protocol?",
+    "options": {
+      "A": "Only TCP",
+      "B": "Only UDP",
+      "C": "Both TCP and UDP",
+      "D": "ICMP"
+    },
+    "answer": "C"
+  }
+]

@@ -18,15 +18,20 @@ export const useLeaderboard = (
 
     // Initialize nickname and tagline
     useEffect(() => {
-        let storedNickname = localStorage.getItem('userNickname');
-        if (!storedNickname && user?.user_metadata?.name) {
-            storedNickname = user.user_metadata.name;
+        if (user?.user_metadata?.full_name || user?.user_metadata?.name) {
+            // Always use Google name if available
+            const googleName = user.user_metadata.full_name || user.user_metadata.name;
+            setNickname(googleName);
+            localStorage.setItem('userNickname', googleName);
+        } else {
+            // Fallback for unauthenticated or missing name (though auth is required for leaderboard now)
+            let storedNickname = localStorage.getItem('userNickname');
+            if (!storedNickname) {
+                storedNickname = generateNickname();
+                localStorage.setItem('userNickname', storedNickname);
+            }
+            setNickname(storedNickname);
         }
-        if (!storedNickname) {
-            storedNickname = generateNickname();
-            localStorage.setItem('userNickname', storedNickname);
-        }
-        setNickname(storedNickname);
 
         const storedTagline = localStorage.getItem('userTagline') || '';
         setTagline(storedTagline);

@@ -8,10 +8,6 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-
     try {
         if (req.method !== 'GET') {
             return res.status(405).json({ error: 'Method not allowed' });
@@ -32,7 +28,31 @@ export default async function handler(req: any, res: any) {
       )
     `;
 
+        // Create questions table for MCQ
+        await sql`
+      CREATE TABLE IF NOT EXISTS questions(
+        id SERIAL PRIMARY KEY,
+        unit VARCHAR(255) NOT NULL,
+        question TEXT NOT NULL,
+        options JSONB NOT NULL,
+        answer VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+        `;
+
+        // Create user_test_results table
+        await sql`
+      CREATE TABLE IF NOT EXISTS user_test_results(
+            id SERIAL PRIMARY KEY,
+            user_id VARCHAR(255) NOT NULL,
+            score INTEGER NOT NULL,
+            total_questions INTEGER NOT NULL,
+            completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    `;
+
         // Add columns if they don't exist (migration)
+
         try {
             await sql`ALTER TABLE leaderboard ADD COLUMN IF NOT EXISTS tagline VARCHAR(50)`;
             await sql`ALTER TABLE leaderboard ADD COLUMN IF NOT EXISTS progress_data JSONB`;
@@ -58,17 +78,17 @@ export default async function handler(req: any, res: any) {
 
             // Create policies
             await sql`
-                CREATE POLICY "Enable read access for all users" ON leaderboard FOR SELECT USING (true)
-            `;
+                CREATE POLICY "Enable read access for all users" ON leaderboard FOR SELECT USING(true)
+        `;
 
             await sql`
                 CREATE POLICY "Enable insert for authenticated users only" ON leaderboard 
-                FOR INSERT WITH CHECK (auth.uid()::text = user_id)
-            `;
+                FOR INSERT WITH CHECK(auth.uid():: text = user_id)
+        `;
 
             await sql`
                 CREATE POLICY "Enable update for users based on user_id" ON leaderboard 
-                FOR UPDATE USING (auth.uid()::text = user_id)
+                FOR UPDATE USING(auth.uid():: text = user_id)
             `;
         } catch (e) {
             console.log('Error setting up RLS:', e);
