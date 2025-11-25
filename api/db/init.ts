@@ -22,18 +22,29 @@ export default async function handler(req: any, res: any) {
       CREATE TABLE IF NOT EXISTS leaderboard (
         user_id VARCHAR(255) PRIMARY KEY,
         nickname VARCHAR(100) NOT NULL,
+        tagline VARCHAR(50),
+        progress_data JSONB,
         progress_percentage DECIMAL(5,2) NOT NULL DEFAULT 0,
         completed_items INTEGER NOT NULL DEFAULT 0,
         total_items INTEGER NOT NULL DEFAULT 0,
-        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
 
+        // Add columns if they don't exist (migration)
+        try {
+            await sql`ALTER TABLE leaderboard ADD COLUMN IF NOT EXISTS tagline VARCHAR(50)`;
+            await sql`ALTER TABLE leaderboard ADD COLUMN IF NOT EXISTS progress_data JSONB`;
+            await sql`ALTER TABLE leaderboard ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`;
+        } catch (e) {
+            console.log('Columns might already exist', e);
+        }
+
         // Create index for faster queries
         await sql`
       CREATE INDEX IF NOT EXISTS idx_progress 
-      ON leaderboard(progress_percentage DESC, last_updated DESC)
+      ON leaderboard(progress_percentage DESC, updated_at DESC)
     `;
 
         return res.status(200).json({

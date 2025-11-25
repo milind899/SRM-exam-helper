@@ -16,11 +16,15 @@ import { WhatsNewModal } from './components/WhatsNewModal';
 import { SignInModal } from './components/SignInModal';
 import { ProfileModal } from './components/ProfileModal';
 import { useLeaderboard } from './hooks/useLeaderboard';
+import { useProgress } from './hooks/useProgress';
 import { useAuth } from './contexts/AuthContext';
 import { StickyLeaderboard } from './components/StickyLeaderboard';
 import { User as UserIcon } from 'lucide-react';
 
 function App() {
+  // Get current user first
+  const { user } = useAuth();
+
   const [currentSubjectId, setCurrentSubjectId] = useState(() => {
     return localStorage.getItem('current-subject') || 'computer-networks';
   });
@@ -30,16 +34,8 @@ function App() {
     [currentSubjectId]
   );
 
-  const [checkedItems, setCheckedItems] = useState<Set<string>>(() => {
-    const saved = localStorage.getItem(`progress-${currentSubjectId}`);
-    return saved ? new Set(JSON.parse(saved)) : new Set();
-  });
-
-  // Reset checked items when subject changes
-  useEffect(() => {
-    const saved = localStorage.getItem(`progress-${currentSubjectId}`);
-    setCheckedItems(saved ? new Set(JSON.parse(saved)) : new Set());
-  }, [currentSubjectId]);
+  // Progress management with sync
+  const { checkedItems, toggleItem, resetProgress } = useProgress(user, currentSubjectId);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
@@ -67,17 +63,10 @@ function App() {
   // Profile modal
   const [showProfileModal, setShowProfileModal] = useState(false);
 
-  // Get current user
-  const { user } = useAuth();
-
   const handleCloseWhatsNew = () => {
     setShowWhatsNew(false);
     localStorage.setItem('lastSeenVersion', CURRENT_VERSION);
   };
-
-  useEffect(() => {
-    localStorage.setItem(`progress-${currentSubjectId}`, JSON.stringify(Array.from(checkedItems)));
-  }, [checkedItems, currentSubjectId]);
 
   useEffect(() => {
     localStorage.setItem('current-subject', currentSubjectId);
@@ -103,7 +92,7 @@ function App() {
         case 'R':
           if (e.target instanceof HTMLInputElement) return;
           e.preventDefault();
-          handleReset();
+          resetProgress();
           break;
         case 't':
         case 'T':
@@ -119,7 +108,6 @@ function App() {
           e.preventDefault();
           setExpandAll(true);
           break;
-        case 'c':
         case 'C':
           if (e.target instanceof HTMLInputElement) return;
           e.preventDefault();
@@ -141,31 +129,19 @@ function App() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [resetProgress]);
 
   const handleToggleItem = (id: string) => {
-    setCheckedItems(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-        // Confetti celebration! 🎉
-        confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.8 },
-          colors: ['#10b981', '#34d399', '#6ee7b7']
-        });
-      }
-      return next;
-    });
-  };
-
-  const handleReset = () => {
-    if (window.confirm('Are you sure you want to reset all progress for this subject?')) {
-      setCheckedItems(new Set());
+    if (!checkedItems.has(id)) {
+      // Confetti celebration! 🎉
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#10b981', '#34d399', '#6ee7b7']
+      });
     }
+    toggleItem(id);
   };
 
   // Filter content
@@ -367,7 +343,7 @@ function App() {
 
         <div className="flex justify-between items-center mb-4 gap-3">
           <button
-            onClick={handleReset}
+            onClick={resetProgress}
             className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-red-500 transition-colors px-3 py-1.5 rounded-lg hover:bg-red-500/10"
           >
             <RotateCcw size={14} />
