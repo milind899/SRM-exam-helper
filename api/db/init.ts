@@ -87,9 +87,23 @@ export default async function handler(req: any, res: any) {
         `;
 
             await sql`
+            await sql`
                 CREATE POLICY "Enable update for users based on user_id" ON leaderboard 
                 FOR UPDATE USING(auth.uid():: text = user_id)
             `;
+
+            // RLS for Questions (Public Read)
+            await sql`ALTER TABLE questions ENABLE ROW LEVEL SECURITY`;
+            await sql`DROP POLICY IF EXISTS "Public read questions" ON questions`;
+            await sql`CREATE POLICY "Public read questions" ON questions FOR SELECT USING(true)`;
+
+            // RLS for Test Results
+            await sql`ALTER TABLE user_test_results ENABLE ROW LEVEL SECURITY`;
+            await sql`DROP POLICY IF EXISTS "Public read results" ON user_test_results`;
+            await sql`CREATE POLICY "Public read results" ON user_test_results FOR SELECT USING(true)`;
+            await sql`DROP POLICY IF EXISTS "Authenticated insert results" ON user_test_results`;
+            await sql`CREATE POLICY "Authenticated insert results" ON user_test_results FOR INSERT WITH CHECK(auth.role() = 'authenticated')`;
+
         } catch (e) {
             console.log('Error setting up RLS:', e);
         }
