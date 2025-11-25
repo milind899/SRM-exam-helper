@@ -2,50 +2,48 @@ import { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { validateNickname } from '../utils/nicknameValidator';
 import type { LeaderboardEntry } from '../types/leaderboard';
-import { useAuth } from '../contexts/AuthContext';
 
 export const useLeaderboard = (
     progressPercentage: number,
     completedItems: number,
     totalItems: number
 ) => {
-    const { user } = useAuth();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [nickname, setNickname] = useState<string>('');
-    const [tagline, setTagline] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
 
-    // Initialize nickname and tagline
+    // Initialize user ID and nickname
     useEffect(() => {
-        let storedNickname = localStorage.getItem('userNickname');
-        if (!storedNickname && user?.user_metadata?.name) {
-            storedNickname = user.user_metadata.name;
+        let storedUserId = localStorage.getItem('userId');
+        if (!storedUserId) {
+            storedUserId = crypto.randomUUID();
+            localStorage.setItem('userId', storedUserId);
         }
+        setUserId(storedUserId);
+
+        let storedNickname = localStorage.getItem('userNickname');
         if (!storedNickname) {
             storedNickname = generateNickname();
             localStorage.setItem('userNickname', storedNickname);
         }
         setNickname(storedNickname);
+    }, []);
 
-        const storedTagline = localStorage.getItem('userTagline') || '';
-        setTagline(storedTagline);
-    }, [user]);
-
-    // Sync progress to Supabase (ONLY for authenticated users)
+    // Sync progress to Supabase
     useEffect(() => {
-        if (!user || !nickname || totalItems === 0 || !isSupabaseConfigured || !supabase) return;
+        if (!userId || !nickname || totalItems === 0 || !isSupabaseConfigured || !supabase) return;
 
         const syncProgress = async () => {
             if (!supabase) return;
-            
+
             try {
                 const { error } = await supabase
                     .from('leaderboard')
                     .upsert({
-                        user_id: user.id,
+                        user_id: userId,
                         nickname: nickname,
-                        tagline: tagline,
                         progress_percentage: progressPercentage,
                         completed_items: completedItems,
                         total_items: totalItems,
@@ -65,9 +63,10 @@ export const useLeaderboard = (
             }
         };
 
+        // Debounce sync
         const timeoutId = setTimeout(syncProgress, 5000);
         return () => clearTimeout(timeoutId);
-    }, [user, nickname, tagline, progressPercentage, completedItems, totalItems]);
+    }, [userId, nickname, progressPercentage, completedItems, totalItems]);
 
     // Fetch leaderboard from Supabase
     const refreshLeaderboard = async () => {
@@ -100,7 +99,7 @@ export const useLeaderboard = (
     // Initial fetch and periodic refresh
     useEffect(() => {
         refreshLeaderboard();
-        const interval = setInterval(refreshLeaderboard, 60000);
+        const interval = setInterval(refreshLeaderboard, 60000); // Refresh every minute
         return () => clearInterval(interval);
     }, []);
 
@@ -114,25 +113,13 @@ export const useLeaderboard = (
         localStorage.setItem('userNickname', newNickname);
     };
 
-    const updateTagline = (newTagline: string) => {
-        const words = newTagline.trim().split(/\s+/).filter(w => w);
-        if (words.length > 20) {
-            throw new Error('Tagline must be 20 words or less');
-        }
-
-        setTagline(newTagline);
-        localStorage.setItem('userTagline', newTagline);
-    };
-
     return {
         leaderboard,
         loading,
         error,
         nickname,
-        tagline,
         refreshLeaderboard,
-        updateNickname,
-        updateTagline,
+        updateNickname
     };
 };
 
