@@ -74,6 +74,13 @@ export default async function handler(req: any, res: any) {
             console.log('Error setting up RLS:', e);
         }
 
+        // Force PostgREST schema cache reload
+        try {
+            await sql`NOTIFY pgrst, 'reload config'`;
+        } catch (e) {
+            console.log('Error reloading schema cache:', e);
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Database initialized successfully!'
