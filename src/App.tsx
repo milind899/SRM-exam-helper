@@ -25,16 +25,6 @@ import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
 
 function App() {
-  // Simple routing
-  if (window.location.pathname === '/computer-networks') {
-    return (
-      <>
-        <Toaster position="bottom-right" />
-        <ComputerNetworks />
-      </>
-    );
-  }
-
   // Get current user first
   const { user } = useAuth();
 
@@ -201,6 +191,16 @@ function App() {
     updateTagline,
     error: leaderboardError
   } = useLeaderboard(progressPercentage, completedItems, totalItems);
+
+  // Simple routing
+  if (window.location.pathname === '/computer-networks') {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <ComputerNetworks theme={theme} onThemeChange={setTheme} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -498,17 +498,17 @@ function App() {
           <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
             <h3 className="text-lg font-bold text-text-main mb-2">Contribute</h3>
             <p className="text-text-muted text-sm mb-4">
-              Help us improve! Found an error or want to add content? Contribute on GitHub.
+              Help us improve! Found an error or want to add content?
+              <br />
+              <span className="text-xs opacity-70 italic">(Repo is currently private, will be public soon)</span>
             </p>
-            <a
-              href="https://github.com/milind899/SRM-exam-helper"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-text-main bg-text-main/5 hover:bg-text-main/10 px-4 py-2 rounded-lg transition-all border border-text-main/5 hover:border-text-main/10"
+            <button
+              disabled
+              className="inline-flex items-center gap-2 text-sm font-medium text-text-muted bg-surface/50 px-4 py-2 rounded-lg border border-white/5 cursor-not-allowed opacity-70"
             >
               <Github size={16} />
-              View Repository
-            </a>
+              Repository (Coming Soon)
+            </button>
           </div>
         </div>
 

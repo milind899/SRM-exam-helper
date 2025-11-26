@@ -7,7 +7,7 @@
     ],
     "functions": {
         "api/**/*.ts": {
-            "includeFiles": "api/leaderboard/*.txt"
+            "maxDuration": 10
         }
     }
 }
