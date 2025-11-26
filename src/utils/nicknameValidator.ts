@@ -1,140 +1,110 @@
-// Comprehensive profanity list (100+ words) - case-insensitive
+// Comprehensive profanity list (Hindi & English)
 const PROFANITY_LIST = [
     // Reserved/Protected
-    'milind',
+    'milind', 'admin', 'moderator', 'mod', 'official', 'support', 'verified', 'staff', 'owner', 'developer', 'dev',
 
-    // English profanity (common)
-    'fuck', 'fuk', 'fck', 'f*ck', 'fucker', 'fucking', 'motherfucker', 'mf',
-    'shit', 'sh1t', 'shit', 'bullshit', 'bullsh1t',
-    'bitch', 'b1tch', 'bitches', 'biatch',
-    'ass', 'a$$', 'asshole', 'arse', 'arsehole',
-    'bastard', 'bast ard',
-    'damn', 'dammit', 'damnn',
-    'hell', 'heck',
-    'crap', 'crappy',
+    // English Profanity
+    'fuck', 'shit', 'bitch', 'ass', 'asshole', 'bastard', 'damn', 'crap',
+    'dick', 'cock', 'penis', 'pussy', 'vagina', 'cunt', 'whore', 'slut',
+    'sex', 'sexy', 'porn', 'nude', 'naked', 'boobs', 'tits', 'nipple',
+    'rape', 'molest', 'nigger', 'nigga', 'fag', 'faggot', 'retard',
+    'gay', 'lesbian', 'tranny', 'chink', 'spic', 'kill', 'murder', 'die',
+    'terrorist', 'bomb', 'hitler', 'nazi', 'suicide', 'anal', 'anus',
+    'scrotum', 'testicle', 'orgasm', 'ejaculate', 'semen', 'sperm',
+    'dildo', 'masturbate', 'wank', 'wanker', 'bollocks', 'bugger',
+    'chode', 'clit', 'clitoris', 'cum', 'cums', 'jizz', 'knob',
+    'piss', 'poop', 'prick', 'pube', 'pubic', 'queer', 'rimjob',
+    'skank', 'smegma', 'snatch', 'tit', 'tosser', 'turd', 'twat',
+    'vibrator', 'vulva', 'wang', 'willy', 'xrated', 'xxx',
 
-    // Sexual/explicit
-    'dick', 'cock', 'penis', 'pussy', 'vagina', 'cunt', 'c*nt',
-    'whore', 'slut', 'prostitute', 'hooker',
-    'sex', 'sexy', 'porn', 'porno', 'xxx', 'nude', 'naked', 'boobs', 'tits',
-    'rape', 'rapist', 'molest',
-
-    // Slurs and offensive terms
-    'nigger', 'nigga', 'n1gger', 'n1gga',
-    'fag', 'faggot', 'f@g', 'f@ggot',
-    'retard', 'retarded', 'r3tard',
-    'gay', 'lesbian', // when used pejoratively
-    'tranny', 'trannie',
-    'chink', 'gook', 'spic', 'wetback',
-
-    // Violence/threats
-    'kill', 'killer', 'murder', 'murderer', 'die', 'death', 'dead',
-    'terrorist', 'terrorism', 'bomb', 'bombing', 'shoot', 'gun', 'weapon',
-    'hitler', 'nazi', 'genocide',
-
-    // Spam/impersonation
-    'admin', 'moderator', 'mod', 'official', 'support', 'verified', 'staff',
-    'owner', 'developer', 'dev',
-
-    // Hindi/Indian profanity (romanized)
-    'chutiya', 'chutiye', 'chut', 'chod', 'chodu',
-    'madarchod', 'maderchod', 'mc', 'madharchod',
-    'bhenchod', 'bc', 'behen chod', 'benchod',
-    'bhadwa', 'bhadwe', 'bhadva', 'bhosad', 'bhosdi', 'bhosadike',
-    'lund', 'loda', 'lauda', 'land',
-    'gandu', 'gand', 'gaand', 'gandfat', 'gandfad',
-    'randi', 'rand', 'randwa', 'kutti', 'kutta', 'kute',
-    'harami', 'haramzada', 'haraamzada', 'haramkhor',
-    'kamina', 'kamine', 'kamini',
-    'saala', 'sala', 'saale', 'saali',
-    'bakchod', 'bakchodi', 'bakland',
-    'jhaat', 'jhaant', 'baal',
-    'teri maa', 'teri ma', 'maa ki',
-    'baap', 'behen', 'behan',
-    'chinal', 'chinaal',
-    'raand', 'raandi',
-    'hutiya',
-
-    // Variations and leetspeak
-    'fvck', 'phuck', 'f u c k', 'f.u.c.k',
-    'sh!t', 'sh@t', '$hit',
-    'b!tch', 'b@tch', 'bi+ch',
-    'a$$h0le', '@sshole',
-    'p0rn', 'pr0n',
-    'n00b', 'noob', // gaming insults
-    'scrub', 'trash', 'garbage', // when used as insults
-
-    // Drug references
-    'weed', 'marijuana', 'cocaine', 'coke', 'heroin', 'meth',
-    'drug', 'drugs', 'druggie',
-
-    // Additional offensive
-    'piss', 'pissed', 'douche', 'douchebag',
-    'idiot', 'moron', 'stupid', 'dumb', 'dumbass',
-    'loser', 'suck', 'sucks', 'sucked',
-    'ugly', 'fat', 'skinny', // body shaming
-    'cancer', 'aids', // disease as insult
-
-    // More Indian/regional
-    'chutiyapa', 'chutiyap',
-    'bhosadiwala', 'bhosadiwale',
-    'lavda', 'lawda', 'loda',
-    'maa chod', 'ma chod',
-    'teri bhen', 'teri behan',
-    'chodu', 'chomu',
-    'bakrichodd', 'bakrichod',
-    'kutte', 'kaminey',
-    'ullu', 'bevakoof', 'bewakoof',
-    'gashti', 'rundi',
-    'bhikari', 'bhikhari',
-    'dalle', 'dalli',
-    'hijda', 'hijra',
-    'tharak', 'tharki',
-    'pataka', 'item', // objectifying
+    // Hindi/Indian Profanity & Slang
+    'chutiya', 'chutiye', 'chut', 'chod', 'chodu', 'gandu', 'gand', 'gaand',
+    'madarchod', 'mc', 'bhenchod', 'bc', 'behenchod', 'benchod',
+    'bhadwa', 'bhadwe', 'bhosad', 'bhosdi', 'bhosadike', 'bsdk',
+    'lund', 'loda', 'lauda', 'land', 'lawda', 'lavda',
+    'randi', 'rand', 'randwa', 'raand', 'chinaal',
+    'kutta', 'kutti', 'kute', 'harami', 'haramzada', 'kamine', 'kamina',
+    'saala', 'saale', 'saali', 'haramkhor',
+    'bakchod', 'bakchodi', 'jhaat', 'jhaant', 'baal',
+    'muth', 'muthal', 'hila', 'hilana',
+    'chuchi', 'bobbe', 'bobe',
+    'bur', 'burr', 'choochi',
+    'gandfat', 'gandfad', 'jhaatu',
+    'tatti', 'suwar', 'kameena',
+    'tharak', 'tharki', 'pataka', 'item', 'maal',
+    'hijra', 'hijda', 'chakka', 'meetha',
+    'dalla', 'dalle', 'dalal',
+    'aand', 'gote', 'gotte',
+    'pel', 'pelna', 'thok', 'thokna',
+    'chinal', 'gashti',
+    'maa', 'behen', 'bhabhi', 'aunty', // Contextual, but often used in slurs
+    'bhos', 'bhosda',
+    'chud', 'chudai', 'chudwa',
+    'gaandu', 'ganduu',
+    'laude', 'lode',
+    'maderchod', 'madharchod',
+    'behenkelode', 'maakelode',
+    'teri', 'teri maa', 'teri behen',
+    'ullu', 'bewakoof', 'dhakkan',
+    'nalayak', 'besharam', 'behaya'
 ];
 
-// Utility function to validate nicknames
+// Leetspeak map for normalization
+const LEET_MAP: Record<string, string> = {
+    '0': 'o',
+    '1': 'i',
+    '!': 'i',
+    '3': 'e',
+    '4': 'a',
+    '@': 'a',
+    '5': 's',
+    '$': 's',
+    '8': 'b',
+    '9': 'g',
+    '+': 't',
+    '7': 't',
+    '(': 'c',
+    '|': 'l',
+    'z': 's'
+};
+
 export const validateNickname = (nickname: string): { valid: boolean; error?: string } => {
     const trimmed = nickname.trim();
 
-    // Check if empty
-    if (!trimmed) {
-        return { valid: false, error: 'Nickname cannot be empty' };
+    // 1. Basic Length Checks
+    if (!trimmed) return { valid: false, error: 'Nickname cannot be empty' };
+    if (trimmed.length < 2) return { valid: false, error: 'Nickname must be at least 2 characters' };
+    if (trimmed.length > 20) return { valid: false, error: 'Nickname must be 20 characters or less' };
+
+    // 2. Strict Character Check (No special chars allowed for forming words)
+    // Allow only alphanumeric and underscores/spaces for display, but strictly validate content
+    // User asked: "no should be even able to use ! * or numbers to form the words"
+    // We'll allow them in the name but normalize them to check for bad words.
+
+    // 3. Normalization for Profanity Check
+    let normalized = trimmed.toLowerCase();
+
+    // Replace leetspeak characters
+    for (const [char, replacement] of Object.entries(LEET_MAP)) {
+        normalized = normalized.split(char).join(replacement);
     }
 
-    // Check length
-    if (trimmed.length < 2) {
-        return { valid: false, error: 'Nickname must be at least 2 characters' };
-    }
+    // Remove any remaining non-alphabetic characters to catch things like "b.o.o.b.s"
+    const alphaOnly = normalized.replace(/[^a-z]/g, '');
 
-    if (trimmed.length > 20) {
-        return { valid: false, error: 'Nickname must be 20 characters or less' };
-    }
-
-    // Check for profanity and restricted words (case-insensitive)
-    const lowerNickname = trimmed.toLowerCase();
-
-    // Remove spaces and special characters for more thorough checking
-    const cleanedNickname = lowerNickname.replace(/[\s._-]/g, '');
-
+    // 4. Check against Profanity List
     for (const word of PROFANITY_LIST) {
-        // Check original
-        if (lowerNickname.includes(word)) {
-            return { valid: false, error: 'This nickname contains inappropriate content' };
+        // Check exact match in normalized string
+        if (normalized.includes(word)) {
+            return { valid: false, error: '⚠️ Warning: Inappropriate content detected. Continued use of such language will result in a permanent ban and further action.' };
         }
-        // Check cleaned version (catches variations like "b.a.d.w.o.r.d")
-        if (cleanedNickname.includes(word.replace(/[\s._-]/g, ''))) {
-            return { valid: false, error: 'This nickname contains inappropriate content' };
+        // Check in alpha-only string (catches "b-o-o-b-s")
+        if (alphaOnly.includes(word)) {
+            return { valid: false, error: '⚠️ Warning: Inappropriate content detected. Continued use of such language will result in a permanent ban and further action.' };
         }
     }
 
-    // Check for excessive numbers or special characters
-    const specialCharCount = (trimmed.match(/[^a-zA-Z0-9]/g) || []).length;
-    if (specialCharCount > 3) {
-        return { valid: false, error: 'Too many special characters' };
-    }
-
-    // Check for too many repeated characters (e.g., "aaaaaaa")
+    // 5. Check for excessive repeated characters (e.g., "aaaaaaa")
     if (/(.)\1{4,}/.test(trimmed)) {
         return { valid: false, error: 'Too many repeated characters' };
     }

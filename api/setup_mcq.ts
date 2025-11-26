@@ -48,6 +48,29 @@ export default async function handler(req: any, res: any) {
         await sql`DROP POLICY IF EXISTS "Authenticated insert results" ON user_test_results`;
         await sql`CREATE POLICY "Authenticated insert results" ON user_test_results FOR INSERT WITH CHECK(true)`;
 
+        // Create users table for Admin List
+        await sql`
+            CREATE TABLE IF NOT EXISTS users(
+                id UUID PRIMARY KEY,
+                email TEXT NOT NULL,
+                last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+
+        // Enable RLS for users table
+        await sql`ALTER TABLE users ENABLE ROW LEVEL SECURITY`;
+
+        // Allow users to insert/update their own data
+        await sql`DROP POLICY IF EXISTS "Users can insert own data" ON users`;
+        await sql`CREATE POLICY "Users can insert own data" ON users FOR INSERT WITH CHECK (auth.uid() = id)`;
+
+        await sql`DROP POLICY IF EXISTS "Users can update own data" ON users`;
+        await sql`CREATE POLICY "Users can update own data" ON users FOR UPDATE USING (auth.uid() = id)`;
+
+        // Allow public read for now (for Admin List simplicity, can be restricted later)
+        await sql`DROP POLICY IF EXISTS "Public read users" ON users`;
+        await sql`CREATE POLICY "Public read users" ON users FOR SELECT USING (true)`;
+
         // Check if data exists
         const count = await sql`SELECT COUNT(*) FROM questions`;
         const questionCount = parseInt(count[0].count);

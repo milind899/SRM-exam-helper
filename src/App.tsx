@@ -23,6 +23,7 @@ import { SignInBanner } from './components/SignInBanner';
 import { User as UserIcon } from 'lucide-react';
 import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
+import AdminUsers from './pages/AdminUsers';
 
 function App() {
   // Get current user first
@@ -198,6 +199,15 @@ function App() {
       <>
         <Toaster position="bottom-right" />
         <ComputerNetworks theme={theme} onThemeChange={setTheme} />
+      </>
+    );
+  }
+
+  if (window.location.pathname === '/admin/users') {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <AdminUsers />
       </>
     );
   }

@@ -31,6 +31,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
     const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
     const [loading, setLoading] = useState(false);
     const [testSubmitted, setTestSubmitted] = useState(false);
+    const [practiceFinished, setPracticeFinished] = useState(false);
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0); // in seconds
     const [showSignInModal, setShowSignInModal] = useState(false);
@@ -94,6 +95,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                 setUserAnswers({});
                 setRevealedAnswers({});
                 setTestSubmitted(false);
+                setPracticeFinished(false);
                 setScore(0);
 
                 if (selectedMode === 'test') {
@@ -120,7 +122,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
 
 
     const handleAnswer = (optionKey: string) => {
-        if (testSubmitted) return;
+        if (testSubmitted || (mode === 'practice' && practiceFinished)) return;
 
         setUserAnswers(prev => ({
             ...prev,
@@ -134,6 +136,34 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
             ...prev,
             [currentQId]: !prev[currentQId]
         }));
+    };
+
+    const finishPractice = () => {
+        let calculatedScore = 0;
+        questions.forEach(q => {
+            const correctLetter = q.answer.match(/\(([A-D])\)/)?.[1];
+            if (correctLetter && userAnswers[q.id] === correctLetter) {
+                calculatedScore++;
+            }
+        });
+
+        setScore(calculatedScore);
+        setPracticeFinished(true);
+
+        // Reveal all answers for review
+        const allRevealed: Record<number, boolean> = {};
+        questions.forEach(q => { allRevealed[q.id] = true; });
+        setRevealedAnswers(allRevealed);
+
+        toast.success(`Practice Completed! Score: ${calculatedScore}/${questions.length}`);
+
+        if (calculatedScore > questions.length * 0.7) {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
     };
 
     const submitTest = async () => {
@@ -406,7 +436,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                                 <button
                                                     key={key}
                                                     onClick={() => handleAnswer(key)}
-                                                    disabled={testSubmitted || (mode === 'practice' && isRevealed)}
+                                                    disabled={testSubmitted || (mode === 'practice' && practiceFinished)}
                                                     className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${styleClass}`}
                                                 >
                                                     <div className="flex items-center gap-4">
@@ -483,9 +513,11 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                     )}
                                 </div>
 
-                                {testSubmitted && (
+                                {(testSubmitted || practiceFinished) && (
                                     <div className="mt-8 p-6 bg-surface border border-white/10 rounded-2xl text-center animate-fade-in">
-                                        <h3 className="text-2xl font-bold mb-2">Test Completed!</h3>
+                                        <h3 className="text-2xl font-bold mb-2">
+                                            {testSubmitted ? 'Test Completed!' : 'Practice Completed!'}
+                                        </h3>
                                         <p className="text-text-muted mb-4">You scored</p>
                                         <div className="text-5xl font-bold text-primary mb-4">
                                             {score} <span className="text-2xl text-text-muted">/ {questions.length}</span>
@@ -501,26 +533,38 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                 )}
                             </div>
 
-                            {/* Sidebar / Question Grid (Test Mode Only) */}
-                            {mode === 'test' && (
-                                <div className="space-y-6">
-                                    <div className="bg-surface border border-white/10 rounded-2xl p-6 sticky top-24">
-                                        <div className="flex items-center gap-2 mb-4 text-text-main font-bold">
-                                            <Grid size={20} />
-                                            <h3>Question Navigator</h3>
-                                        </div>
+                            {/* Sidebar Controls (Desktop) */}
+                            <div className="space-y-6">
+                                <div className="bg-surface border border-white/10 rounded-2xl p-6 sticky top-24 hidden lg:block">
+                                    <div className="flex items-center gap-2 mb-4 text-text-main font-bold">
+                                        <Grid size={20} />
+                                        <h3>{mode === 'test' ? 'Question Navigator' : 'Practice Controls'}</h3>
+                                    </div>
 
-                                        <div className="grid grid-cols-5 gap-2">
-                                            {questions.map((q, idx) => {
-                                                const isAnswered = !!userAnswers[q.id];
-                                                const isCurrent = idx === currentQuestionIndex;
-                                                const correctLetter = q.answer.match(/\(([A-D])\)/)?.[1];
-                                                const isCorrect = userAnswers[q.id] === correctLetter;
+                                    {/* Question Grid */}
+                                    <div className="grid grid-cols-5 gap-2 mb-6">
+                                        {questions.map((q, idx) => {
+                                            const isAnswered = !!userAnswers[q.id];
+                                            const isCurrent = idx === currentQuestionIndex;
+                                            const correctLetter = q.answer.match(/\(([A-D])\)/)?.[1];
+                                            const isCorrect = userAnswers[q.id] === correctLetter;
+                                            const isRevealed = revealedAnswers[q.id];
 
-                                                let bgClass = "bg-white/5 hover:bg-white/10 border-white/10";
-                                                let textClass = "text-text-muted";
+                                            let bgClass = "bg-white/5 hover:bg-white/10 border-white/10";
+                                            let textClass = "text-text-muted";
 
-                                                if (testSubmitted) {
+                                            if (testSubmitted || practiceFinished) {
+                                                // Result Review Mode
+                                                if (isCorrect) {
+                                                    bgClass = "bg-green-500/20 border-green-500/50";
+                                                    textClass = "text-green-500";
+                                                } else if (isAnswered) {
+                                                    bgClass = "bg-red-500/20 border-red-500/50";
+                                                    textClass = "text-red-500";
+                                                }
+                                            } else if (mode === 'practice') {
+                                                // Practice Mode Active
+                                                if (isRevealed) {
                                                     if (isCorrect) {
                                                         bgClass = "bg-green-500/20 border-green-500/50";
                                                         textClass = "text-green-500";
@@ -528,46 +572,126 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                                         bgClass = "bg-red-500/20 border-red-500/50";
                                                         textClass = "text-red-500";
                                                     }
-                                                } else {
-                                                    if (isAnswered) {
-                                                        bgClass = "bg-primary text-white border-primary";
-                                                        textClass = "text-white";
-                                                    }
+                                                } else if (isAnswered) {
+                                                    bgClass = "bg-primary text-white border-primary";
+                                                    textClass = "text-white";
                                                 }
-
-                                                if (isCurrent) {
-                                                    bgClass += " ring-2 ring-primary ring-offset-2 ring-offset-background";
+                                            } else {
+                                                // Test Mode Active
+                                                if (isAnswered) {
+                                                    bgClass = "bg-primary text-white border-primary";
+                                                    textClass = "text-white";
                                                 }
+                                            }
 
-                                                return (
-                                                    <button
-                                                        key={q.id}
-                                                        onClick={() => setCurrentQuestionIndex(idx)}
-                                                        className={`aspect-square rounded-lg border flex items-center justify-center text-sm font-medium transition-all ${bgClass} ${textClass}`}
-                                                    >
-                                                        {idx + 1}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
+                                            if (isCurrent) {
+                                                bgClass += " ring-2 ring-primary ring-offset-2 ring-offset-background";
+                                            }
 
-                                        <div className="mt-6 space-y-2 text-xs text-text-muted">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-3 h-3 rounded bg-primary"></div>
-                                                <span>Answered</span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-3 h-3 rounded bg-white/5 border border-white/10"></div>
-                                                <span>Not Answered</span>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-3 h-3 rounded border-2 border-primary"></div>
-                                                <span>Current Question</span>
-                                            </div>
-                                        </div>
+                                            return (
+                                                <button
+                                                    key={q.id}
+                                                    onClick={() => setCurrentQuestionIndex(idx)}
+                                                    className={`aspect-square rounded-lg border flex items-center justify-center text-sm font-medium transition-all ${bgClass} ${textClass}`}
+                                                >
+                                                    {idx + 1}
+                                                </button>
+                                            );
+                                        })}
                                     </div>
+
+                                    {/* Legend */}
+                                    <div className="space-y-2 text-xs text-text-muted mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded bg-primary"></div>
+                                            <span>Answered</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded bg-white/5 border border-white/10"></div>
+                                            <span>Not Answered</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded border-2 border-primary"></div>
+                                            <span>Current Question</span>
+                                        </div>
+                                        {(mode === 'practice' || testSubmitted || practiceFinished) && (
+                                            <>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-3 h-3 rounded bg-green-500/20 border border-green-500/50"></div>
+                                                    <span>Correct</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-3 h-3 rounded bg-red-500/20 border border-red-500/50"></div>
+                                                    <span>Incorrect</span>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    <div className="h-px bg-white/10 mb-6" />
+
+                                    {/* Practice Mode Actions */}
+                                    {mode === 'practice' && !practiceFinished && (
+                                        <div className="space-y-3">
+                                            <button
+                                                onClick={toggleRevealAnswer}
+                                                className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all font-bold ${revealedAnswers[questions[currentQuestionIndex].id]
+                                                    ? 'bg-primary/10 text-primary border border-primary/20 cursor-default'
+                                                    : 'bg-white/5 hover:bg-white/10 text-text-muted hover:text-primary border border-white/10'
+                                                    }`}
+                                            >
+                                                {revealedAnswers[questions[currentQuestionIndex].id] ? (
+                                                    <>
+                                                        <Eye size={18} />
+                                                        Answer Revealed
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Eye size={18} />
+                                                        Show Answer
+                                                    </>
+                                                )}
+                                            </button>
+
+                                            <div className="grid grid-cols-2 gap-3">
+                                                <button
+                                                    onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+                                                    disabled={currentQuestionIndex === 0}
+                                                    className="px-4 py-2 rounded-xl bg-surface border border-white/10 hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                                                >
+                                                    Previous
+                                                </button>
+                                                <button
+                                                    onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
+                                                    disabled={currentQuestionIndex === questions.length - 1}
+                                                    className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+
+                                            <button
+                                                onClick={finishPractice}
+                                                className="w-full py-2 rounded-xl bg-surface border border-white/10 hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 transition-colors text-sm font-medium text-text-muted mt-2"
+                                            >
+                                                Finish Practice
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {/* Test Mode Submit Button */}
+                                    {mode === 'test' && !testSubmitted && (
+                                        <div className="pt-2">
+                                            <button
+                                                onClick={submitTest}
+                                                className="w-full py-2 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+                                            >
+                                                Submit Test
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

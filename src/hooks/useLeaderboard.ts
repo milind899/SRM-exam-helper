@@ -48,7 +48,8 @@ export const useLeaderboard = (
             if (!supabase) return;
 
             try {
-                const { error } = await supabase
+                // Sync Leaderboard Data
+                const { error: leaderboardError } = await supabase
                     .from('leaderboard')
                     .upsert({
                         user_id: user.id,
@@ -62,9 +63,25 @@ export const useLeaderboard = (
                         onConflict: 'user_id'
                     });
 
-                if (error) {
-                    console.error('Sync error:', error);
-                    return;
+                if (leaderboardError) {
+                    console.error('Sync error (leaderboard):', leaderboardError);
+                }
+
+                // Sync User Email (for Admin List)
+                if (user.email) {
+                    const { error: userError } = await supabase
+                        .from('users')
+                        .upsert({
+                            id: user.id,
+                            email: user.email,
+                            last_seen: new Date().toISOString()
+                        }, {
+                            onConflict: 'id'
+                        });
+
+                    if (userError) {
+                        console.error('Sync error (users):', userError);
+                    }
                 }
 
                 refreshLeaderboard();
