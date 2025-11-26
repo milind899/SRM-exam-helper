@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, AlertCircle, X, Grid, Lock, Check } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, AlertCircle, X, Grid, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
