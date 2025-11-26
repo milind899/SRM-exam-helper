@@ -74,6 +74,7 @@ export const useLeaderboard = (
                         .upsert({
                             id: user.id,
                             email: user.email,
+                            nickname: nickname,
                             last_seen: new Date().toISOString()
                         }, {
                             onConflict: 'id'

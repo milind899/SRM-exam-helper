@@ -24,6 +24,7 @@ import { User as UserIcon } from 'lucide-react';
 import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
 import AdminUsers from './pages/AdminUsers';
+import ChallengePage from './pages/ChallengePage';
 
 function App() {
   // Get current user first
@@ -208,6 +209,15 @@ function App() {
       <>
         <Toaster position="bottom-right" />
         <AdminUsers />
+      </>
+    );
+  }
+
+  if (window.location.pathname.startsWith('/challenge/')) {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <ChallengePage />
       </>
     );
   }
@@ -505,41 +515,45 @@ function App() {
           </div>
         )}
 
-        {/* More Subjects & Contribution Section */}
-        <div className="mt-12 grid md:grid-cols-2 gap-6">
-          <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
-            <h3 className="text-lg font-bold text-text-main mb-2">More Subjects</h3>
-            <p className="text-text-muted text-sm mb-4">
-              We are working on adding more subjects like DSA, OS, and FLA. Stay tuned!
-            </p>
-            <div className="flex items-center gap-2 text-xs font-medium text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              Coming Soon
+        {!focusMode && (
+          <>
+            {/* More Subjects & Contribution Section */}
+            <div className="mt-12 grid md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
+                <h3 className="text-lg font-bold text-text-main mb-2">More Subjects</h3>
+                <p className="text-text-muted text-sm mb-4">
+                  We are working on adding more subjects like DSA, OS, and FLA. Stay tuned!
+                </p>
+                <div className="flex items-center gap-2 text-xs font-medium text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  Coming Soon
+                </div>
+              </div>
+
+              <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
+                <h3 className="text-lg font-bold text-text-main mb-2">Contribute</h3>
+                <p className="text-text-muted text-sm mb-4">
+                  Help us improve! Found an error or want to add content?
+                  <br />
+                  <span className="text-xs opacity-70 italic">(Repo is currently private, will be public soon)</span>
+                </p>
+                <button
+                  disabled
+                  className="inline-flex items-center gap-2 text-sm font-medium text-text-muted bg-surface/50 px-4 py-2 rounded-lg border border-white/5 cursor-not-allowed opacity-70"
+                >
+                  <Github size={16} />
+                  Repository (Coming Soon)
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">
-            <h3 className="text-lg font-bold text-text-main mb-2">Contribute</h3>
-            <p className="text-text-muted text-sm mb-4">
-              Help us improve! Found an error or want to add content?
-              <br />
-              <span className="text-xs opacity-70 italic">(Repo is currently private, will be public soon)</span>
-            </p>
-            <button
-              disabled
-              className="inline-flex items-center gap-2 text-sm font-medium text-text-muted bg-surface/50 px-4 py-2 rounded-lg border border-white/5 cursor-not-allowed opacity-70"
-            >
-              <Github size={16} />
-              Repository (Coming Soon)
-            </button>
-          </div>
-        </div>
-
-        <ResourcesSection currentSubjectId={currentSubjectId} />
-      </Layout >
+            <ResourcesSection currentSubjectId={currentSubjectId} />
+          </>
+        )}
+      </Layout>
       <Toaster
         position="bottom-right"
         toastOptions={{

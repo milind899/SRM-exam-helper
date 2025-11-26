@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 interface UserData {
     id: string;
     email: string;
+    nickname?: string;
     last_seen: string;
 }
 
@@ -138,6 +139,7 @@ export default function AdminUsers() {
 
     const filteredUsers = users.filter(u =>
         u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (u.nickname && u.nickname.toLowerCase().includes(searchQuery.toLowerCase())) ||
         u.id.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -182,7 +184,7 @@ export default function AdminUsers() {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" size={20} />
                     <input
                         type="text"
-                        placeholder="Search by email or ID..."
+                        placeholder="Search by email, nickname, or ID..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full bg-surface border border-white/10 rounded-xl pl-12 pr-4 py-3 text-text-main focus:outline-none focus:border-primary/50 transition-colors"
@@ -213,6 +215,7 @@ export default function AdminUsers() {
                                 <thead>
                                     <tr className="border-b border-white/10 bg-white/5">
                                         <th className="p-4 font-medium text-text-muted text-sm">User</th>
+                                        <th className="p-4 font-medium text-text-muted text-sm">Nickname</th>
                                         <th className="p-4 font-medium text-text-muted text-sm">Email</th>
                                         <th className="p-4 font-medium text-text-muted text-sm">Last Seen</th>
                                         <th className="p-4 font-medium text-text-muted text-sm">ID</th>
@@ -226,7 +229,10 @@ export default function AdminUsers() {
                                                     <Users size={16} />
                                                 </div>
                                             </td>
-                                            <td className="p-4 font-medium text-text-main">{user.email}</td>
+                                            <td className="p-4 font-medium text-text-main">
+                                                {user.nickname || <span className="text-text-muted italic">No nickname</span>}
+                                            </td>
+                                            <td className="p-4 text-text-muted text-sm">{user.email}</td>
                                             <td className="p-4 text-text-muted text-sm">
                                                 <div className="flex items-center gap-2">
                                                     <Clock size={14} />
@@ -240,7 +246,7 @@ export default function AdminUsers() {
                                     ))}
                                     {filteredUsers.length === 0 && !error && (
                                         <tr>
-                                            <td colSpan={4} className="p-8 text-center text-text-muted">
+                                            <td colSpan={5} className="p-8 text-center text-text-muted">
                                                 No users found matching your search.
                                             </td>
                                         </tr>

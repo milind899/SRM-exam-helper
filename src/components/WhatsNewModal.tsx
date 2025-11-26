@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Keyboard, Palette, Clock, Zap, PartyPopper, Share2, Book, UserCheck } from 'lucide-react';
+import { X, Sparkles, PartyPopper, Share2, Book } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -48,50 +48,28 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
     const updates = [
         {
             icon: Book,
-            title: 'Computer Networks Added! 🎉',
-            description: 'New subject syllabus for Computer Networks is now available',
+            title: 'Computer Networks MCQ Test Added! 📚',
+            description: 'Practice with the new Computer Networks syllabus questions.',
             color: 'from-blue-500 to-cyan-500'
         },
         {
-            icon: UserCheck,
-            title: 'Google Sign-In 🔐',
-            description: 'Sign in with Google to save your progress across devices and compete on the leaderboard',
-            color: 'from-green-500 to-emerald-500'
-        },
-        {
             icon: PartyPopper,
-            title: '🏆 Leaderboard Feature!',
-            description: 'Compete with fellow students in real-time rankings'
-        },
-        {
-            icon: Share2,
-            title: 'Sticky Leaderboard Sidebar',
-            description: 'Always visible on the right side (desktop) or floating button (mobile)'
-        },
-        {
-            icon: Sparkles,
-            title: 'Welcome Popup for New Users',
-            description: 'Choose your nickname and join the competition'
-        },
-        {
-            icon: Keyboard,
-            title: 'Keyboard Shortcuts',
-            description: 'Navigate faster with hotkeys (Press ? to see all)'
-        },
-        {
-            icon: Palette,
-            title: 'Blue Ocean Theme',
-            description: 'New beautiful theme option'
-        },
-        {
-            icon: Clock,
-            title: 'Tab Timer',
-            description: 'Countdown always visible in browser tab'
-        },
-        {
-            icon: Zap,
-            title: 'Better Performance',
-            description: 'Faster and smoother experience'
+            title: 'Challenge a Friend! ⚔️',
+            description: (
+                <div className="space-y-2">
+                    <p>Compete head-to-head with your friends!</p>
+                    <div className="bg-white/5 p-3 rounded-lg text-xs space-y-1 border border-white/10">
+                        <p className="font-bold text-primary">How it works:</p>
+                        <ol className="list-decimal list-inside space-y-1 opacity-80">
+                            <li>Click "Challenge a Friend" in the menu</li>
+                            <li>Share the unique link with your friend</li>
+                            <li>Both take the same test</li>
+                            <li>Winner gets a 🏆 Badge on their profile!</li>
+                        </ol>
+                    </div>
+                </div>
+            ),
+            color: 'from-purple-500 to-pink-500'
         }
     ];
 

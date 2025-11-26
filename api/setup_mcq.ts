@@ -53,6 +53,7 @@ export default async function handler(req: any, res: any) {
             CREATE TABLE IF NOT EXISTS users(
                 id UUID PRIMARY KEY,
                 email TEXT NOT NULL,
+                nickname TEXT,
                 last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `;
@@ -70,6 +71,50 @@ export default async function handler(req: any, res: any) {
         // Allow public read for now (for Admin List simplicity, can be restricted later)
         await sql`DROP POLICY IF EXISTS "Public read users" ON users`;
         await sql`CREATE POLICY "Public read users" ON users FOR SELECT USING (true)`;
+
+        // Create challenges table
+        await sql`
+            CREATE TABLE IF NOT EXISTS challenges (
+                id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+                creator_id TEXT NOT NULL,
+                opponent_id TEXT,
+                unit TEXT NOT NULL,
+                question_ids JSONB NOT NULL,
+                creator_score INTEGER,
+                opponent_score INTEGER,
+                status TEXT DEFAULT 'pending',
+                winner_id TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+
+        await sql`ALTER TABLE challenges ENABLE ROW LEVEL SECURITY`;
+
+        await sql`DROP POLICY IF EXISTS "Public read challenges" ON challenges`;
+        await sql`CREATE POLICY "Public read challenges" ON challenges FOR SELECT USING (true)`;
+
+        await sql`DROP POLICY IF EXISTS "Authenticated insert challenges" ON challenges`;
+        await sql`CREATE POLICY "Authenticated insert challenges" ON challenges FOR INSERT WITH CHECK (auth.uid()::text = creator_id)`;
+
+        await sql`DROP POLICY IF EXISTS "Participants update challenges" ON challenges`;
+        await sql`CREATE POLICY "Participants update challenges" ON challenges FOR UPDATE USING (
+            auth.uid()::text = creator_id OR auth.uid()::text = opponent_id OR opponent_id IS NULL
+        )`;
+
+        // Add badges to leaderboard if not exists (idempotent check hard in raw sql block here, relying on alter in update script for existing)
+        // For new setup, create table with badges
+        await sql`
+            CREATE TABLE IF NOT EXISTS leaderboard (
+                user_id UUID PRIMARY KEY,
+                nickname TEXT NOT NULL,
+                tagline TEXT,
+                progress_percentage INTEGER DEFAULT 0,
+                completed_items INTEGER DEFAULT 0,
+                total_items INTEGER DEFAULT 0,
+                badges JSONB DEFAULT '[]'::jsonb,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
 
         // Check if data exists
         const count = await sql`SELECT COUNT(*) FROM questions`;

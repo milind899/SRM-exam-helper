@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, Grid, Lock } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, Grid, Lock, Swords } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 import { Layout } from '../components/Layout';
 import { User as UserIcon } from 'lucide-react';
 import { SignInModal } from '../components/SignInModal';
+import { useNavigate } from 'react-router-dom';
 
 interface Question {
     id: number;
@@ -23,6 +24,7 @@ interface ComputerNetworksProps {
 
 export default function ComputerNetworks({ theme = 'emerald', onThemeChange = () => { } }: ComputerNetworksProps) {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [mode, setMode] = useState<'dashboard' | 'practice' | 'test'>('dashboard');
     const [practiceUnit, setPracticeUnit] = useState<string>('random');
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -35,6 +37,36 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0); // in seconds
     const [showSignInModal, setShowSignInModal] = useState(false);
+
+    const handleCreateChallenge = async () => {
+        if (!user) {
+            toast.error('Please sign in to challenge friends!');
+            setShowSignInModal(true);
+            return;
+        }
+
+        const toastId = toast.loading('Creating challenge...');
+        try {
+            const res = await fetch('/api/challenge/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    creator_id: user.id,
+                    unit: 'Unit 1' // Defaulting to Unit 1 for now
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                toast.success('Challenge created!', { id: toastId });
+                navigate(`/challenge/${data.challengeId}`);
+            } else {
+                throw new Error(data.error);
+            }
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to create challenge', { id: toastId });
+        }
+    };
 
     const fetchQuestions = async (selectedMode: 'practice' | 'test', unit?: string) => {
         if (selectedMode === 'test' && !user) {
@@ -628,69 +660,78 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                         )}
                                     </div>
 
-                                    <div className="h-px bg-white/10 mb-6" />
-
-                                    {/* Practice Mode Actions */}
-                                    {mode === 'practice' && !practiceFinished && (
-                                        <div className="space-y-3">
-                                            <button
-                                                onClick={toggleRevealAnswer}
-                                                className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all font-bold ${revealedAnswers[questions[currentQuestionIndex].id]
-                                                    ? 'bg-primary/10 text-primary border border-primary/20 cursor-default'
-                                                    : 'bg-white/5 hover:bg-white/10 text-text-muted hover:text-primary border border-white/10'
-                                                    }`}
-                                            >
-                                                {revealedAnswers[questions[currentQuestionIndex].id] ? (
-                                                    <>
-                                                        <Eye size={18} />
-                                                        Answer Revealed
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Eye size={18} />
-                                                        Show Answer
-                                                    </>
-                                                )}
-                                            </button>
-
-                                            <div className="grid grid-cols-2 gap-3">
-                                                <button
-                                                    onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
-                                                    disabled={currentQuestionIndex === 0}
-                                                    className="px-4 py-2 rounded-xl bg-surface border border-white/10 hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
-                                                >
-                                                    Previous
-                                                </button>
-                                                <button
-                                                    onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                                                    disabled={currentQuestionIndex === questions.length - 1}
-                                                    className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
-                                                >
-                                                    Next
-                                                </button>
-                                            </div>
-
-                                            <button
-                                                onClick={finishPractice}
-                                                className="w-full py-2 rounded-xl bg-surface border border-white/10 hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 transition-colors text-sm font-medium text-text-muted mt-2"
-                                            >
-                                                Finish Practice
-                                            </button>
-                                        </div>
-                                    )}
-
-                                    {/* Test Mode Submit Button */}
-                                    {mode === 'test' && !testSubmitted && (
-                                        <div className="pt-2">
-                                            <button
-                                                onClick={submitTest}
-                                                className="w-full py-2 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
-                                            >
-                                                Submit Test
-                                            </button>
-                                        </div>
-                                    )}
+                                    {/* Challenge Button */}
+                                    <button
+                                        onClick={handleCreateChallenge}
+                                        className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold shadow-lg shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                    >
+                                        <Swords size={18} />
+                                        Challenge a Friend
+                                    </button>
                                 </div>
+
+                                <div className="h-px bg-white/10 mb-6" />
+
+                                {/* Practice Mode Actions */}
+                                {mode === 'practice' && !practiceFinished && (
+                                    <div className="space-y-3">
+                                        <button
+                                            onClick={toggleRevealAnswer}
+                                            className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl transition-all font-bold ${revealedAnswers[questions[currentQuestionIndex].id]
+                                                ? 'bg-primary/10 text-primary border border-primary/20 cursor-default'
+                                                : 'bg-white/5 hover:bg-white/10 text-text-muted hover:text-primary border border-white/10'
+                                                }`}
+                                        >
+                                            {revealedAnswers[questions[currentQuestionIndex].id] ? (
+                                                <>
+                                                    <Eye size={18} />
+                                                    Answer Revealed
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Eye size={18} />
+                                                    Show Answer
+                                                </>
+                                            )}
+                                        </button>
+
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <button
+                                                onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+                                                disabled={currentQuestionIndex === 0}
+                                                className="px-4 py-2 rounded-xl bg-surface border border-white/10 hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                                            >
+                                                Previous
+                                            </button>
+                                            <button
+                                                onClick={() => setCurrentQuestionIndex(prev => Math.min(questions.length - 1, prev + 1))}
+                                                disabled={currentQuestionIndex === questions.length - 1}
+                                                className="px-4 py-2 rounded-xl bg-primary text-white hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            onClick={finishPractice}
+                                            className="w-full py-2 rounded-xl bg-surface border border-white/10 hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 transition-colors text-sm font-medium text-text-muted mt-2"
+                                        >
+                                            Finish Practice
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Test Mode Submit Button */}
+                                {mode === 'test' && !testSubmitted && (
+                                    <div className="pt-2">
+                                        <button
+                                            onClick={submitTest}
+                                            className="w-full py-2 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+                                        >
+                                            Submit Test
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     )}
