@@ -69,6 +69,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
     };
 
     const fetchQuestions = async (selectedMode: 'practice' | 'test', unit?: string) => {
+        console.log('Fetching questions:', { selectedMode, unit });
         if (selectedMode === 'test' && !user) {
             toast.error('Please sign in to take the test');
             setShowSignInModal(true);
@@ -120,6 +121,8 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                 // Shuffle the final test set
                 filteredQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
             }
+
+            console.log('Filtered questions count:', filteredQuestions.length);
 
             if (filteredQuestions.length > 0) {
                 setQuestions(filteredQuestions);
@@ -317,6 +320,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                 <AnimatePresence mode="wait">
                     {mode === 'dashboard' && (
                         <motion.div
+                            key="dashboard"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
@@ -396,6 +400,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
 
                     {(mode === 'practice' || mode === 'test') && questions.length > 0 && (
                         <motion.div
+                            key="practice-test"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8"
