@@ -5,7 +5,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
 import { subjects } from './data/subjects';
-import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy } from 'lucide-react';
+import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
 import { Toaster } from 'react-hot-toast';
@@ -248,6 +248,22 @@ function App() {
         }
       >
         <SignInBanner onSignIn={() => setShowSignInModal(true)} />
+
+        {/* New MCQ Banner */}
+        <div className="mb-8 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 flex items-start gap-4 relative animate-fade-in">
+          <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400 shrink-0">
+            <AlertCircle size={20} />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-blue-100 mb-1">New: Computer Networks MCQ Practice!</h3>
+            <p className="text-sm text-blue-200/70 leading-relaxed">
+              You can now practice unit-wise MCQs directly on the website.
+              <br />
+              <span className="text-blue-300 font-medium">Note:</span> Taking the <strong>Test Mode</strong> and completing the syllabus will directly affect your ranking on the Leaderboard.
+            </p>
+          </div>
+        </div>
+
         <CountdownTimer targetDate={currentSubject.examDate} />
 
         {/* Subject Switcher */}
@@ -278,9 +294,9 @@ function App() {
               className="w-full p-4 rounded-2xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30 hover:border-blue-500/50 transition-all group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors" />
-              <div className="relative flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl bg-blue-500/20 text-blue-400">
+              <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                  <div className="p-3 rounded-xl bg-blue-500/20 text-blue-400 shrink-0">
                     <Trophy size={24} />
                   </div>
                   <div className="text-left">
@@ -288,7 +304,7 @@ function App() {
                     <p className="text-sm text-blue-200/70">Practice unit-wise questions or take a full mock test</p>
                   </div>
                 </div>
-                <div className="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium text-sm group-hover:scale-105 transition-transform">
+                <div className="w-full sm:w-auto px-4 py-2 rounded-lg bg-blue-500 text-white font-medium text-sm group-hover:scale-105 transition-transform text-center">
                   Start Practice →
                 </div>
               </div>

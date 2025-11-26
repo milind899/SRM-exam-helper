@@ -28,11 +28,6 @@ export const Layout: React.FC<LayoutProps> = ({
     const mouseY = useMotionValue(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
 
-    const handleHeaderClick = () => {
-        window.location.hash = '';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             mouseX.set(e.clientX);
@@ -82,7 +77,7 @@ export const Layout: React.FC<LayoutProps> = ({
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <button
-                                    onClick={handleHeaderClick}
+                                    onClick={() => window.location.href = '/'}
                                     className="text-2xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity text-left"
                                 >
                                     SRM EXAM HELPER

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, AlertCircle, X, Grid, Lock } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, CheckCircle, XCircle, Trophy, RefreshCw, Eye, Grid, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
@@ -33,7 +33,6 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
     const [testSubmitted, setTestSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const [timeLeft, setTimeLeft] = useState(0); // in seconds
-    const [showBanner, setShowBanner] = useState(true);
     const [showSignInModal, setShowSignInModal] = useState(false);
 
     const fetchQuestions = async (selectedMode: 'practice' | 'test', unit?: string) => {
@@ -239,36 +238,6 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
             <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
 
             <div className="max-w-6xl mx-auto">
-                {/* Banner */}
-                <AnimatePresence>
-                    {showBanner && mode === 'dashboard' && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mb-8 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 flex items-start gap-4 relative"
-                        >
-                            <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400 shrink-0">
-                                <AlertCircle size={20} />
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="font-bold text-blue-100 mb-1">New: Computer Networks MCQ Practice!</h3>
-                                <p className="text-sm text-blue-200/70 leading-relaxed">
-                                    You can now practice unit-wise MCQs directly on the website.
-                                    <br />
-                                    <span className="text-blue-300 font-medium">Note:</span> Taking the <strong>Test Mode</strong> and completing the syllabus will directly affect your ranking on the Leaderboard.
-                                </p>
-                            </div>
-                            <button
-                                onClick={() => setShowBanner(false)}
-                                className="p-1 hover:bg-blue-500/20 rounded-lg text-blue-400 transition-colors"
-                            >
-                                <X size={16} />
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
                 {/* Header / Nav */}
                 <div className="flex items-center justify-between mb-8">
                     <button
@@ -373,8 +342,13 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                             <div className="max-w-3xl">
                                 {/* Progress Bar & Timer */}
                                 <div className="flex items-center justify-between mb-6">
-                                    <div className="text-sm font-medium text-text-muted">
-                                        Question {currentQuestionIndex + 1} / {questions.length}
+                                    <div className="flex items-center gap-3">
+                                        <span className="px-3 py-1 rounded-lg bg-surface border border-white/10 text-sm font-medium text-text-muted">
+                                            Question {currentQuestionIndex + 1} / {questions.length}
+                                        </span>
+                                        <span className="px-3 py-1 rounded-lg bg-primary/10 border border-primary/20 text-sm font-medium text-primary">
+                                            {questions[currentQuestionIndex].unit}
+                                        </span>
                                     </div>
                                     {mode === 'test' && (
                                         <div className={`flex items-center gap-2 font-mono text-lg ${timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-primary'}`}>
@@ -385,11 +359,11 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                 </div>
 
                                 {/* Question Card */}
-                                <div className="bg-surface border border-white/10 rounded-2xl p-6 md:p-8 mb-6 shadow-xl relative">
-                                    <span className="inline-block px-3 py-1 rounded-full bg-white/5 text-xs font-medium text-text-muted mb-4 border border-white/5">
-                                        {questions[currentQuestionIndex].unit}
-                                    </span>
-                                    <h3 className="text-xl md:text-2xl font-bold mb-8 leading-relaxed">
+                                <div className="bg-surface border border-white/10 rounded-2xl p-6 md:p-8 mb-6 shadow-xl relative overflow-hidden">
+                                    {/* Background decoration */}
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                                    <h3 className="text-xl md:text-2xl font-bold mb-8 leading-relaxed text-text-main">
                                         {questions[currentQuestionIndex].question}
                                     </h3>
 
@@ -401,18 +375,29 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                             const isRevealed = revealedAnswers[questions[currentQuestionIndex].id];
 
                                             // Styling logic
-                                            let styleClass = "border-white/10 hover:bg-white/5";
+                                            let styleClass = "border-white/10 hover:bg-white/5 hover:border-primary/30";
+                                            let icon = null;
 
                                             if (mode === 'practice') {
                                                 if (isRevealed) {
-                                                    if (isCorrect) styleClass = "border-green-500 bg-green-500/10 text-green-500";
-                                                    else if (isSelected) styleClass = "border-red-500 bg-red-500/10 text-red-500";
+                                                    if (isCorrect) {
+                                                        styleClass = "border-green-500 bg-green-500/10 text-green-500";
+                                                        icon = <CheckCircle size={20} className="text-green-500 shrink-0" />;
+                                                    } else if (isSelected) {
+                                                        styleClass = "border-red-500 bg-red-500/10 text-red-500";
+                                                        icon = <XCircle size={20} className="text-red-500 shrink-0" />;
+                                                    }
                                                 } else {
                                                     if (isSelected) styleClass = "border-primary bg-primary/10 text-primary";
                                                 }
                                             } else if (testSubmitted) {
-                                                if (isCorrect) styleClass = "border-green-500 bg-green-500/10 text-green-500";
-                                                else if (isSelected) styleClass = "border-red-500 bg-red-500/10 text-red-500";
+                                                if (isCorrect) {
+                                                    styleClass = "border-green-500 bg-green-500/10 text-green-500";
+                                                    icon = <CheckCircle size={20} className="text-green-500 shrink-0" />;
+                                                } else if (isSelected) {
+                                                    styleClass = "border-red-500 bg-red-500/10 text-red-500";
+                                                    icon = <XCircle size={20} className="text-red-500 shrink-0" />;
+                                                }
                                             } else {
                                                 if (isSelected) styleClass = "border-primary bg-primary/10 text-primary";
                                             }
@@ -425,17 +410,12 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                                     className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${styleClass}`}
                                                 >
                                                     <div className="flex items-center gap-4">
-                                                        <span className={`h-8 w-8 rounded-full flex items-center justify-center border font-bold text-sm ${isSelected ? 'border-current' : 'border-white/20 text-text-muted'}`}>
+                                                        <span className={`h-8 w-8 rounded-lg flex items-center justify-center border font-bold text-sm transition-colors ${isSelected ? 'border-current bg-current/10' : 'border-white/20 text-text-muted group-hover:border-primary/50 group-hover:text-primary'}`}>
                                                             {key}
                                                         </span>
                                                         <span className="font-medium">{value}</span>
                                                     </div>
-                                                    {((mode === 'practice' && isRevealed) || testSubmitted) && isCorrect && (
-                                                        <CheckCircle size={20} className="text-green-500" />
-                                                    )}
-                                                    {((mode === 'practice' && isRevealed) || testSubmitted) && isSelected && !isCorrect && (
-                                                        <XCircle size={20} className="text-red-500" />
-                                                    )}
+                                                    {icon}
                                                 </button>
                                             );
                                         })}
@@ -443,19 +423,22 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
 
                                     {/* Show Answer Button (Practice Mode Only) */}
                                     {mode === 'practice' && (
-                                        <div className="mt-6 flex justify-end">
+                                        <div className="mt-8 pt-6 border-t border-white/5 flex justify-end">
                                             <button
                                                 onClick={toggleRevealAnswer}
-                                                className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium ${revealedAnswers[questions[currentQuestionIndex].id]
+                                                    ? 'bg-primary/10 text-primary cursor-default'
+                                                    : 'bg-white/5 hover:bg-white/10 text-text-muted hover:text-primary'
+                                                    }`}
                                             >
                                                 {revealedAnswers[questions[currentQuestionIndex].id] ? (
                                                     <>
-                                                        <Eye size={16} />
+                                                        <Eye size={18} />
                                                         Answer Revealed
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <Eye size={16} />
+                                                        <Eye size={18} />
                                                         Show Answer
                                                     </>
                                                 )}
