@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
+
 interface Question {
     id: number;
     unit: string;
@@ -10,8 +11,23 @@ interface Question {
 }
 
 export function parseQuestionsFromFile(): Question[] {
-    const filePath = join(process.cwd(), 'api', 'leaderboard', '🟦 UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA.txt');
-    const content = readFileSync(filePath, 'utf-8');
+    // Try multiple paths for compatibility with both local and Vercel
+    let content: string;
+
+    try {
+        // First try: relative to api directory (Vercel)
+        const filePath1 = join(__dirname, 'leaderboard', '🟦 UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA.txt');
+        content = readFileSync(filePath1, 'utf-8');
+    } catch (error1) {
+        try {
+            // Second try: from process.cwd() (local dev)
+            const filePath2 = join(process.cwd(), 'api', 'leaderboard', '🟦 UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA.txt');
+            content = readFileSync(filePath2, 'utf-8');
+        } catch (error2) {
+            throw new Error(`Failed to load questions file. Tried multiple paths. Last error: ${error2}`);
+        }
+    }
+
 
     const questions: Question[] = [];
     let currentUnit = '';
