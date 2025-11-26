@@ -1,4 +1,4 @@
-import { neon } from '@neondatabase/serverless';
+import { getQuestionsByUnit, getTestQuestions } from './parser';
 
 export default async function handler(req: any, res: any) {
     // Enable CORS
@@ -11,54 +11,14 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        // Check if DATABASE_URL exists
-        if (!process.env.DATABASE_URL) {
-            return res.status(500).json({
-                error: 'DATABASE_URL is not configured',
-                hint: 'Please add DATABASE_URL to Vercel environment variables'
-            });
-        }
-
-        const sql = neon(process.env.DATABASE_URL);
         const { mode, unit, limit = 30 } = req.query;
 
         let questions;
 
         if (mode === 'practice') {
-            if (unit && unit !== 'random') {
-                questions = await sql`
-                    SELECT id, unit, question, options, answer 
-                    FROM questions 
-                    WHERE unit ILIKE ${'%' + unit + '%'}
-                    ORDER BY RANDOM() 
-                    LIMIT ${limit}
-                `;
-            } else {
-                questions = await sql`
-                    SELECT id, unit, question, options, answer 
-                    FROM questions 
-                    ORDER BY RANDOM() 
-                    LIMIT ${limit}
-                `;
-            }
+            questions = getQuestionsByUnit(unit || 'random', parseInt(limit));
         } else if (mode === 'test') {
-            const units = ['UNIT 1', 'UNIT 2', 'UNIT 3', 'UNIT 4', 'UNIT 5'];
-            const questionsPerUnit = 6;
-
-            const allQuestions = [];
-
-            for (const u of units) {
-                const unitQuestions = await sql`
-                    SELECT id, unit, question, options, answer 
-                    FROM questions 
-                    WHERE unit ILIKE ${'%' + u + '%'}
-                    ORDER BY RANDOM() 
-                    LIMIT ${questionsPerUnit}
-                `;
-                allQuestions.push(...unitQuestions);
-            }
-
-            questions = allQuestions.sort(() => Math.random() - 0.5);
+            questions = getTestQuestions();
         } else {
             return res.status(400).json({ error: 'Invalid mode. Use mode=practice or mode=test' });
         }
@@ -66,7 +26,7 @@ export default async function handler(req: any, res: any) {
         if (!questions || questions.length === 0) {
             return res.status(404).json({
                 error: 'No questions found',
-                hint: 'Database might be empty. Please seed it using seed.sql'
+                hint: 'Questions file might be empty or not found'
             });
         }
 
