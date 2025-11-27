@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Share2, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
+import { Share2, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
 
 type Department = 'ENT' | 'FSH';
 
@@ -176,7 +176,7 @@ const AttendanceCalculator: React.FC = () => {
             )}
 
             <div className="space-y-4">
-                {subjects.map((subject, index) => {
+                {subjects.map((subject) => {
                     const stats = calculateMargin(subject.total, subject.present);
 
                     return (
