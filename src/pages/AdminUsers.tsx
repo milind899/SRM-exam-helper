@@ -236,7 +236,7 @@ export default function AdminUsers() {
                                             <td className="p-4 text-text-muted text-sm">
                                                 <div className="flex items-center gap-2">
                                                     <Clock size={14} />
-                                                    {new Date(user.last_seen).toLocaleString()}
+                                                    {new Date(user.last_seen).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
                                                 </div>
                                             </td>
                                             <td className="p-4 text-text-muted text-xs font-mono opacity-50">

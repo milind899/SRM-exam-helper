@@ -267,13 +267,8 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
     };
 
     // Render Logic
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-background">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-            </div>
-        );
-    }
+    // REMOVED: Early return for loading to prevent unmounting Layout
+    // if (loading) { return <Spinner /> }
 
     return (
         <Layout
@@ -302,6 +297,13 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
         >
             <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
 
+            {/* Loading Overlay */}
+            {loading && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                </div>
+            )}
+
             <div className="max-w-6xl mx-auto">
                 {/* Header / Nav */}
                 <div className="flex items-center justify-between mb-8">
@@ -326,6 +328,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                             exit={{ opacity: 0, y: -20 }}
                             className="grid md:grid-cols-2 gap-6"
                         >
+                            {/* ... Dashboard Content ... */}
                             {/* Practice Card */}
                             <div className="bg-surface border border-white/10 rounded-2xl p-6 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -399,7 +402,12 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                     )}
 
                     {(mode === 'practice' || mode === 'test') && questions.length === 0 && (
-                        <div className="min-h-[50vh] flex flex-col items-center justify-center text-center">
+                        <motion.div
+                            key="error-fallback"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="min-h-[50vh] flex flex-col items-center justify-center text-center"
+                        >
                             <h2 className="text-2xl font-bold text-red-500 mb-4">Error Loading Questions</h2>
                             <p className="text-text-muted mb-6">Unable to load questions for this unit. Please try again.</p>
                             <button
@@ -408,7 +416,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                             >
                                 Return to Dashboard
                             </button>
-                        </div>
+                        </motion.div>
                     )}
 
                     {(mode === 'practice' || mode === 'test') && questions.length > 0 && (
@@ -427,7 +435,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                             Question {currentQuestionIndex + 1} / {questions.length}
                                         </span>
                                         <span className="px-3 py-1 rounded-lg bg-primary/10 border border-primary/20 text-sm font-medium text-primary">
-                                            {questions[currentQuestionIndex].unit}
+                                            {questions[currentQuestionIndex]?.unit || 'Unknown Unit'}
                                         </span>
                                     </div>
                                     {mode === 'test' && (
@@ -455,7 +463,9 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                         ) : (
                                             Object.entries(questions[currentQuestionIndex].options).map(([key, value]) => {
                                                 const isSelected = userAnswers[questions[currentQuestionIndex].id] === key;
-                                                const correctLetter = questions[currentQuestionIndex].answer.match(/\(([A-D])\)/)?.[1];
+                                                // Defensive check for answer property
+                                                const answerText = questions[currentQuestionIndex].answer || '';
+                                                const correctLetter = answerText.match(/\(([A-D])\)/)?.[1];
                                                 const isCorrect = key === correctLetter;
                                                 const isRevealed = revealedAnswers[questions[currentQuestionIndex].id];
 
