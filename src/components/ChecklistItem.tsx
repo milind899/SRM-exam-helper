@@ -36,7 +36,7 @@ export const ChecklistItem: React.FC<ChecklistItemProps> = ({ item, isChecked, o
             <div className="flex-1 min-w-0">
                 <p className={clsx(
                     "text-sm leading-relaxed transition-colors duration-200",
-                    isChecked ? "text-slate-500 line-through" : "text-slate-200 group-hover:text-white"
+                    isChecked ? "text-text-muted line-through" : "text-text-main group-hover:text-primary"
                 )}>
                     {item.text}
                 </p>
