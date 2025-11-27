@@ -326,7 +326,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
-                            className="grid md:grid-cols-2 gap-6"
+                            className="grid md:grid-cols-3 gap-6"
                         >
                             {/* ... Dashboard Content ... */}
                             {/* Practice Card */}
@@ -395,6 +395,39 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                         className="w-full py-2 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
                                     >
                                         {user ? 'Start Test' : 'Sign In to Start Test'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Challenge Card */}
+                            <div className="bg-surface border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition-all group cursor-pointer relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                    <Swords size={100} />
+                                </div>
+                                <div className="h-12 w-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
+                                    <Swords className="text-violet-500" size={24} />
+                                </div>
+                                <h2 className="text-xl font-bold mb-2 relative z-10">Challenge Mode</h2>
+                                <p className="text-text-muted mb-6 relative z-10">Compete with friends in real-time. Create a room and battle for the highest score.</p>
+
+                                <div className="space-y-3 relative z-10">
+                                    <div className="flex items-center justify-between text-sm text-text-muted">
+                                        <div className="flex items-center gap-2">
+                                            <Swords size={16} />
+                                            <span>Multiplayer</span>
+                                        </div>
+                                        {!user && (
+                                            <div className="flex items-center gap-1 text-red-400">
+                                                <Lock size={14} />
+                                                <span>Sign in required</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={handleCreateChallenge}
+                                        className="w-full py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
+                                    >
+                                        {user ? 'Challenge a Friend' : 'Sign In to Challenge'}
                                     </button>
                                 </div>
                             </div>
@@ -697,10 +730,11 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                     {/* Challenge Button */}
                                     <button
                                         onClick={handleCreateChallenge}
-                                        className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold shadow-lg shadow-violet-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                        className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white font-bold text-lg shadow-xl shadow-violet-500/30 border border-violet-400/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 relative overflow-hidden group"
                                     >
-                                        <Swords size={18} />
-                                        Challenge a Friend
+                                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                        <Swords size={20} className="relative z-10" />
+                                        <span className="relative z-10">Challenge a Friend</span>
                                     </button>
                                 </div>
 
@@ -752,7 +786,20 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                         >
                                             Finish Practice
                                         </button>
+
+                                        {/* Mobile Challenge Button */}
+                                        <div className="lg:hidden pt-4 border-t border-white/10 mt-4">
+                                            <button
+                                                onClick={handleCreateChallenge}
+                                                className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white font-bold text-lg shadow-xl shadow-violet-500/30 border border-violet-400/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 relative overflow-hidden group"
+                                            >
+                                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                                <Swords size={20} className="relative z-10" />
+                                                <span className="relative z-10">Challenge a Friend</span>
+                                            </button>
+                                        </div>
                                     </div>
+
                                 )}
 
                                 {/* Test Mode Submit Button */}
@@ -771,6 +818,6 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                     )}
                 </AnimatePresence>
             </div>
-        </Layout>
+        </Layout >
     );
 }

@@ -25,6 +25,7 @@ import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
 import AdminUsers from './pages/AdminUsers';
 import ChallengePage from './pages/ChallengePage';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   // Get current user first
@@ -199,7 +200,9 @@ function App() {
     return (
       <>
         <Toaster position="bottom-right" />
-        <ComputerNetworks theme={theme} onThemeChange={setTheme} />
+        <ErrorBoundary>
+          <ComputerNetworks theme={theme} onThemeChange={setTheme} />
+        </ErrorBoundary>
       </>
     );
   }

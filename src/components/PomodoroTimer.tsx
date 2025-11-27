@@ -63,15 +63,27 @@ export const PomodoroTimer: React.FC = () => {
         let interval: ReturnType<typeof setInterval>;
 
         if (isRunning && timeLeft > 0) {
+            // Calculate target end time based on current timeLeft
+            const targetTime = Date.now() + timeLeft * 1000;
+
             interval = setInterval(() => {
-                setTimeLeft(prev => prev - 1);
+                const now = Date.now();
+                const newTimeLeft = Math.ceil((targetTime - now) / 1000);
+
+                if (newTimeLeft <= 0) {
+                    setTimeLeft(0);
+                    handleTimerComplete();
+                    clearInterval(interval);
+                } else {
+                    setTimeLeft(newTimeLeft);
+                }
             }, 1000);
         } else if (timeLeft === 0) {
             handleTimerComplete();
         }
 
         return () => clearInterval(interval);
-    }, [isRunning, timeLeft]);
+    }, [isRunning]); // Removed timeLeft dependency to prevent re-creating interval on every tick
 
     useEffect(() => {
         const minutes = Math.floor(timeLeft / 60);
