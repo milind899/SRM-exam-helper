@@ -578,7 +578,7 @@ function App() {
       <Analytics />
       <StickyLeaderboard
         entries={leaderboard}
-        currentUserId={localStorage.getItem('userId') || undefined}
+        currentUserId={user?.id}
         currentUserNickname={nickname}
         onUpdateNickname={updateNickname}
         loading={leaderboardLoading}

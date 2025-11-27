@@ -45,6 +45,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const { user } = session;
                 const nickname = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous';
 
+                console.log('Attempting to sync user:', user.id, nickname);
+
                 client
                     .from('users')
                     .upsert({
@@ -54,7 +56,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                         last_seen: new Date().toISOString()
                     }, { onConflict: 'id' })
                     .then(({ error }) => {
-                        if (error) console.error('Error syncing user:', error);
+                        if (error) {
+                            console.error('Error syncing user:', error);
+                        } else {
+                            console.log('User synced successfully');
+                        }
                     });
             }
         });

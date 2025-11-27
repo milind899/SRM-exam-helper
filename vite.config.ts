@@ -95,8 +95,8 @@ export default defineConfig({
 
                 return sendJson({ success: true, challengeId: challenge[0].id });
               } catch (err: any) {
-                console.error('API Error:', err);
-                return sendJson({ error: err.message }, 500);
+                console.error('API Error (Challenge Create):', err);
+                return sendJson({ error: err.message || 'Internal Server Error' }, 500);
               }
             }
 
@@ -131,8 +131,8 @@ export default defineConfig({
 
                 return sendJson({ success: true, message: 'Score saved' });
               } catch (err: any) {
-                console.error('API Error:', err);
-                return sendJson({ success: true, message: 'Saved locally (DB error)', dbError: err.message });
+                console.error('API Error (Submit Test):', err);
+                return sendJson({ success: true, message: 'Saved locally (DB error)', dbError: err.message }, 200);
               }
             }
           }
