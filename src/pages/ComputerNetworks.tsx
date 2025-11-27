@@ -55,13 +55,21 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                     unit: 'Unit 1' // Defaulting to Unit 1 for now
                 })
             });
-            const data = await res.json();
+
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Invalid JSON response:', text);
+                throw new Error('Server returned invalid response');
+            }
 
             if (data.success) {
                 toast.success('Challenge created!', { id: toastId });
                 navigate(`/challenge/${data.challengeId}`);
             } else {
-                throw new Error(data.error);
+                throw new Error(data.error || 'Unknown error');
             }
         } catch (err: any) {
             toast.error(err.message || 'Failed to create challenge', { id: toastId });
@@ -228,7 +236,7 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
         }
 
         try {
-            await fetch('/api/submit_test', {
+            const res = await fetch('/api/submit_test', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -237,10 +245,19 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                     total_questions: questions.length
                 })
             });
-            toast.success('Test submitted successfully!');
-        } catch (error) {
+
+            const text = await res.text();
+            try {
+                const data = JSON.parse(text);
+                if (!res.ok) throw new Error(data.error || 'Failed to submit test');
+                toast.success('Test submitted successfully!');
+            } catch (e) {
+                console.error('Invalid JSON response:', text);
+                throw new Error('Server returned invalid response');
+            }
+        } catch (error: any) {
             console.error('Error submitting test:', error);
-            toast.error('Failed to save result');
+            toast.error('Failed to save result: ' + error.message);
         }
     };
 
