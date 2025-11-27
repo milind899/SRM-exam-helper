@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet, Keyboard, Share2, Sun, Zap, Trees, Sparkles, Rainbow, Clock, Crown } from 'lucide-react';
+import { Moon, Droplet, Keyboard, Share2, Zap, Trees, Rainbow, Clock, Crown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { CircularProgress } from './CircularProgress';
 
-type Theme = 'emerald' | 'dark' | 'blue' | 'minimal-white' | 'neon-dark' | 'nature-green' | 'pastel-aesthetic' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+type Theme = 'emerald' | 'dark' | 'blue' | 'neon-dark' | 'nature-green' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -145,10 +145,8 @@ export const Layout: React.FC<LayoutProps> = ({
                                         {currentTheme === 'emerald' && <div className="w-5 h-5 rounded-full bg-emerald-500 border-2 border-white/20" />}
                                         {currentTheme === 'dark' && <Moon size={20} />}
                                         {currentTheme === 'blue' && <Droplet size={20} />}
-                                        {currentTheme === 'minimal-white' && <Sun size={20} />}
                                         {currentTheme === 'neon-dark' && <Zap size={20} />}
                                         {currentTheme === 'nature-green' && <Trees size={20} />}
-                                        {currentTheme === 'pastel-aesthetic' && <Sparkles size={20} />}
                                         {currentTheme === 'modern-gradient' && <Rainbow size={20} />}
                                         {currentTheme === 'retro-vintage' && <Clock size={20} />}
                                         {currentTheme === 'gold-black' && <Crown size={20} />}
@@ -168,10 +166,6 @@ export const Layout: React.FC<LayoutProps> = ({
                                                 <span className="text-sm font-medium">Blue Ocean</span>
                                             </button>
                                             <div className="h-px bg-white/10 my-2" />
-                                            <button onClick={() => onThemeChange('minimal-white')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'minimal-white' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
-                                                <Sun size={20} />
-                                                <span className="text-sm font-medium">Minimal White</span>
-                                            </button>
                                             <button onClick={() => onThemeChange('neon-dark')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'neon-dark' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
                                                 <Zap size={20} />
                                                 <span className="text-sm font-medium">Neon Dark</span>
@@ -179,10 +173,6 @@ export const Layout: React.FC<LayoutProps> = ({
                                             <button onClick={() => onThemeChange('nature-green')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'nature-green' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
                                                 <Trees size={20} />
                                                 <span className="text-sm font-medium">Nature Green</span>
-                                            </button>
-                                            <button onClick={() => onThemeChange('pastel-aesthetic')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'pastel-aesthetic' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
-                                                <Sparkles size={20} />
-                                                <span className="text-sm font-medium">Pastel Aesthetic</span>
                                             </button>
                                             <button onClick={() => onThemeChange('modern-gradient')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'modern-gradient' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
                                                 <Rainbow size={20} />

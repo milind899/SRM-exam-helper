@@ -1,4 +1,4 @@
-/* Updated: Nov 27, 2025 - Added 7 new themes + light theme text fixes */
+/* Updated: Nov 27, 2025 - Removed light themes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,24 +58,6 @@
     /* slate-400 */
   }
 
-  [data-theme="minimal-white"] {
-    /* Minimal White - Clean & Professional */
-    --color-background: 255, 255, 255;
-    /* pure white */
-    --color-surface: 249, 250, 251;
-    /* gray-50 */
-    --color-primary: 17, 24, 39;
-    /* gray-900 */
-    --color-secondary: 156, 163, 175;
-    /* gray-400 */
-    --color-accent: 75, 85, 99;
-    /* gray-600 */
-    --color-text-main: 17, 24, 39;
-    /* gray-900 */
-    --color-text-muted: 107, 114, 128;
-    /* gray-500 */
-  }
-
   [data-theme="neon-dark"] {
     /* Neon Dark - Cyberpunk Vibes */
     --color-background: 10, 10, 10;
@@ -110,24 +92,6 @@
     /* green-50 */
     --color-text-muted: 187, 247, 208;
     /* green-200 */
-  }
-
-  [data-theme="pastel-aesthetic"] {
-    /* Pastel Aesthetic - Soft & Dreamy */
-    --color-background: 253, 242, 248;
-    /* pink-50 */
-    --color-surface: 252, 231, 243;
-    /* pink-100 */
-    --color-primary: 219, 39, 119;
-    /* pink-600 */
-    --color-secondary: 244, 114, 182;
-    /* pink-400 */
-    --color-accent: 251, 207, 232;
-    /* pink-200 */
-    --color-text-main: 80, 7, 36;
-    /* pink-950 */
-    --color-text-muted: 157, 23, 77;
-    /* pink-800 */
   }
 
   [data-theme="modern-gradient"] {
@@ -191,32 +155,6 @@
   html {
     scroll-behavior: smooth;
   }
-}
-
-/* Fix text visibility in light themes */
-[data-theme="minimal-white"] *,
-[data-theme="pastel-aesthetic"] * {
-  color: rgb(var(--color-text-main));
-}
-
-[data-theme="minimal-white"] .text-text-muted,
-[data-theme="pastel-aesthetic"] .text-text-muted {
-  color: rgb(var(--color-text-muted)) !important;
-}
-
-[data-theme="minimal-white"] .text-primary,
-[data-theme="pastel-aesthetic"] .text-primary {
-  color: rgb(var(--color-primary)) !important;
-}
-
-[data-theme="minimal-white"] .text-accent,
-[data-theme="pastel-aesthetic"] .text-accent {
-  color: rgb(var(--color-accent)) !important;
-}
-
-[data-theme="minimal-white"] .text-white,
-[data-theme="pastel-aesthetic"] .text-white {
-  color: rgb(var(--color-text-main)) !important;
 }
 
 /* Custom Scrollbar */

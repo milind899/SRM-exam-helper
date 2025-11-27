@@ -17,7 +17,7 @@ interface Question {
     answer: string;
 }
 
-type Theme = 'emerald' | 'dark' | 'blue' | 'minimal-white' | 'neon-dark' | 'nature-green' | 'pastel-aesthetic' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+type Theme = 'emerald' | 'dark' | 'blue' | 'neon-dark' | 'nature-green' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
 
 interface ComputerNetworksProps {
     theme?: Theme;

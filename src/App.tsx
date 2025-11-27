@@ -47,7 +47,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
 
-  type Theme = 'emerald' | 'dark' | 'blue' | 'minimal-white' | 'neon-dark' | 'nature-green' | 'pastel-aesthetic' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+  type Theme = 'emerald' | 'dark' | 'blue' | 'neon-dark' | 'nature-green' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
 
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('theme');
@@ -108,7 +108,7 @@ function App() {
           if (e.target instanceof HTMLInputElement) return;
           e.preventDefault();
           setTheme(prev => {
-            const themes: Theme[] = ['emerald', 'dark', 'blue', 'minimal-white', 'neon-dark', 'nature-green', 'pastel-aesthetic', 'modern-gradient', 'retro-vintage', 'gold-black'];
+            const themes: Theme[] = ['emerald', 'dark', 'blue', 'neon-dark', 'nature-green', 'modern-gradient', 'retro-vintage', 'gold-black'];
             const currentIndex = themes.indexOf(prev);
             return themes[(currentIndex + 1) % themes.length];
           });
