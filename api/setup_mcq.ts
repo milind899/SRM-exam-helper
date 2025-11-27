@@ -1,8 +1,15 @@
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL!);
+import postgres from 'postgres';
 
 export default async function handler(req: any, res: any) {
+    const connectionString = process.env.helper_POSTGRES_URL ||
+        process.env.POSTGRES_URL ||
+        process.env.DATABASE_URL;
+
+    if (!connectionString) {
+        return res.status(500).json({ error: 'Database configuration missing' });
+    }
+
+    const sql = postgres(connectionString);
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -116,9 +123,10 @@ export default async function handler(req: any, res: any) {
             )
         `;
 
-        // Check if data exists
         const count = await sql`SELECT COUNT(*) FROM questions`;
         const questionCount = parseInt(count[0].count);
+
+        await sql.end();
 
         return res.status(200).json({
             success: true,
