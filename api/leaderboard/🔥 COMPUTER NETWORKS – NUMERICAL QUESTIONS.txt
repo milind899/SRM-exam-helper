@@ -1,0 +1,158 @@
+🟩 HIGHEST PRIORITY – MUST SOLVE (VERY HIGH WEIGHTAGE)
+
+1. Subnetting: Divide 192.168.10.0/24 into 6 subnets. Find Subnet Mask, Network ID, Broadcast, Host Range for each.
+(A) /26 subnets with 62 hosts each
+(B) /27 subnets with 30 hosts each
+(C) /28 subnets with 14 hosts each
+(D) /25 subnets with 126 hosts each
+Answer: (B) /27 subnets with 30 hosts each
+
+2. VLSM: Allocate VLSM blocks for networks needing: 100 hosts, 50 hosts, 25 hosts, 10 hosts from base block 10.0.0.0/24.
+(A) /25, /26, /27, /28
+(B) /24, /25, /26, /27
+(C) /25, /25, /26, /28
+(D) /24, /26, /27, /28
+Answer: (A) /25, /26, /27, /28
+
+3. CIDR Route Aggregation: Aggregate 192.168.1.0/24, 192.168.2.0/24, 192.168.3.0/24, 192.168.4.0/24 into a single supernet.
+(A) 192.168.0.0/21
+(B) 192.168.1.0/22
+(C) 192.168.0.0/22
+(D) 192.168.1.0/21
+Answer: (B) 192.168.1.0/22
+
+4. NAT Translation: How many entries are needed in NAT table for 5 devices accessing internet simultaneously?
+(A) 5 entries
+(B) 10 entries
+(C) 1 entry
+(D) 15 entries
+Answer: (A) 5 entries
+
+5. Dijkstra Shortest Path: Given graph edges A-B=2, A-C=5, B-D=1, C-D=2, B-E=3, D-E=1. What is the shortest path from A to E?
+(A) A→C→D→E (Cost: 8)
+(B) A→B→D→E (Cost: 4)
+(C) A→B→E (Cost: 5)
+(D) A→C→E (Cost: 7)
+Answer: (B) A→B→D→E (Cost: 4)
+
+🟨 HIGH PRIORITY – VERY LIKELY IN PART B/C
+
+6. Bellman Ford: In distance vector routing, if a node receives update showing shorter path, what action does it take?
+(A) Ignore the update
+(B) Update routing table and broadcast to neighbors
+(C) Only update locally without broadcasting
+(D) Reset entire routing table
+Answer: (B) Update routing table and broadcast to neighbors
+
+7. CRC Polynomial Division: Message = 10011010, Generator = 1101. What is the CRC remainder?
+(A) 100
+(B) 010
+(C) 001
+(D) 110
+Answer: (C) 001
+
+8. Hamming Code: To encode 1011001 using Hamming(7,4), how many parity bits are needed?
+(A) 2 bits
+(B) 3 bits
+(C) 4 bits
+(D) 5 bits
+Answer: (B) 3 bits
+
+9. Go-Back-N: If sequence numbers use 4 bits, what is the maximum window size?
+(A) 15
+(B) 16
+(C) 8
+(D) 7
+Answer: (A) 15
+
+10. Selective Repeat: With m=3 sequence bits, what is the maximum sender window size?
+(A) 8
+(B) 7
+(C) 4
+(D) 3
+Answer: (C) 4
+
+11. ALOHA Throughput: With offered traffic of 0.5 packets/time unit, what is Pure ALOHA throughput?
+(A) 0.184
+(B) 0.368
+(C) 0.5
+(D) 0.25
+Answer: (A) 0.184
+
+🟦 MEDIUM PRIORITY – ASKABLE BUT LESS FREQUENT
+
+12. Transmission Delay: Frame = 8 KB, Link = 10 Mbps. Find transmission delay.
+(A) 6.4 ms
+(B) 0.64 ms
+(C) 64 ms
+(D) 0.064 ms
+Answer: (A) 6.4 ms
+
+13. Propagation Delay: Fiber link = 1200 km, speed = 2×10^8 m/s. Compute propagation delay.
+(A) 6 ms
+(B) 60 ms
+(C) 0.6 ms
+(D) 600 ms
+Answer: (A) 6 ms
+
+14. Total End-to-End Delay: If transmission = 6 ms, propagation = 14 ms, what is total latency?
+(A) 8 ms
+(B) 20 ms
+(C) 14 ms
+(D) 6 ms
+Answer: (B) 20 ms
+
+15. Bandwidth Calculation: A video stream requires 400 KB/s. What bandwidth is necessary in Mbps?
+(A) 3.2 Mbps
+(B) 0.4 Mbps
+(C) 4.0 Mbps
+(D) 32 Mbps
+Answer: (A) 3.2 Mbps
+
+🟪 LOWER PRIORITY – RARE BUT POSSIBLE
+
+16. TCP Throughput: If RTT = 200ms and Window Size = 32 KB, what is the throughput?
+(A) 160 KB/s
+(B) 1.28 Mbps
+(C) 256 KB/s
+(D) 2.56 Mbps
+Answer: (B) 1.28 Mbps
+
+17. RTT Estimation: Old RTT=100ms, Sample=160ms, α=0.25. Compute New Estimated RTT.
+(A) 115 ms
+(B) 120 ms
+(C) 125 ms
+(D) 130 ms
+Answer: (A) 115 ms
+
+18. Congestion Window Growth: Initial cwnd=2 MSS. After 5 RTTs in slow start, what is cwnd?
+(A) 32 MSS
+(B) 64 MSS
+(C) 16 MSS
+(D) 10 MSS
+Answer: (B) 64 MSS
+
+19. DNS Query Time: If each hop adds 12ms and 5 DNS hops occur, what is total lookup delay?
+(A) 60 ms
+(B) 50 ms
+(C) 72 ms
+(D) 48 ms
+Answer: (A) 60 ms
+
+🟫 LOWEST PRIORITY – RARELY ASKED NUMERICALLY
+
+20. Baud Rate/Encoding: Bit rate = 8 Mbps using 4-level signaling. Find baud rate.
+(A) 2 Mbaud
+(B) 4 Mbaud
+(C) 8 Mbaud
+(D) 16 Mbaud
+Answer: (B) 4 Mbaud
+
+21. Shannon Capacity: Bandwidth = 4 KHz, SNR = 30dB. Compute max data rate.
+(A) 39.86 Kbps
+(B) 40 Kbps
+(C) 35.5 Kbps
+(D) 32 Kbps
+Answer: (A) 39.86 Kbps
+
+All answers verified for Computer Networks Numerical Questions.

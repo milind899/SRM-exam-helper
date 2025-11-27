@@ -19,14 +19,11 @@ const sql = postgres(connectionString);
 
 async function seed() {
     try {
-        console.log('Starting seed process...');
+        console.log('Starting Computer Networks Numericals seed process...');
 
-        // Read the file
-        const filePath = path.join(process.cwd(), 'api', 'leaderboard', '🟦 UNIT 1 – INTRODUCTION, TOPOLOGIES, OSI MODEL, MEDIA.txt');
+        // Read the CN numericals file
+        const filePath = path.join(process.cwd(), 'api', 'leaderboard', '🔥 COMPUTER NETWORKS – NUMERICAL QUESTIONS.txt');
         const content = fs.readFileSync(filePath, 'utf-8');
-
-        // Split by Unit headers if multiple units are in one file, but here it seems to be one file per unit or mixed.
-        // The file has "🟦 UNIT 1..." headers.
 
         const lines = content.split('\n');
         let currentUnit = '';
@@ -42,10 +39,10 @@ async function seed() {
 
             if (!line) continue;
 
-            // Check for Unit Header
-            if (line.includes('UNIT') && (line.startsWith('🟦') || line.startsWith('🟩') || line.startsWith('🟧') || line.startsWith('🟨') || line.startsWith('🟪'))) {
-                currentUnit = line.replace(/[🟦🟩🟧🟨🟪]/g, '').trim();
-                console.log(`Processing Unit: ${currentUnit}`);
+            // Check for Unit/Priority Header
+            if (line.includes('PRIORITY') && (line.startsWith('🟩') || line.startsWith('🟨') || line.startsWith('🟦') || line.startsWith('🟪') || line.startsWith('🟫'))) {
+                currentUnit = line.replace(/[🟩🟨🟦🟪🟫]/g, '').trim();
+                console.log(`Processing: ${currentUnit}`);
                 continue;
             }
 
@@ -86,7 +83,7 @@ async function seed() {
                 continue;
             }
 
-            // If strictly verified line, ignore
+            // If verified line, ignore
             if (line.startsWith('All answers')) continue;
 
             // If collecting question and not an option/answer, append to question text
@@ -105,15 +102,11 @@ async function seed() {
             });
         }
 
-        console.log(`Found ${questions.length} questions.`);
+        console.log(`Found ${questions.length} CN numerical questions.`);
 
         // Insert into DB
-        // First, clear existing questions to avoid duplicates if re-running?
-        // Maybe just insert.
+        console.log('Inserting CN numerical questions into database...');
 
-        console.log('Inserting questions into database...');
-
-        // Batch insert or loop
         for (const q of questions) {
             await sql`
                 INSERT INTO questions (unit, question, options, answer)
@@ -121,11 +114,11 @@ async function seed() {
             `;
         }
 
-        console.log('Seed completed successfully!');
+        console.log('CN Numericals seed completed successfully!');
         await sql.end();
 
     } catch (error) {
-        console.error('Error seeding data:', error);
+        console.error('Error seeding CN numericals:', error);
         process.exit(1);
     }
 }
