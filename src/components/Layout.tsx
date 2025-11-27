@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Footer } from './Footer';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { Moon, Droplet, Keyboard, Share2 } from 'lucide-react';
+import { Moon, Droplet, Keyboard, Share2, Sun, Zap, Trees, Sparkles, Rainbow, Clock, Crown } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { CircularProgress } from './CircularProgress';
 
+type Theme = 'emerald' | 'dark' | 'blue' | 'minimal-white' | 'neon-dark' | 'nature-green' | 'pastel-aesthetic' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+
 interface LayoutProps {
     children: React.ReactNode;
-    currentTheme: 'emerald' | 'dark' | 'blue';
-    onThemeChange: (theme: 'emerald' | 'dark' | 'blue') => void;
+    currentTheme: Theme;
+    onThemeChange: (theme: Theme) => void;
     onShowShortcuts?: () => void;
     progressPercentage?: number;
     currentSubjectTitle?: string;
@@ -137,29 +139,65 @@ export const Layout: React.FC<LayoutProps> = ({
                                     <Keyboard size={18} />
                                 </button>
 
-                                {/* Theme Switcher */}
-                                <div className="flex items-center gap-1 p-1 rounded-full bg-surface border border-white/5">
-                                    <button
-                                        onClick={() => onThemeChange('emerald')}
-                                        className={`p-1.5 rounded-full transition-all ${currentTheme === 'emerald' ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-main'}`}
-                                        title="Emerald Theme"
-                                    >
-                                        <div className="w-4 h-4 rounded-full bg-emerald-500 border border-white/20" />
+                                {/* Theme Switcher Dropdown */}
+                                <div className="relative group">
+                                    <button className="p-2 rounded-lg bg-surface border border-white/5 hover:bg-white/5 transition-colors">
+                                        {currentTheme === 'emerald' && <div className="w-5 h-5 rounded-full bg-emerald-500 border-2 border-white/20" />}
+                                        {currentTheme === 'dark' && <Moon size={20} />}
+                                        {currentTheme === 'blue' && <Droplet size={20} />}
+                                        {currentTheme === 'minimal-white' && <Sun size={20} />}
+                                        {currentTheme === 'neon-dark' && <Zap size={20} />}
+                                        {currentTheme === 'nature-green' && <Trees size={20} />}
+                                        {currentTheme === 'pastel-aesthetic' && <Sparkles size={20} />}
+                                        {currentTheme === 'modern-gradient' && <Rainbow size={20} />}
+                                        {currentTheme === 'retro-vintage' && <Clock size={20} />}
+                                        {currentTheme === 'gold-black' && <Crown size={20} />}
                                     </button>
-                                    <button
-                                        onClick={() => onThemeChange('dark')}
-                                        className={`p-1.5 rounded-full transition-all ${currentTheme === 'dark' ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-main'}`}
-                                        title="Dark Theme"
-                                    >
-                                        <Moon size={16} />
-                                    </button>
-                                    <button
-                                        onClick={() => onThemeChange('blue')}
-                                        className={`p-1.5 rounded-full transition-all ${currentTheme === 'blue' ? 'bg-primary text-white shadow-sm' : 'text-text-muted hover:text-text-main'}`}
-                                        title="Blue Ocean Theme"
-                                    >
-                                        <Droplet size={16} />
-                                    </button>
+                                    <div className="absolute right-0 top-full mt-2 w-56 bg-surface border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 overflow-hidden">
+                                        <div className="p-2 space-y-1 max-h-96 overflow-y-auto">
+                                            <button onClick={() => onThemeChange('emerald')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'emerald' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <div className="w-5 h-5 rounded-full bg-emerald-500" />
+                                                <span className="text-sm font-medium">Emerald</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('dark')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'dark' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Moon size={20} />
+                                                <span className="text-sm font-medium">Dark Violet</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('blue')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'blue' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Droplet size={20} />
+                                                <span className="text-sm font-medium">Blue Ocean</span>
+                                            </button>
+                                            <div className="h-px bg-white/10 my-2" />
+                                            <button onClick={() => onThemeChange('minimal-white')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'minimal-white' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Sun size={20} />
+                                                <span className="text-sm font-medium">Minimal White</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('neon-dark')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'neon-dark' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Zap size={20} />
+                                                <span className="text-sm font-medium">Neon Dark</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('nature-green')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'nature-green' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Trees size={20} />
+                                                <span className="text-sm font-medium">Nature Green</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('pastel-aesthetic')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'pastel-aesthetic' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Sparkles size={20} />
+                                                <span className="text-sm font-medium">Pastel Aesthetic</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('modern-gradient')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'modern-gradient' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Rainbow size={20} />
+                                                <span className="text-sm font-medium">Modern Gradient</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('retro-vintage')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'retro-vintage' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Clock size={20} />
+                                                <span className="text-sm font-medium">Retro Vintage</span>
+                                            </button>
+                                            <button onClick={() => onThemeChange('gold-black')} className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${currentTheme === 'gold-black' ? 'bg-primary/20 text-primary' : 'hover:bg-white/5'}`}>
+                                                <Crown size={20} />
+                                                <span className="text-sm font-medium">Gold & Black</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

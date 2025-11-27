@@ -1,4 +1,4 @@
-/* Updated: Nov 23, 2025 - Light theme text contrast improved */
+/* Updated: Nov 27, 2025 - Added 7 new themes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -56,6 +56,132 @@
     /* slate-100 */
     --color-text-muted: 148, 163, 184;
     /* slate-400 */
+  }
+
+  [data-theme="minimal-white"] {
+    /* Minimal White - Clean & Professional */
+    --color-background: 255, 255, 255;
+    /* pure white */
+    --color-surface: 249, 250, 251;
+    /* gray-50 */
+    --color-primary: 17, 24, 39;
+    /* gray-900 */
+    --color-secondary: 156, 163, 175;
+    /* gray-400 */
+    --color-accent: 75, 85, 99;
+    /* gray-600 */
+    --color-text-main: 17, 24, 39;
+    /* gray-900 */
+    --color-text-muted: 107, 114, 128;
+    /* gray-500 */
+  }
+
+  [data-theme="neon-dark"] {
+    /* Neon Dark - Cyberpunk Vibes */
+    --color-background: 10, 10, 10;
+    /* almost black */
+    --color-surface: 20, 20, 25;
+    /* dark gray */
+    --color-primary: 236, 72, 153;
+    /* pink-500 (neon pink) */
+    --color-secondary: 168, 85, 247;
+    /* purple-500 */
+    --color-accent: 34, 211, 238;
+    /* cyan-400 (neon cyan) */
+    --color-text-main: 255, 255, 255;
+    /* white */
+    --color-text-muted: 156, 163, 175;
+    /* gray-400 */
+  }
+
+  [data-theme="nature-green"] {
+    /* Nature Green - Forest Tones */
+    --color-background: 20, 83, 45;
+    /* green-900 */
+    --color-surface: 22, 101, 52;
+    /* green-800 */
+    --color-primary: 34, 197, 94;
+    /* green-500 */
+    --color-secondary: 134, 239, 172;
+    /* green-300 */
+    --color-accent: 74, 222, 128;
+    /* green-400 */
+    --color-text-main: 240, 253, 244;
+    /* green-50 */
+    --color-text-muted: 187, 247, 208;
+    /* green-200 */
+  }
+
+  [data-theme="pastel-aesthetic"] {
+    /* Pastel Aesthetic - Soft & Dreamy */
+    --color-background: 253, 242, 248;
+    /* pink-50 */
+    --color-surface: 252, 231, 243;
+    /* pink-100 */
+    --color-primary: 219, 39, 119;
+    /* pink-600 */
+    --color-secondary: 244, 114, 182;
+    /* pink-400 */
+    --color-accent: 251, 207, 232;
+    /* pink-200 */
+    --color-text-main: 80, 7, 36;
+    /* pink-950 */
+    --color-text-muted: 157, 23, 77;
+    /* pink-800 */
+  }
+
+  [data-theme="modern-gradient"] {
+    /* Modern Gradient - Vibrant & Dynamic */
+    --color-background: 17, 24, 39;
+    /* gray-900 */
+    --color-surface: 31, 41, 55;
+    /* gray-800 */
+    --color-primary: 244, 63, 94;
+    /* rose-500 */
+    --color-secondary: 251, 146, 60;
+    /* orange-400 */
+    --color-accent: 250, 204, 21;
+    /* yellow-400 */
+    --color-text-main: 248, 250, 252;
+    /* slate-50 */
+    --color-text-muted: 203, 213, 225;
+    /* slate-300 */
+  }
+
+  [data-theme="retro-vintage"] {
+    /* Retro Vintage - Warm Nostalgic */
+    --color-background: 120, 53, 15;
+    /* orange-950 */
+    --color-surface: 154, 52, 18;
+    /* orange-900 */
+    --color-primary: 251, 146, 60;
+    /* orange-400 */
+    --color-secondary: 253, 186, 116;
+    /* orange-300 */
+    --color-accent: 234, 179, 8;
+    /* yellow-500 */
+    --color-text-main: 254, 252, 232;
+    /* yellow-50 */
+    --color-text-muted: 253, 224, 71;
+    /* yellow-300 */
+  }
+
+  [data-theme="gold-black"] {
+    /* Elegant Gold & Black - Luxury Premium */
+    --color-background: 0, 0, 0;
+    /* pure black */
+    --color-surface: 23, 23, 23;
+    /* neutral-900 */
+    --color-primary: 234, 179, 8;
+    /* yellow-500 (gold) */
+    --color-secondary: 202, 138, 4;
+    /* yellow-600 */
+    --color-accent: 250, 204, 21;
+    /* yellow-400 (bright gold) */
+    --color-text-main: 250, 250, 250;
+    /* neutral-50 */
+    --color-text-muted: 163, 163, 163;
+    /* neutral-400 */
   }
 
   body {
