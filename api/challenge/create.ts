@@ -15,9 +15,13 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.helper_POSTGRES_URL;
+        const dbUrl = process.env.DATABASE_URL ||
+            process.env.POSTGRES_URL ||
+            process.env.helper_POSTGRES_URL ||
+            process.env.helper_POSTGRES_URL_NON_POOLING;
+
         if (!dbUrl) {
-            console.error('Database configuration missing. Checked: DATABASE_URL, POSTGRES_URL, helper_POSTGRES_URL');
+            console.error('Database configuration missing. Checked all variants.');
             return res.status(500).json({ error: 'Database configuration missing' });
         }
 
@@ -56,9 +60,10 @@ export default async function handler(req: any, res: any) {
 
     } catch (error: any) {
         console.error('Error creating challenge:', error);
+        // Return full error message for debugging
         return res.status(500).json({
-            error: 'Internal Server Error',
-            details: error.message
+            error: `DB Error: ${error.message}`,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 }

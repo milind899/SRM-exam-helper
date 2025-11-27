@@ -24,7 +24,11 @@ export default async function handler(req: any, res: any) {
 
         // Try to save to database, but don't fail if database is unavailable
         try {
-            const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.helper_POSTGRES_URL;
+            const dbUrl = process.env.DATABASE_URL ||
+                process.env.POSTGRES_URL ||
+                process.env.helper_POSTGRES_URL ||
+                process.env.helper_POSTGRES_URL_NON_POOLING;
+
             if (!dbUrl) {
                 console.log('Database not configured, skipping save');
                 return res.status(200).json({
