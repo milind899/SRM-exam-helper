@@ -137,7 +137,30 @@ export const useLeaderboard = (
 
             if (error) throw error;
 
-            setLeaderboard(data || []);
+            // Calculate weighted score on the fly for display
+            const processedData = (data || []).map(entry => {
+                const syllabusPercentage = entry.total_items > 0
+                    ? (entry.completed_items / entry.total_items) * 100
+                    : 0;
+
+                const progressData = entry.progress_data || {};
+                const mcqScore = progressData.cn_max_score || 0;
+                const totalMcqQuestions = progressData.cn_total_questions || 30;
+                const mcqPercentage = (mcqScore / totalMcqQuestions) * 100;
+
+                // Weighted Score: 50% Syllabus + 50% MCQ
+                const weightedScore = (syllabusPercentage * 0.5) + (mcqPercentage * 0.5);
+
+                return {
+                    ...entry,
+                    progress_percentage: weightedScore // Override for display
+                };
+            });
+
+            // Re-sort based on new weighted scores
+            processedData.sort((a, b) => b.progress_percentage - a.progress_percentage);
+
+            setLeaderboard(processedData);
             setLoading(false);
         } catch (err: any) {
             console.error('Error fetching leaderboard:', err);

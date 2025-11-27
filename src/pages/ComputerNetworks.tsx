@@ -398,6 +398,19 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                         </motion.div>
                     )}
 
+                    {(mode === 'practice' || mode === 'test') && questions.length === 0 && (
+                        <div className="min-h-[50vh] flex flex-col items-center justify-center text-center">
+                            <h2 className="text-2xl font-bold text-red-500 mb-4">Error Loading Questions</h2>
+                            <p className="text-text-muted mb-6">Unable to load questions for this unit. Please try again.</p>
+                            <button
+                                onClick={() => setMode('dashboard')}
+                                className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                            >
+                                Return to Dashboard
+                            </button>
+                        </div>
+                    )}
+
                     {(mode === 'practice' || mode === 'test') && questions.length > 0 && (
                         <motion.div
                             key="practice-test"
