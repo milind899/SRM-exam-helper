@@ -1,4 +1,4 @@
-/* Updated: Nov 27, 2025 - Added 7 new themes */
+/* Updated: Nov 27, 2025 - Added 7 new themes + light theme text fixes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -191,6 +191,32 @@
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Fix text visibility in light themes */
+[data-theme="minimal-white"] *,
+[data-theme="pastel-aesthetic"] * {
+  color: rgb(var(--color-text-main));
+}
+
+[data-theme="minimal-white"] .text-text-muted,
+[data-theme="pastel-aesthetic"] .text-text-muted {
+  color: rgb(var(--color-text-muted)) !important;
+}
+
+[data-theme="minimal-white"] .text-primary,
+[data-theme="pastel-aesthetic"] .text-primary {
+  color: rgb(var(--color-primary)) !important;
+}
+
+[data-theme="minimal-white"] .text-accent,
+[data-theme="pastel-aesthetic"] .text-accent {
+  color: rgb(var(--color-accent)) !important;
+}
+
+[data-theme="minimal-white"] .text-white,
+[data-theme="pastel-aesthetic"] .text-white {
+  color: rgb(var(--color-text-main)) !important;
 }
 
 /* Custom Scrollbar */
