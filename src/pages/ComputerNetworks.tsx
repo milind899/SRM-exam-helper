@@ -17,9 +17,11 @@ interface Question {
     answer: string;
 }
 
+type Theme = 'emerald' | 'dark' | 'blue' | 'minimal-white' | 'neon-dark' | 'nature-green' | 'pastel-aesthetic' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+
 interface ComputerNetworksProps {
-    theme?: 'emerald' | 'dark' | 'blue';
-    onThemeChange?: (theme: 'emerald' | 'dark' | 'blue') => void;
+    theme?: Theme;
+    onThemeChange?: (theme: Theme) => void;
 }
 
 export default function ComputerNetworks({ theme = 'emerald', onThemeChange = () => { } }: ComputerNetworksProps) {
