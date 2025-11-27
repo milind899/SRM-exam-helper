@@ -1,72 +1,81 @@
-import { neon } from '@neondatabase/serverless';
-
-const sql = neon(process.env.DATABASE_URL!);
+import postgres from 'postgres';
 
 export default async function handler(req: any, res: any) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
-    try {
-        const { challenge_id, user_id } = req.body || req.query;
+    if (req.method !== 'GET') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
 
-        if (!challenge_id) {
-            return res.status(400).json({ error: 'Missing challenge_id' });
+    try {
+        const connectionString = process.env.helper_POSTGRES_URL ||
+            process.env.POSTGRES_URL ||
+            process.env.DATABASE_URL;
+
+        if (!connectionString) {
+            return res.status(500).json({ error: 'Database configuration missing' });
         }
 
-        // Fetch challenge details
-        const challenge = await sql`
+        const sql = postgres(connectionString);
+        const { challenge_id, user_id } = req.query;
+
+        if (!challenge_id) {
+            await sql.end();
+            return res.status(400).json({ error: 'Challenge ID is required' });
+        }
+
+        // Fetch challenge
+        const challenges = await sql`
             SELECT * FROM challenges WHERE id = ${challenge_id}
         `;
 
-        if (challenge.length === 0) {
+        if (challenges.length === 0) {
+            await sql.end();
             return res.status(404).json({ error: 'Challenge not found' });
         }
 
-        const data = challenge[0];
+        const challenge = challenges[0];
 
-        // If user_id is provided and different from creator, join as opponent
-        if (user_id && user_id !== data.creator_id && !data.opponent_id) {
+        // If user is joining (not the creator), update opponent_id
+        if (user_id && user_id !== challenge.creator_id && !challenge.opponent_id) {
             await sql`
                 UPDATE challenges 
                 SET opponent_id = ${user_id}, status = 'active'
                 WHERE id = ${challenge_id}
             `;
-            data.opponent_id = user_id;
-            data.status = 'active';
+            challenge.opponent_id = user_id;
+            challenge.status = 'active';
         }
 
-        // Fetch actual question details
-        // We need to fetch the questions to send to the client
-        // But we should NOT send the answers if the user hasn't finished? 
-        // Actually, the client needs answers to validate locally or we validate on server.
-        // For simplicity matching current architecture, we send questions with answers 
-        // (client-side validation is used in this app currently).
+        // Fetch questions
+        const questionIds = challenge.question_ids;
+        const questions = await sql`
+            SELECT id, question, options, answer 
+            FROM questions 
+            WHERE id = ANY(${questionIds})
+        `;
 
-        // Parse question_ids from JSONB if needed (neon returns it as object usually)
-        const qIds = Array.isArray(data.question_ids) ? data.question_ids : JSON.parse(data.question_ids);
-
-        if (qIds.length > 0) {
-            const questions = await sql`
-                SELECT * FROM questions WHERE id = ANY(${qIds})
-            `;
-            // Sort questions to match the order in question_ids
-            const sortedQuestions = qIds.map((id: number) => questions.find((q: any) => q.id === id));
-            data.questions = sortedQuestions;
-        }
+        await sql.end();
 
         return res.status(200).json({
             success: true,
-            challenge: data
+            challenge: {
+                ...challenge,
+                questions
+            }
         });
 
     } catch (error: any) {
-        console.error('Error joining challenge:', error);
-        return res.status(500).json({ error: error.message });
+        console.error('Error fetching challenge:', error);
+        return res.status(500).json({
+            error: `DB Error: ${error.message}`
+        });
     }
 }
