@@ -15,12 +15,13 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        if (!process.env.DATABASE_URL) {
-            console.error('DATABASE_URL is missing');
+        const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.helper_POSTGRES_URL;
+        if (!dbUrl) {
+            console.error('Database configuration missing. Checked: DATABASE_URL, POSTGRES_URL, helper_POSTGRES_URL');
             return res.status(500).json({ error: 'Database configuration missing' });
         }
 
-        const sql = neon(process.env.DATABASE_URL);
+        const sql = neon(dbUrl);
         const { creator_id, unit } = req.body;
 
         if (!creator_id || !unit) {

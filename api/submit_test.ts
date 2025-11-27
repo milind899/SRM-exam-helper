@@ -24,7 +24,8 @@ export default async function handler(req: any, res: any) {
 
         // Try to save to database, but don't fail if database is unavailable
         try {
-            if (!process.env.DATABASE_URL) {
+            const dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.helper_POSTGRES_URL;
+            if (!dbUrl) {
                 console.log('Database not configured, skipping save');
                 return res.status(200).json({
                     success: true,
@@ -33,7 +34,7 @@ export default async function handler(req: any, res: any) {
             }
 
             const { neon } = await import('@neondatabase/serverless');
-            const sql = neon(process.env.DATABASE_URL);
+            const sql = neon(dbUrl);
 
             // Insert result
             await sql`
