@@ -78,8 +78,8 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
 
         setLoading(true);
         try {
-            // Fetch static JSON file
-            const res = await fetch('/questions.json');
+            // Fetch static JSON file with cache busting
+            const res = await fetch(`/questions.json?t=${Date.now()}`);
             if (!res.ok) throw new Error('Failed to load questions file');
 
             const data = await res.json();
@@ -431,22 +431,38 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
                                     <h3 className="text-xl md:text-2xl font-bold mb-8 leading-relaxed text-text-main">
-                                        {questions[currentQuestionIndex].question}
+                                        {questions[currentQuestionIndex]?.question || 'Error: Question text missing'}
                                     </h3>
 
                                     <div className="space-y-3">
-                                        {Object.entries(questions[currentQuestionIndex].options).map(([key, value]) => {
-                                            const isSelected = userAnswers[questions[currentQuestionIndex].id] === key;
-                                            const correctLetter = questions[currentQuestionIndex].answer.match(/\(([A-D])\)/)?.[1];
-                                            const isCorrect = key === correctLetter;
-                                            const isRevealed = revealedAnswers[questions[currentQuestionIndex].id];
+                                        {!questions[currentQuestionIndex] ? (
+                                            <div className="text-red-500">Error: Question data missing</div>
+                                        ) : !questions[currentQuestionIndex].options ? (
+                                            <div className="text-red-500">Error: Options data missing</div>
+                                        ) : (
+                                            Object.entries(questions[currentQuestionIndex].options).map(([key, value]) => {
+                                                const isSelected = userAnswers[questions[currentQuestionIndex].id] === key;
+                                                const correctLetter = questions[currentQuestionIndex].answer.match(/\(([A-D])\)/)?.[1];
+                                                const isCorrect = key === correctLetter;
+                                                const isRevealed = revealedAnswers[questions[currentQuestionIndex].id];
 
-                                            // Styling logic
-                                            let styleClass = "border-white/10 hover:bg-white/5 hover:border-primary/30";
-                                            let icon = null;
+                                                // Styling logic
+                                                let styleClass = "border-white/10 hover:bg-white/5 hover:border-primary/30";
+                                                let icon = null;
 
-                                            if (mode === 'practice') {
-                                                if (isRevealed) {
+                                                if (mode === 'practice') {
+                                                    if (isRevealed) {
+                                                        if (isCorrect) {
+                                                            styleClass = "border-green-500 bg-green-500/10 text-green-500";
+                                                            icon = <CheckCircle size={20} className="text-green-500 shrink-0" />;
+                                                        } else if (isSelected) {
+                                                            styleClass = "border-red-500 bg-red-500/10 text-red-500";
+                                                            icon = <XCircle size={20} className="text-red-500 shrink-0" />;
+                                                        }
+                                                    } else {
+                                                        if (isSelected) styleClass = "border-primary bg-primary/10 text-primary";
+                                                    }
+                                                } else if (testSubmitted) {
                                                     if (isCorrect) {
                                                         styleClass = "border-green-500 bg-green-500/10 text-green-500";
                                                         icon = <CheckCircle size={20} className="text-green-500 shrink-0" />;
@@ -457,35 +473,25 @@ export default function ComputerNetworks({ theme = 'emerald', onThemeChange = ()
                                                 } else {
                                                     if (isSelected) styleClass = "border-primary bg-primary/10 text-primary";
                                                 }
-                                            } else if (testSubmitted) {
-                                                if (isCorrect) {
-                                                    styleClass = "border-green-500 bg-green-500/10 text-green-500";
-                                                    icon = <CheckCircle size={20} className="text-green-500 shrink-0" />;
-                                                } else if (isSelected) {
-                                                    styleClass = "border-red-500 bg-red-500/10 text-red-500";
-                                                    icon = <XCircle size={20} className="text-red-500 shrink-0" />;
-                                                }
-                                            } else {
-                                                if (isSelected) styleClass = "border-primary bg-primary/10 text-primary";
-                                            }
 
-                                            return (
-                                                <button
-                                                    key={key}
-                                                    onClick={() => handleAnswer(key)}
-                                                    disabled={testSubmitted || (mode === 'practice' && practiceFinished)}
-                                                    className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${styleClass}`}
-                                                >
-                                                    <div className="flex items-center gap-4">
-                                                        <span className={`h-8 w-8 rounded-lg flex items-center justify-center border font-bold text-sm transition-colors ${isSelected ? 'border-current bg-current/10' : 'border-white/20 text-text-muted group-hover:border-primary/50 group-hover:text-primary'}`}>
-                                                            {key}
-                                                        </span>
-                                                        <span className="font-medium">{value}</span>
-                                                    </div>
-                                                    {icon}
-                                                </button>
-                                            );
-                                        })}
+                                                return (
+                                                    <button
+                                                        key={key}
+                                                        onClick={() => handleAnswer(key)}
+                                                        disabled={testSubmitted || (mode === 'practice' && practiceFinished)}
+                                                        className={`w-full text-left p-4 rounded-xl border transition-all flex items-center justify-between group ${styleClass}`}
+                                                    >
+                                                        <div className="flex items-center gap-4">
+                                                            <span className={`h-8 w-8 rounded-lg flex items-center justify-center border font-bold text-sm transition-colors ${isSelected ? 'border-current bg-current/10' : 'border-white/20 text-text-muted group-hover:border-primary/50 group-hover:text-primary'}`}>
+                                                                {key}
+                                                            </span>
+                                                            <span className="font-medium">{value}</span>
+                                                        </div>
+                                                        {icon}
+                                                    </button>
+                                                );
+                                            })
+                                        )}
                                     </div>
 
                                     {/* Show Answer Button (Practice Mode Only) */}

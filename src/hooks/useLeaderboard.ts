@@ -48,17 +48,40 @@ export const useLeaderboard = (
             if (!supabase) return;
 
             try {
-                // Sync Leaderboard Data
+                // 1. Fetch existing data to get MCQ score
+                const { data: existingData } = await supabase
+                    .from('leaderboard')
+                    .select('progress_data')
+                    .eq('user_id', user.id)
+                    .single();
+
+                const currentData = existingData?.progress_data || {};
+                const mcqScore = currentData.cn_max_score || 0;
+                const totalMcqQuestions = currentData.cn_total_questions || 30; // Default to 30 if not set
+                const mcqPercentage = (mcqScore / totalMcqQuestions) * 100;
+
+                // 2. Calculate Weighted Percentage (50% Syllabus + 50% MCQ)
+                // Syllabus is passed as progressPercentage arg
+                const weightedPercentage = (progressPercentage * 0.5) + (mcqPercentage * 0.5);
+
+                // 3. Sync Leaderboard Data with Weighted Percentage
                 const { error: leaderboardError } = await supabase
                     .from('leaderboard')
                     .upsert({
                         user_id: user.id,
                         nickname: nickname,
                         tagline: tagline,
-                        progress_percentage: progressPercentage,
+                        progress_percentage: weightedPercentage, // Use weighted score for ranking
                         completed_items: completedItems,
                         total_items: totalItems,
-                        updated_at: new Date().toISOString()
+                        updated_at: new Date().toISOString(),
+                        // Ensure we preserve/update progress_data with syllabus info if needed, 
+                        // but for now just keeping existing data + maybe syllabus stats?
+                        // Actually, upsert might overwrite progress_data if we don't include it?
+                        // Supabase upsert updates ALL columns passed. If we don't pass progress_data, it might NOT update it?
+                        // BUT if it's a new row, it needs it.
+                        // Safe bet: include it.
+                        progress_data: currentData
                     }, {
                         onConflict: 'user_id'
                     });

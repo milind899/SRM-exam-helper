@@ -209,26 +209,32 @@ export default function ChallengePage() {
 
                     <div className="bg-surface border border-white/10 rounded-2xl p-8 mb-6">
                         <h3 className="text-xl font-medium text-white mb-8 leading-relaxed">
-                            {currentQ.question}
+                            {currentQ?.question || 'Error: Question text missing'}
                         </h3>
 
                         <div className="grid gap-4">
-                            {Object.entries(currentQ.options).map(([key, value]) => (
-                                <button
-                                    key={key}
-                                    onClick={() => handleOptionSelect(key)}
-                                    disabled={selectedOption !== null}
-                                    className={`w-full p-4 rounded-xl text-left transition-all border-2 ${selectedOption === key
-                                        ? key === currentQ.answer
-                                            ? 'bg-green-500/20 border-green-500 text-green-400'
-                                            : 'bg-red-500/20 border-red-500 text-red-400'
-                                        : 'bg-white/5 border-transparent hover:bg-white/10 text-gray-300'
-                                        }`}
-                                >
-                                    <span className="font-bold mr-3 opacity-50">{key})</span>
-                                    {value}
-                                </button>
-                            ))}
+                            {!currentQ ? (
+                                <div className="text-red-500">Error: Question data missing</div>
+                            ) : !currentQ.options ? (
+                                <div className="text-red-500">Error: Options data missing</div>
+                            ) : (
+                                Object.entries(currentQ.options).map(([key, value]) => (
+                                    <button
+                                        key={key}
+                                        onClick={() => handleOptionSelect(key)}
+                                        disabled={selectedOption !== null}
+                                        className={`w-full p-4 rounded-xl text-left transition-all border-2 ${selectedOption === key
+                                            ? key === currentQ.answer
+                                                ? 'bg-green-500/20 border-green-500 text-green-400'
+                                                : 'bg-red-500/20 border-red-500 text-red-400'
+                                            : 'bg-white/5 border-transparent hover:bg-white/10 text-gray-300'
+                                            }`}
+                                    >
+                                        <span className="font-bold mr-3 opacity-50">{key})</span>
+                                        {value}
+                                    </button>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>

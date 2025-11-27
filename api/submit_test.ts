@@ -49,6 +49,7 @@ export default async function handler(req: any, res: any) {
             const currentMax = currentData.cn_max_score || 0;
             if (score > currentMax) {
                 currentData.cn_max_score = score;
+                currentData.cn_total_questions = total_questions;
 
                 await sql`
                     UPDATE leaderboard 
