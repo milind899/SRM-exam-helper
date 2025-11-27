@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import { Layout } from './components/Layout';
 import { ProgressBar } from './components/ProgressBar';
@@ -227,6 +228,13 @@ function App() {
 
   return (
     <>
+      <SpeedInsights />
+      {/* Development Banner */}
+      <div className="bg-yellow-500/10 border-b border-yellow-500/20 text-yellow-200 px-4 py-2 text-xs text-center font-medium backdrop-blur-sm fixed top-0 left-0 right-0 z-[100]">
+        🚧 Website is currently under development. You may encounter some bugs.
+      </div>
+      <div className="mt-8"></div> {/* Spacer for fixed banner */}
+
       <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
       <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
       <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
