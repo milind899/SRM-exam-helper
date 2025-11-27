@@ -97,6 +97,12 @@ export const Layout: React.FC<LayoutProps> = ({
                                     >
                                         Resources
                                     </a>
+                                    <a
+                                        href="/attendance"
+                                        className="px-4 py-2 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)]"
+                                    >
+                                        Attendance
+                                    </a>
                                 </nav>
 
                                 {/* Progress Ring */}
