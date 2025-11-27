@@ -1,4 +1,4 @@
-import { neon } from '@neondatabase/serverless';
+import postgres from 'postgres';
 
 export default async function handler(req: any, res: any) {
     // Enable CORS
@@ -15,20 +15,21 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
-        const dbUrl = process.env.DATABASE_URL ||
-            process.env.POSTGRES_URL ||
-            process.env.helper_POSTGRES_URL ||
-            process.env.helper_POSTGRES_URL_NON_POOLING;
+        // Supabase connection string priority
+        const connectionString = process.env.helper_POSTGRES_URL || 
+                                  process.env.POSTGRES_URL || 
+                                  process.env.DATABASE_URL;
 
-        if (!dbUrl) {
-            console.error('Database configuration missing. Checked all variants.');
+        if (!connectionString) {
+            console.error('Database configuration missing');
             return res.status(500).json({ error: 'Database configuration missing' });
         }
 
-        const sql = neon(dbUrl);
+        const sql = postgres(connectionString);
         const { creator_id, unit } = req.body;
 
         if (!creator_id || !unit) {
+            await sql.end();
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
@@ -41,6 +42,7 @@ export default async function handler(req: any, res: any) {
         `;
 
         if (!questions || questions.length === 0) {
+            await sql.end();
             return res.status(404).json({ error: 'No questions found for this unit' });
         }
 
@@ -53,6 +55,8 @@ export default async function handler(req: any, res: any) {
             RETURNING id
         `;
 
+        await sql.end();
+
         return res.status(200).json({
             success: true,
             challengeId: challenge[0].id
@@ -60,10 +64,8 @@ export default async function handler(req: any, res: any) {
 
     } catch (error: any) {
         console.error('Error creating challenge:', error);
-        // Return full error message for debugging
-        return res.status(500).json({
-            error: `DB Error: ${error.message}`,
-            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        return res.status(500).json({ 
+            error: `DB Error: ${error.message}`
         });
     }
 }
