@@ -1,7 +1,5 @@
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(process.env.DATABASE_URL!);
-
 export default async function handler(req: any, res: any) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,6 +15,12 @@ export default async function handler(req: any, res: any) {
     }
 
     try {
+        if (!process.env.DATABASE_URL) {
+            console.error('DATABASE_URL is missing');
+            return res.status(500).json({ error: 'Database configuration missing' });
+        }
+
+        const sql = neon(process.env.DATABASE_URL);
         const { creator_id, unit } = req.body;
 
         if (!creator_id || !unit) {
@@ -24,7 +28,6 @@ export default async function handler(req: any, res: any) {
         }
 
         // Fetch 10 random questions for the unit
-        // Note: Using a simple random sort. For large datasets, TABLESAMPLE is better but this works for now.
         const questions = await sql`
             SELECT id FROM questions 
             WHERE unit = ${unit} 
@@ -32,7 +35,7 @@ export default async function handler(req: any, res: any) {
             LIMIT 10
         `;
 
-        if (questions.length === 0) {
+        if (!questions || questions.length === 0) {
             return res.status(404).json({ error: 'No questions found for this unit' });
         }
 
@@ -52,6 +55,9 @@ export default async function handler(req: any, res: any) {
 
     } catch (error: any) {
         console.error('Error creating challenge:', error);
-        return res.status(500).json({ error: error.message });
+        return res.status(500).json({
+            error: 'Internal Server Error',
+            details: error.message
+        });
     }
 }
