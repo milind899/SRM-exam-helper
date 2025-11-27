@@ -1,0 +1,357 @@
+🟩 HIGHEST PRIORITY – MUST SOLVE (VERY HIGH WEIGHTAGE)
+
+1. **Subnetting (U2)**
+   Problem: Divide 192.168.10.0/24 into 6 subnets. Find Subnet Mask, Network ID, Broadcast, Host Range for each.
+   
+   Solution:
+   - Need 6 subnets → 2³ = 8 subnets (minimum)
+   - Borrow 3 bits from host → /24 + 3 = /27
+   - Subnet Mask: 255.255.255.224
+   - Block size: 32 hosts per subnet
+   - Usable hosts: 30 per subnet
+   
+   Subnets:
+   1. Network: 192.168.10.0/27, Broadcast: 192.168.10.31, Range: 192.168.10.1-30
+   2. Network: 192.168.10.32/27, Broadcast: 192.168.10.63, Range: 192.168.10.33-62
+   3. Network: 192.168.10.64/27, Broadcast: 192.168.10.95, Range: 192.168.10.65-94
+   4. Network: 192.168.10.96/27, Broadcast: 192.168.10.127, Range: 192.168.10.97-126
+   5. Network: 192.168.10.128/27, Broadcast: 192.168.10.159, Range: 192.168.10.129-158
+   6. Network: 192.168.10.160/27, Broadcast: 192.168.10.191, Range: 192.168.10.161-190
+
+2. **VLSM (U2)**
+   Problem: Allocate VLSM blocks for networks needing: 100 hosts, 50 hosts, 25 hosts, 10 hosts. Base block = 10.0.0.0/24
+   
+   Solution:
+   - Start with largest requirement first
+   
+   Network 1 (100 hosts):
+   - Need 2⁷ = 128 addresses → /25
+   - Block: 10.0.0.0/25 (10.0.0.0 - 10.0.0.127)
+   - Usable: 10.0.0.1 - 10.0.0.126
+   
+   Network 2 (50 hosts):
+   - Need 2⁶ = 64 addresses → /26
+   - Block: 10.0.0.128/26 (10.0.0.128 - 10.0.0.191)
+   - Usable: 10.0.0.129 - 10.0.0.190
+   
+   Network 3 (25 hosts):
+   - Need 2⁵ = 32 addresses → /27
+   - Block: 10.0.0.192/27 (10.0.0.192 - 10.0.0.223)
+   - Usable: 10.0.0.193 - 10.0.0.222
+   
+   Network 4 (10 hosts):
+   - Need 2⁴ = 16 addresses → /28
+   - Block: 10.0.0.224/28 (10.0.0.224 - 10.0.0.239)
+   - Usable: 10.0.0.225 - 10.0.0.238
+
+3. **CIDR + Route Aggregation (U2)**
+   Problem: Aggregate 192.168.1.0/24, 192.168.2.0/24, 192.168.3.0/24, 192.168.4.0/24 into single supernet
+   
+   Solution:
+   Convert to binary:
+   - 192.168.1.0 = 11000000.10101000.00000001.00000000
+   - 192.168.2.0 = 11000000.10101000.00000010.00000000
+   - 192.168.3.0 = 11000000.10101000.00000011.00000000
+   - 192.168.4.0 = 11000000.10101000.00000100.00000000
+   
+   Common bits: 22 bits (differ at bit 23)
+   Supernet: 192.168.1.0/22
+   Range: 192.168.1.0 - 192.168.4.255
+
+4. **NAT Translation Table (U2)**
+   Problem: Fill NAT table for 5 devices accessing internet with private → public mapping
+   
+   Solution:
+   Private Network: 192.168.1.0/24
+   Public IP: 203.0.113.5
+   
+   NAT Translation Table:
+   | Private IP:Port    | Public IP:Port     | Destination        |
+   |--------------------|--------------------|--------------------|
+   | 192.168.1.10:3000  | 203.0.113.5:50000  | 8.8.8.8:80        |
+   | 192.168.1.11:3001  | 203.0.113.5:50001  | 1.1.1.1:443       |
+   | 192.168.1.12:3002  | 203.0.113.5:50002  | 142.250.193.78:80 |
+   | 192.168.1.13:3003  | 203.0.113.5:50003  | 172.217.164.46:80 |
+   | 192.168.1.14:3004  | 203.0.113.5:50004  | 93.184.216.34:80  |
+
+5. **Dijkstra Shortest Path (U3)**
+   Problem: Graph edges: A-B=2, A-C=5, B-D=1, C-D=2, B-E=3, D-E=1. Find shortest path from A to all nodes.
+   
+   Solution:
+   Initial: A=0, B=∞, C=∞, D=∞, E=∞
+   
+   Step 1 (Visit A):
+   - A→B: 0+2=2, B=2
+   - A→C: 0+5=5, C=5
+   - Visited: {A}, Current distances: A=0, B=2, C=5, D=∞, E=∞
+   
+   Step 2 (Visit B, shortest unvisited):
+   - B→D: 2+1=3, D=3
+   - B→E: 2+3=5, E=5
+   - Visited: {A,B}, Current: A=0, B=2, C=5, D=3, E=5
+   
+   Step 3 (Visit D):
+   - D→C: 3+2=5 (no update)
+   - D→E: 3+1=4, E=4
+   - Visited: {A,B,D}, Current: A=0, B=2, C=5, D=3, E=4
+   
+   Final Shortest Paths:
+   - A→A: 0
+   - A→B: 2 (path: A-B)
+   - A→C: 5 (path: A-C)
+   - A→D: 3 (path: A-B-D)
+   - A→E: 4 (path: A-B-D-E)
+
+---
+
+🟨 HIGH PRIORITY – VERY LIKELY IN PART B/C
+
+6. **Bellman Ford Convergence Table (U3)**
+   Problem: Compute routing table updates for nodes A, B, C, D until convergence
+   
+   Solution:
+   Given topology: A-B=1, B-C=2, C-D=1, A-D=5
+   
+   Initial Routing Tables (each node knows only neighbors):
+   Node A: {A:0, B:1, D:5}
+   Node B: {B:0, A:1, C:2}
+   Node C: {C:0, B:2, D:1}
+   Node D: {D:0, C:1, A:5}
+   
+   After 1st iteration (exchange tables):
+   Node A: {A:0, B:1, C:3(via B), D:4(via B-C)}
+   Node B: {B:0, A:1, C:2, D:3(via C)}
+   Node C: {C:0, B:2, D:1, A:3(via B)}
+   Node D: {D:0, C:1, B:3(via C), A:4(via C-B)}
+   
+   Converged (no more updates needed)
+
+7. **CRC Polynomial Division (U4)**
+   Problem: Message = 10011010, Generator = 1101. Find transmitted frame with CRC
+   
+   Solution:
+   Generator: 1101 (4 bits → append 3 zeros to message)
+   Message padded: 10011010000
+   
+   Division:
+   10011010000 ÷ 1101
+   
+   Steps:
+   1101 | 10011010000
+         1101
+         ----
+         0100
+          000
+         ----
+         1001
+         1101
+         ----
+         0100
+          000
+         ----
+         1000
+         1101
+         ----
+         0101
+          000
+         ----
+         1010
+         1101
+         ----
+         0111
+          000
+         ----
+         1110
+         1101
+         ----
+         0011 ← CRC remainder
+   
+   CRC: 011
+   Transmitted Frame: 10011010011
+
+8. **Hamming Code (U4)**
+   Problem: Encode 1011001 using Hamming(7,4). Show parity bit placement & codeword
+   
+   Solution:
+   Data bits: 1011001 (7 bits, but Hamming(7,4) uses 4 data bits)
+   Using first 4 bits: 1011
+   
+   Position: 1(P1) 2(P2) 3(D1) 4(P4) 5(D2) 6(D3) 7(D4)
+   Data:     ?     ?     1     ?     0     1     1
+   
+   Calculate parity bits:
+   P1 (covers 1,3,5,7): ? + 1 + 0 + 1 = even → P1=0
+   P2 (covers 2,3,6,7): ? + 1 + 1 + 1 = even → P2=1
+   P4 (covers 4,5,6,7): ? + 0 + 1 + 1 = even → P4=0
+   
+   Final Codeword: 0110011
+
+9. **Go-Back-N Window Calculation (U4)**
+   Problem: Sequence numbers = 4 bits. Find window size & max pending frames
+   
+   Solution:
+   - Sequence number bits (m) = 4
+   - Total sequence numbers = 2⁴ = 16 (0 to 15)
+   - Maximum window size = 2ᵐ - 1 = 16 - 1 = 15
+   - Max pending (unacknowledged) frames = 15
+   
+   Why? To avoid sequence number ambiguity when wraparound occurs
+
+10. **Selective Repeat Window Calculation (U4)**
+    Problem: With m=3 sequence bits, compute max sender/receiver window
+    
+    Solution:
+    - Sequence number bits (m) = 3
+    - Total sequence numbers = 2³ = 8
+    - Maximum window size = 2ᵐ⁻¹ = 2² = 4
+    - Sender window size (max) = 4
+    - Receiver window size (max) = 4
+    
+    Total window space used = 8 (4 sender + 4 receiver)
+
+11. **ALOHA Throughput (U4)**
+    Problem: Offered traffic = 0.5 packets/time unit. Calculate throughput for Pure & Slotted ALOHA
+    
+    Solution:
+    Given: G (offered load) = 0.5
+    
+    Pure ALOHA:
+    - Throughput S = G × e⁻²ᴳ
+    - S = 0.5 × e⁻¹·⁰
+    - S = 0.5 × 0.368
+    - S = 0.184 (18.4% efficiency)
+    
+    Slotted ALOHA:
+    - Throughput S = G × e⁻ᴳ
+    - S = 0.5 × e⁻⁰·⁵
+    - S = 0.5 × 0.606
+    - S = 0.303 (30.3% efficiency)
+
+---
+
+🟦 MEDIUM PRIORITY – ASKABLE BUT LESS FREQUENT
+
+12. **Transmission Delay (U1)**
+    Problem: Frame = 8 KB, Link = 10 Mbps. Find transmission delay
+    
+    Solution:
+    - Frame size = 8 KB = 8 × 1024 × 8 bits = 65,536 bits
+    - Bandwidth = 10 Mbps = 10 × 10⁶ bps
+    - Transmission Delay = Frame size / Bandwidth
+    - TD = 65,536 / 10,000,000
+    - TD = 0.0065536 seconds
+    - TD = 6.5536 ms ≈ 6.55 ms
+
+13. **Propagation Delay (U1)**
+    Problem: Fiber link = 1200 km, speed = 2×10⁸ m/s. Compute propagation delay
+    
+    Solution:
+    - Distance = 1200 km = 1,200,000 m
+    - Propagation speed = 2 × 10⁸ m/s
+    - Propagation Delay = Distance / Speed
+    - PD = 1,200,000 / (2 × 10⁸)
+    - PD = 0.006 seconds
+    - PD = 6 ms
+
+14. **Total End-to-End Delay (U1)**
+    Problem: Transmission = 6 ms, Propagation = 14 ms. Find total latency
+    
+    Solution:
+    Total Delay = Transmission + Propagation + Processing + Queueing
+    (Assuming Processing and Queueing are negligible)
+    
+    - Total Delay = 6 ms + 14 ms
+    - Total Delay = 20 ms
+
+15. **Bandwidth Calculation (U1)**
+    Problem: Video stream requires 400 KB/s. What bandwidth in Mbps?
+    
+    Solution:
+    - Data rate = 400 KB/s
+    - Convert to bits: 400 × 8 = 3200 Kb/s
+    - Convert to Mbps: 3200 / 1000 = 3.2 Mbps
+    - Required bandwidth = 3.2 Mbps
+
+---
+
+🟪 LOWER PRIORITY – RARE BUT POSSIBLE
+
+16. **TCP Throughput (U5)**
+    Problem: RTT = 200ms, Window Size = 32 KB. Find throughput
+    
+    Solution:
+    - Window size = 32 KB = 32 × 1024 × 8 bits = 262,144 bits
+    - RTT = 200 ms = 0.2 seconds
+    - Throughput = Window Size / RTT
+    - Throughput = 262,144 / 0.2
+    - Throughput = 1,310,720 bps
+    - Throughput = 1.31 Mbps ≈ 1.28 Mbps
+
+17. **RTT Estimation (U5)**
+    Problem: Old RTT=100ms, Sample=160ms, α=0.25. Compute New Estimated RTT
+    
+    Solution:
+    Formula: EstimatedRTT = (1-α) × EstimatedRTT + α × SampleRTT
+    
+    - EstimatedRTT(old) = 100 ms
+    - SampleRTT = 160 ms
+    - α = 0.25
+    
+    EstimatedRTT(new) = (1-0.25) × 100 + 0.25 × 160
+    = 0.75 × 100 + 0.25 × 160
+    = 75 + 40
+    = 115 ms
+
+18. **Congestion Window Growth (U5)**
+    Problem: Initial cwnd=2 MSS. After 5 RTTs (slow start), what is cwnd?
+    
+    Solution:
+    Slow Start: cwnd doubles every RTT
+    
+    - Initial: cwnd = 2 MSS
+    - After RTT 1: cwnd = 4 MSS
+    - After RTT 2: cwnd = 8 MSS
+    - After RTT 3: cwnd = 16 MSS
+    - After RTT 4: cwnd = 32 MSS
+    - After RTT 5: cwnd = 64 MSS
+    
+    Final cwnd = 64 MSS
+
+19. **DNS Query Time (U5)**
+    Problem: Each hop adds 12ms, 5 DNS hops occur. Find total lookup delay
+    
+    Solution:
+    - Delay per hop = 12 ms
+    - Number of hops = 5
+    - Total DNS lookup delay = 12 × 5 = 60 ms
+
+---
+
+🟫 LOWEST PRIORITY – RARELY ASKED NUMERICALLY
+
+20. **Baud Rate/Encoding (U1)**
+    Problem: Bit rate = 8 Mbps using 4-level signaling. Find baud rate
+    
+    Solution:
+    - Bit rate = 8 Mbps
+    - Signaling levels (L) = 4
+    - Bits per symbol = log₂(4) = 2 bits
+    - Baud rate = Bit rate / Bits per symbol
+    - Baud rate = 8 Mbps / 2
+    - Baud rate = 4 Mbaud
+
+21. **Shannon Capacity (U1)**
+    Problem: Bandwidth = 4 KHz, SNR = 30dB. Compute max data rate
+    
+    Solution:
+    Formula: C = B × log₂(1 + SNR)
+    
+    - Bandwidth (B) = 4 KHz = 4000 Hz
+    - SNR(dB) = 30 dB
+    - Convert SNR to ratio: SNR = 10^(30/10) = 1000
+    
+    C = 4000 × log₂(1 + 1000)
+    C = 4000 × log₂(1001)
+    C = 4000 × 9.967
+    C = 39,868 bps
+    C ≈ 39.86 Kbps
