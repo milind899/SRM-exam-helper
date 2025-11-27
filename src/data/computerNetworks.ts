@@ -146,5 +146,57 @@ export const computerNetworks: Unit[] = [
                 ]
             }
         ]
+    },
+    {
+        id: "important-numericals",
+        title: "📊 Important Numericals",
+        sections: [
+            {
+                title: "🟩 Highest Priority – Must Solve",
+                items: [
+                    { id: "cn-num-hp-1", text: "Subnetting (U2): Divide 192.168.10.0/24 into 6 subnets", isRepeated: true },
+                    { id: "cn-num-hp-2", text: "VLSM (U2): Allocate blocks for 100, 50, 25, 10 hosts", isRepeated: true },
+                    { id: "cn-num-hp-3", text: "CIDR + Route Aggregation (U2): Aggregate 4 networks", isRepeated: true },
+                    { id: "cn-num-hp-4", text: "NAT Translation Table (U2): 5 devices mapping", isRepeated: true },
+                    { id: "cn-num-hp-5", text: "Dijkstra Shortest Path (U3): Graph with 5 nodes", isRepeated: true },
+                ]
+            },
+            {
+                title: "🟨 High Priority – Very Likely in Exam",
+                items: [
+                    { id: "cn-num-h-1", text: "Bellman Ford Convergence Table (U3)", isRepeated: true },
+                    { id: "cn-num-h-2", text: "CRC Polynomial Division (U4): Message + Generator", isRepeated: true },
+                    { id: "cn-num-h-3", text: "Hamming Code (U4): Encode using Hamming(7,4)", isRepeated: true },
+                    { id: "cn-num-h-4", text: "Go-Back-N Window Calculation (U4): 4-bit sequence", isRepeated: true },
+                    { id: "cn-num-h-5", text: "Selective Repeat Window (U4): m=3 sequence bits", isRepeated: true },
+                    { id: "cn-num-h-6", text: "ALOHA Throughput (U4): Pure vs Slotted", isRepeated: true },
+                ]
+            },
+            {
+                title: "🟦 Medium Priority – Askable",
+                items: [
+                    { id: "cn-num-m-1", text: "Transmission Delay (U1): Frame 8KB, Link 10Mbps" },
+                    { id: "cn-num-m-2", text: "Propagation Delay (U1): Fiber 1200km" },
+                    { id: "cn-num-m-3", text: "Total End-to-End Delay (U1)" },
+                    { id: "cn-num-m-4", text: "Bandwidth Calculation (U1): Video stream 400KB/s" },
+                ]
+            },
+            {
+                title: "🟪 Lower Priority",
+                items: [
+                    { id: "cn-num-l-1", text: "TCP Throughput (U5): RTT 200ms, Window 32KB" },
+                    { id: "cn-num-l-2", text: "RTT Estimation (U5): α=0.25" },
+                    { id: "cn-num-l-3", text: "Congestion Window Growth (U5): Slow start" },
+                    { id: "cn-num-l-4", text: "DNS Query Time (U5): 5 hops" },
+                ]
+            },
+            {
+                title: "🟫 Lowest Priority",
+                items: [
+                    { id: "cn-num-ll-1", text: "Baud Rate/Encoding (U1): 4-level signaling" },
+                    { id: "cn-num-ll-2", text: "Shannon Capacity (U1): BW=4KHz, SNR=30dB" },
+                ]
+            }
+        ]
     }
 ];
