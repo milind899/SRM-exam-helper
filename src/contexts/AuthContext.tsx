@@ -23,8 +23,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
         }
 
+        const client = supabase;
+
         // Get initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        client.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
             setUser(session?.user ?? null);
             setLoading(false);
@@ -33,20 +35,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Listen for auth changes
         const {
             data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
+        } = client.auth.onAuthStateChange((_event, session) => {
             setSession(session);
             setUser(session?.user ?? null);
             setLoading(false);
+
+            // Sync user to public.users table
+            if (session?.user) {
+                const { user } = session;
+                const nickname = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Anonymous';
+
+                client
+                    .from('users')
+                    .upsert({
+                        id: user.id,
+                        email: user.email,
+                        nickname: nickname,
+                        last_seen: new Date().toISOString()
+                    }, { onConflict: 'id' })
+                    .then(({ error }) => {
+                        if (error) console.error('Error syncing user:', error);
+                    });
+            }
         });
 
         return () => subscription.unsubscribe();
     }, []);
 
     const signInWithGoogle = async () => {
-        if (!isSupabaseConfigured || !supabase) {
+        const client = supabase;
+        if (!isSupabaseConfigured || !client) {
             throw new Error('Supabase is not configured. Please add environment variables.');
         }
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { error } = await client.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: window.location.origin,
