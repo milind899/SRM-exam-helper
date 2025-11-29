@@ -26,6 +26,7 @@ import { SignInBanner } from './components/SignInBanner';
 import { User as UserIcon } from 'lucide-react';
 import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
+import FormalLanguagesMCQ from './pages/FormalLanguagesMCQ';
 import AdminUsers from './pages/AdminUsers';
 import ChallengePage from './pages/ChallengePage';
 import AttendanceCalculator from './pages/AttendanceCalculator';
@@ -221,6 +222,17 @@ function App() {
         <Toaster position="bottom-right" />
         <ErrorBoundary>
           <ComputerNetworks theme={theme} onThemeChange={setTheme} />
+        </ErrorBoundary>
+      </>
+    );
+  }
+
+  if (window.location.pathname === '/formal-languages-mcq') {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <ErrorBoundary>
+          <FormalLanguagesMCQ theme={theme} onThemeChange={setTheme} />
         </ErrorBoundary>
       </>
     );
@@ -711,37 +723,62 @@ function App() {
                     </div>
                   )}
 
-                  {/* Study Guide Promo Section */}
+                  {/* Study Guide & MCQ Promo Section */}
                   {currentSubjectId === 'formal-languages' && (
-                    <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
-                      <div className="flex items-center gap-4">
-                        <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400 shrink-0">
-                          <BookOpen size={24} />
+                    <div className="mt-8 space-y-4">
+                      {/* Study Guide Banner */}
+                      <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div className="flex items-center gap-4">
+                          <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400 shrink-0">
+                            <BookOpen size={24} />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-purple-100">Need help with concepts?</h3>
+                            <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-purple-100">Need help with concepts?</h3>
-                          <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
-                        </div>
+                        <Link
+                          to="/study-guide"
+                          target="_blank"
+                          className="group relative px-6 py-2.5 rounded-xl font-bold whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
+                            animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:rotate-1 transition-all duration-300
+                            shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
+                            before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
+                            after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
+                          style={{
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px'
+                          }}
+                        >
+                          <span className="relative z-10">Open Study Guide</span>
+                          {/* Sparkle effects */}
+                          <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
+                          <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+                          <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
+                        </Link>
                       </div>
-                      <Link
-                        to="/study-guide"
-                        target="_blank"
-                        className="group relative px-6 py-2.5 rounded-xl font-bold whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
-                          animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:rotate-1 transition-all duration-300
-                          shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
-                          before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
-                          after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
-                        style={{
-                          transformStyle: 'preserve-3d',
-                          perspective: '1000px'
-                        }}
+
+                      {/* FLA MCQ Banner */}
+                      <button
+                        onClick={() => window.location.href = '/formal-languages-mcq'}
+                        className="w-full p-6 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 hover:border-emerald-500/50 transition-all group relative overflow-hidden"
                       >
-                        <span className="relative z-10">Open Study Guide</span>
-                        {/* Sparkle effects */}
-                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
-                        <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
-                        <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
-                      </Link>
+                        <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors" />
+                        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
+                          <div className="flex items-center gap-4 w-full sm:w-auto">
+                            <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+                              <Trophy size={24} />
+                            </div>
+                            <div className="text-left">
+                              <h3 className="text-lg font-bold text-emerald-100">FLA MCQ Practice</h3>
+                              <p className="text-sm text-emerald-200/70">80 questions across 4 units • Practice mode + Mock test</p>
+                            </div>
+                          </div>
+                          <div className="w-full sm:w-auto px-4 py-2 rounded-lg bg-emerald-500 text-white font-medium text-sm group-hover:scale-105 transition-transform text-center">
+                            Start Practice →
+                          </div>
+                        </div>
+                      </button>
                     </div>
                   )}
                 </div>

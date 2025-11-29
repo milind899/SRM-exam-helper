@@ -1,0 +1,750 @@
+# 🔵 UNIT – 1 : Regular Languages, DFA, NFA, Regex, Pumping Lemma
+### 📘 MCQ with Options + Answer Below Every Question
+
+---
+
+1. Which of the following is **NOT** a regular language?  
+   A) (a+b)*  
+   B) a*b*  
+   C) (ab)*  
+   D) aⁿbⁿ  
+   **✔ Answer: D) aⁿbⁿ**
+
+---
+
+2. ε–closure of a state means  
+   A) reachable without input  
+   B) reachable with one input  
+   C) only initial state  
+   D) only final state  
+   **✔ Answer: A) reachable without input**
+
+---
+
+3. DFA stands for  
+   A) Deterministic Finite Automaton  
+   B) Defined Finite Alphabet  
+   C) Deterministic Function Automata  
+   D) Double Finite Automaton  
+   **✔ Answer: A) Deterministic Finite Automaton**
+
+---
+
+4. NFA is **equal in power** to DFA because  
+   A) NFA accepts more languages  
+   B) DFA can simulate any NFA  
+   C) NFA is faster  
+   D) DFA transitions are nondeterministic  
+   **✔ Answer: B) DFA can simulate any NFA**
+
+---
+
+5. Which operation **does NOT preserve regular languages**?  
+   A) Union  
+   B) Intersection  
+   C) Complement  
+   D) Power of language (Lⁿ)  
+   **✔ Answer: D) Power of language (Lⁿ)**
+
+---
+
+6. Regular expression `(a+b)*abb` represents strings ending with  
+   A) ab  
+   B) abb  
+   C) aabb only  
+   D) any string  
+   **✔ Answer: B) abb**
+
+---
+
+7. Transition function of DFA is  
+   A) δ: Q × Σ → Q  
+   B) δ: Q × Σ → 2^Q  
+   C) δ: Q × Σ → Σ*  
+   D) δ: Q × Σ → Σ  
+   **✔ Answer: A) δ: Q × Σ → Q**
+
+---
+
+8. Transition function of NFA is  
+   A) δ: Q × Σ → Q  
+   B) δ: Q × Σ → Q×2  
+   C) δ: Q × Σ → 2^Q  
+   D) δ: Q × 2^Q → Σ  
+   **✔ Answer: C) δ: Q × Σ → 2^Q**
+
+---
+
+9. Which automaton does **not** use ε-transitions?  
+   A) NFA  
+   B) ε-NFA  
+   C) DFA  
+   D) Both A & B  
+   **✔ Answer: C) DFA**
+
+---
+
+10. `(a|b)*a(a|b)` generates strings  
+    A) starting with a  
+    B) having only a  
+    C) ending with a  
+    D) even number of a  
+    **✔ Answer: C) ending with a**
+
+---
+
+11. Minimization of DFA mainly reduces  
+    A) input symbols  
+    B) final states  
+    C) number of states  
+    D) transitions only  
+    **✔ Answer: C) number of states**
+
+---
+
+12. NFA → DFA conversion uses  
+    A) Product method  
+    B) Subset construction  
+    C) Brzozowski algorithm  
+    D) Null elimination  
+    **✔ Answer: B) Subset construction**
+
+---
+
+13. Pumping lemma for regular languages is used to  
+    A) prove language regular  
+    B) make grammar unambiguous  
+    C) show a language is not regular  
+    D) minimize NFA  
+    **✔ Answer: C) show a language is not regular**
+
+---
+
+14. ε–NFA → NFA conversion involves  
+    A) state removal  
+    B) ε–closure computation  
+    C) change of alphabet  
+    D) removal of final state  
+    **✔ Answer: B) ε–closure computation**
+
+---
+
+15. Dead state is one which  
+    A) has no transition  
+    B) is always final  
+    C) cannot reach final state  
+    D) accepts all input  
+    **✔ Answer: C) cannot reach final state**
+
+---
+
+16. `(a+b)*bb` means strings that  
+    A) start with bb  
+    B) end with bb  
+    C) contain at least one bb  
+    D) only bb allowed  
+    **✔ Answer: B) end with bb**
+
+---
+
+17. L = { strings with even number of 0s in binary } is  
+    A) Regular  
+    B) Non-regular  
+    C) Undecidable  
+    D) Recursive Enumerable  
+    **✔ Answer: A) Regular**
+
+---
+
+18. `(0+1)(0+1)*` represents  
+    A) All strings of length ≥1  
+    B) All binary strings  
+    C) Binary strings starting with 1  
+    D) Strings with equal 0 & 1  
+    **✔ Answer: B) All binary strings**
+
+---
+
+19. Language **not containing substring 101** is represented by  
+    A) (0+1)*101(0+1)*  
+    B) (1*01*)*  
+    C) (0+1)* - (0+1)*101(0+1)*  
+    D) (0+1)*10*1  
+    **✔ Answer: C) (0+1)* - (0+1)*101(0+1)***
+
+---
+
+20. L = { w | number of a = number of b } is  
+    A) Regular  
+    B) Context-free  
+    C) Regular & CFL both  
+    D) None  
+    **✔ Answer: B) Context-free**
+
+---
+
+
+
+
+# 🔵 UNIT – 2 : Context Free Grammar | CNF | GNF | Parse Tree | Ambiguity
+### 📘 20 MCQs with Options + Correct Answer Below Each Question
+
+---
+
+1. CFG is defined as  
+   A) (Q, Σ, δ, F)  
+   B) (V, T, P, S)  
+   C) (N, P, Σ, F)  
+   D) (T, S, δ, Q)  
+   **✔ Answer: B) (V, T, P, S)**
+
+---
+
+2. In CFG, symbols that can be replaced are called  
+   A) Terminals  
+   B) Variables / Non-terminals  
+   C) Productions  
+   D) Operators  
+   **✔ Answer: B) Variables / Non-terminals**
+
+---
+
+3. A grammar is **ambiguous** if  
+   A) It has no production rules  
+   B) It generates no terminal strings  
+   C) A string has more than one parse tree  
+   D) A → ε exists  
+   **✔ Answer: C) A string has more than one parse tree**
+
+---
+
+4. Production of Chomsky Normal Form should be  
+   A) A → a | BC  
+   B) A → BCD  
+   C) A → bA  
+   D) A → ε only  
+   **✔ Answer: A) A → a | BC**
+
+---
+
+5. In GNF, every production must begin with  
+   A) Terminal  
+   B) Variable  
+   C) ε  
+   D) Both Terminal & Variable  
+   **✔ Answer: A) Terminal**
+
+---
+
+6. Grammar generating {aⁿbⁿ | n ≥ 1} is  
+   A) S → aSb | ab  
+   B) S → abS  
+   C) S → aS  
+   D) S → bSa  
+   **✔ Answer: A) S → aSb | ab**
+
+---
+
+7. Derivation replacing **leftmost variable first** is  
+   A) Rightmost derivation  
+   B) Leftmost derivation  
+   C) ε derivation  
+   D) Sequential derivation  
+   **✔ Answer: B) Leftmost derivation**
+
+---
+
+8. Parse tree represents  
+   A) Lexical analysis  
+   B) Derivation of string  
+   C) Automata minimization  
+   D) Turing machine trace  
+   **✔ Answer: B) Derivation of string**
+
+---
+
+9. Removing ε-productions is required for  
+   A) Converting CFG → CNF  
+   B) NFA → DFA conversion  
+   C) PDA → DFA  
+   D) Minimization of RE  
+   **✔ Answer: A) Converting CFG → CNF**
+
+---
+
+10. If grammar G can generate the same string in two ways, G is  
+    A) Regular  
+    B) Left recursive only  
+    C) Ambiguous  
+    D) Normalized  
+    **✔ Answer: C) Ambiguous**
+
+---
+
+11. Unit production is of the form  
+    A) A → αβγ  
+    B) A → B  
+    C) A → aB  
+    D) A → ε  
+    **✔ Answer: B) A → B**
+
+---
+
+12. Useless symbols are removed when  
+    A) They never produce terminals  
+    B) They always lead to ε  
+    C) They generate empty grammar  
+    D) They accept all strings  
+    **✔ Answer: A) They never produce terminals**
+
+---
+
+13. CNF production does **NOT** allow  
+    A) A → BC  
+    B) A → a  
+    C) A → ε (except start)  
+    D) A → BCD  
+    **✔ Answer: D) A → BCD**
+
+---
+
+14. CFLs are closed under  
+    A) Union  
+    B) Complement  
+    C) Intersection with any language  
+    D) Difference  
+    **✔ Answer: A) Union**
+
+---
+
+15. GNF stands for  
+    A) Greibach Normal Form  
+    B) Grammar Normalized Format  
+    C) General Normal Form  
+    D) Global Normal Format  
+    **✔ Answer: A) Greibach Normal Form**
+
+---
+
+16. To convert CFG → CNF, we must  
+    A) Remove Left Recursion  
+    B) Remove ε-productions  
+    C) Remove Unit Productions  
+    D) All of the above  
+    **✔ Answer: D) All of the above**
+
+---
+
+17. The start symbol in CNF must not appear on RHS because  
+    A) It increases ambiguity  
+    B) It can't derive terminals  
+    C) It may vanish  
+    D) It produces useless symbols  
+    **✔ Answer: C) It may vanish**
+
+---
+
+18. Ambiguity in grammar is  
+    A) Always avoidable  
+    B) Sometimes unavoidable  
+    C) Never possible  
+    D) Due to lack of terminals  
+    **✔ Answer: B) Sometimes unavoidable**
+
+---
+
+19. ε can be present in CNF only when  
+    A) It is mandatory  
+    B) Grammar is ambiguous  
+    C) Start symbol derives ε  
+    D) αβ = S  
+    **✔ Answer: C) Start symbol derives ε**
+
+---
+
+20. In GNF, production is of the form  
+    A) A → aB₁B₂…Bₙ  
+    B) A → BC  
+    C) A → a only  
+    D) A → ε  
+    **✔ Answer: A) A → aB₁B₂…Bₙ**
+
+---
+
+
+
+
+# 🔵 UNIT – 3 : PDA | CFL | Pumping Lemma | Derivations | Closure
+### 📘 20 MCQs with Options + Correct Answer Below Each Question
+
+---
+
+1. PDA uses which storage mechanism?  
+   A) Queue  
+   B) Tape  
+   C) Stack  
+   D) Array  
+   **✔ Answer: C) Stack**
+
+---
+
+2. PDA is used to accept  
+   A) Regular languages  
+   B) Context-free languages  
+   C) CSL only  
+   D) Recursive languages  
+   **✔ Answer: B) Context-free languages**
+
+---
+
+3. A PDA is defined as  
+   A) (Q, Σ, δ, F)  
+   B) (Q, Σ, Γ, δ, q₀, z₀, F)  
+   C) (V, T, P, S)  
+   D) (Q, Σ, δ)  
+   **✔ Answer: B) (Q, Σ, Γ, δ, q₀, z₀, F)**
+
+---
+
+4. In PDA, Γ denotes  
+   A) Terminals  
+   B) Stack symbols  
+   C) Input alphabet  
+   D) States  
+   **✔ Answer: B) Stack symbols**
+
+---
+
+5. PDA accepts language either by  
+   A) Halting only  
+   B) Final state / Empty stack  
+   C) Minimization  
+   D) Recursion  
+   **✔ Answer: B) Final state / Empty stack**
+
+---
+
+6. Language L = {aⁿbⁿ} is accepted by  
+   A) DFA  
+   B) PDA  
+   C) TM only  
+   D) None  
+   **✔ Answer: B) PDA**
+
+---
+
+7. Which one is **not** context-free?  
+   A) aⁿbⁿcⁿ  
+   B) aⁿbⁿ  
+   C) {wwʳ | w∈{a,b}*}  
+   D) Even length palindromes  
+   **✔ Answer: A) aⁿbⁿcⁿ**
+
+---
+
+8. Pumping Lemma for CFL is used to prove  
+   A) Language is regular  
+   B) Language is finite  
+   C) Language is not context-free  
+   D) Grammar is ambiguous  
+   **✔ Answer: C) Language is not context-free**
+
+---
+
+9. Stack is required in PDA mainly because  
+   A) Random storage  
+   B) It remembers previous inputs  
+   C) It counts recursive patterns  
+   D) Simulates Turing machine  
+   **✔ Answer: C) It counts recursive patterns**
+
+---
+
+10. A DPDA differs from NPDA because DPDA has  
+    A) No stack  
+    B) Deterministic moves only  
+    C) No final state  
+    D) Infinite tape  
+    **✔ Answer: B) Deterministic moves only**
+
+---
+
+11. Which PDA has **more power**?  
+    A) DPDA  
+    B) NPDA  
+    C) Both equal  
+    D) None  
+    **✔ Answer: C) Both equal**
+
+---
+
+12. CFG → PDA conversion requires  
+    A) Push variable on stack and expand  
+    B) Pop terminal first  
+    C) Convert to RE  
+    D) Define TM states  
+    **✔ Answer: A) Push variable on stack and expand**
+
+---
+
+13. PDA → CFG conversion mainly replaces  
+    A) states  
+    B) variables  
+    C) transitions with productions  
+    D) stack with TM tape  
+    **✔ Answer: C) transitions with productions**
+
+---
+
+14. Which is **closed for CFL**?  
+    A) Union  
+    B) Intersection  
+    C) Complement  
+    D) Difference  
+    **✔ Answer: A) Union**
+
+---
+
+15. CFL is **not closed under**  
+    A) Concatenation  
+    B) Kleene star  
+    C) Complement  
+    D) Union  
+    **✔ Answer: C) Complement**
+
+---
+
+16. Palindrome language over {a,b} is  
+    A) Regular  
+    B) Context free  
+    C) Not CFL  
+    D) Regular & CFL both  
+    **✔ Answer: B) Context free**
+
+---
+
+17. PDA accepts L = {aⁿbᵐcⁿ} using  
+    A) Two stacks  
+    B) No stack  
+    C) Single stack  
+    D) CFG only  
+    **✔ Answer: A) Two stacks**
+
+---
+
+18. Which variant of PDA = TM?  
+    A) Deterministic PDA  
+    B) PDA with two stacks  
+    C) PDA with ε moves  
+    D) PDA without final state  
+    **✔ Answer: B) PDA with two stacks**
+
+---
+
+19. Pumping Lemma for CFL splits string as  
+    A) xyz  
+    B) uvw  
+    C) uvwxy  
+    D) xuvyz  
+    **✔ Answer: C) uvwxy**
+
+---
+
+20. For pumping lemma CFL, v and x represent  
+    A) Middle removable portions  
+    B) Always terminals  
+    C) Always empty  
+    D) Start & end symbols  
+    **✔ Answer: A) Middle removable portions**
+
+---
+
+
+
+
+
+# 🔵 UNIT – 4 : Turing Machine | Decidability | Recursive & RE Languages  
+### 📘 20 MCQs with Options + Answers Below Each Question
+
+---
+
+1. A Turing Machine consists of  
+   A) Input tape only  
+   B) Stack + tape  
+   C) Infinite tape + finite control  
+   D) Queue + memory  
+   **✔ Answer: C) Infinite tape + finite control**
+
+---
+
+2. TM transition function is represented as  
+   A) δ : Q × Σ → Q  
+   B) δ : Q × Γ → Q × Γ × {L,R}  
+   C) δ : Q → Σ  
+   D) δ : Q × Γ → Σ  
+   **✔ Answer: B) δ : Q × Γ → Q × Γ × {L,R}**
+
+---
+
+3. Language accepted by TM is called  
+   A) Regular  
+   B) Context-Free  
+   C) Recursively Enumerable  
+   D) Non-computable  
+   **✔ Answer: C) Recursively Enumerable**
+
+---
+
+4. Turing Machine halts when  
+   A) No transition exists  
+   B) Final state reached  
+   C) Tape finishes  
+   D) Both A and B  
+   **✔ Answer: D) Both A and B**
+
+---
+
+5. A language is **decidable** if TM  
+   A) Loops for some inputs  
+   B) Halts for all inputs  
+   C) Has no tape  
+   D) Uses multiple tracks  
+   **✔ Answer: B) Halts for all inputs**
+
+---
+
+6. Recursive languages are  
+   A) Decidable by TM  
+   B) Context-free only  
+   C) Recognized but not decided  
+   D) Always regular  
+   **✔ Answer: A) Decidable by TM**
+
+---
+
+7. Recursively Enumerable languages are  
+   A) Always decidable  
+   B) May not halt on some inputs  
+   C) Finite only  
+   D) CFL only  
+   **✔ Answer: B) May not halt on some inputs**
+
+---
+
+8. A TM with multiple tapes is  
+   A) More powerful than single tape  
+   B) Equivalent in power  
+   C) Less powerful  
+   D) Cannot decide languages  
+   **✔ Answer: B) Equivalent in power**
+
+---
+
+9. Universal Turing Machine is used to  
+   A) Minimize DFA  
+   B) Simulate any TM  
+   C) Generate CFG  
+   D) Recognize regular set  
+   **✔ Answer: B) Simulate any TM**
+
+---
+
+10. Which of the following is **undecidable**?  
+    A) aⁿbⁿ language  
+    B) Halting Problem  
+    C) Regular language membership  
+    D) Palindrome checking  
+    **✔ Answer: B) Halting Problem**
+
+---
+
+11. If both L and L’ are RE, then L is  
+    A) Recursive  
+    B) CFL  
+    C) Not RE  
+    D) Undecidable  
+    **✔ Answer: A) Recursive**
+
+---
+
+12. A language is RE but not recursive when  
+    A) TM halts with yes/no both  
+    B) TM accepts but may loop forever  
+    C) TM rejects always  
+    D) Grammar ambiguous  
+    **✔ Answer: B) TM accepts but may loop**
+
+---
+
+13. Which is true about TM variants?  
+    A) Multi-tape > Single tape in power  
+    B) Both equal in power  
+    C) Multi-track > Multi-tape  
+    D) Single tape > Multi-tape  
+    **✔ Answer: B) Both equal in power**
+
+---
+
+14. Instantaneous Description (ID) represents  
+    A) Grammar type  
+    B) TM state + tape + head position  
+    C) PDA rules only  
+    D) RE form  
+    **✔ Answer: B) TM state + tape + head position**
+
+---
+
+15. A language is **recursive → always**  
+    A) Regular  
+    B) Undecidable  
+    C) Halting guaranteed  
+    D) CFL only  
+    **✔ Answer: C) Halting guaranteed**
+
+---
+
+16. Recursive languages are closed under  
+    A) Union  
+    B) Intersection  
+    C) Complement  
+    D) All of the above  
+    **✔ Answer: D) All of the above**
+
+---
+
+17. If L is not RE, then  
+    A) L is recursive  
+    B) Complement(L) is RE  
+    C) Neither L nor L’ is RE  
+    D) Both are recursive  
+    **✔ Answer: C) Neither L nor L’ is RE**
+
+---
+
+18. PCP is  
+    A) Decidable  
+    B) Undecidable  
+    C) Regular  
+    D) CFL  
+    **✔ Answer: B) Undecidable**
+
+---
+
+19. A TM that never halts for some strings  
+    A) Is always recursive  
+    B) Is RE but not recursive  
+    C) Cannot accept string  
+    D) Must be DPDA  
+    **✔ Answer: B) Is RE but not recursive**
+
+---
+
+20. Halting problem was introduced by  
+    A) Kleene  
+    B) Turing  
+    C) Chomsky  
+    D) Cook  
+    **✔ Answer: B) Turing**
+
+---
+

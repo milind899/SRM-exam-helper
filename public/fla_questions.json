@@ -1,0 +1,964 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "unit": "UNIT 1",
+            "question": "Which of the following is NOT a regular language?",
+            "options": {
+                "A": "(a+b)*",
+                "B": "a*b*",
+                "C": "(ab)*",
+                "D": "aⁿbⁿ"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 2,
+            "unit": "UNIT 1",
+            "question": "ε–closure of a state means",
+            "options": {
+                "A": "reachable without input",
+                "B": "reachable with one input",
+                "C": "only initial state",
+                "D": "only final state"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 3,
+            "unit": "UNIT 1",
+            "question": "DFA stands for",
+            "options": {
+                "A": "Deterministic Finite Automaton",
+                "B": "Defined Finite Alphabet",
+                "C": "Deterministic Function Automata",
+                "D": "Double Finite Automaton"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 4,
+            "unit": "UNIT 1",
+            "question": "NFA is equal in power to DFA because",
+            "options": {
+                "A": "NFA accepts more languages",
+                "B": "DFA can simulate any NFA",
+                "C": "NFA is faster",
+                "D": "DFA transitions are nondeterministic"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 5,
+            "unit": "UNIT 1",
+            "question": "Which operation does NOT preserve regular languages?",
+            "options": {
+                "A": "Union",
+                "B": "Intersection",
+                "C": "Complement",
+                "D": "Power of language (Lⁿ)"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 6,
+            "unit": "UNIT 1",
+            "question": "Regular expression (a+b)*abb represents strings ending with",
+            "options": {
+                "A": "ab",
+                "B": "abb",
+                "C": "aabb only",
+                "D": "any string"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 7,
+            "unit": "UNIT 1",
+            "question": "Transition function of DFA is",
+            "options": {
+                "A": "δ: Q × Σ → Q",
+                "B": "δ: Q × Σ → 2^Q",
+                "C": "δ: Q × Σ → Σ*",
+                "D": "δ: Q × Σ → Σ"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 8,
+            "unit": "UNIT 1",
+            "question": "Transition function of NFA is",
+            "options": {
+                "A": "δ: Q × Σ → Q",
+                "B": "δ: Q × Σ → Q×2",
+                "C": "δ: Q × Σ → 2^Q",
+                "D": "δ: Q × 2^Q → Σ"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 9,
+            "unit": "UNIT 1",
+            "question": "Which automaton does not use ε-transitions?",
+            "options": {
+                "A": "NFA",
+                "B": "ε-NFA",
+                "C": "DFA",
+                "D": "Both A & B"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 10,
+            "unit": "UNIT 1",
+            "question": "(a|b)*a(a|b) generates strings",
+            "options": {
+                "A": "starting with a",
+                "B": "having only a",
+                "C": "ending with a",
+                "D": "even number of a"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 11,
+            "unit": "UNIT 1",
+            "question": "Minimization of DFA mainly reduces",
+            "options": {
+                "A": "input symbols",
+                "B": "final states",
+                "C": "number of states",
+                "D": "transitions only"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 12,
+            "unit": "UNIT 1",
+            "question": "NFA → DFA conversion uses",
+            "options": {
+                "A": "Product method",
+                "B": "Subset construction",
+                "C": "Brzozowski algorithm",
+                "D": "Null elimination"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 13,
+            "unit": "UNIT 1",
+            "question": "Pumping lemma for regular languages is used to",
+            "options": {
+                "A": "prove language regular",
+                "B": "make grammar unambiguous",
+                "C": "show a language is not regular",
+                "D": "minimize NFA"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 14,
+            "unit": "UNIT 1",
+            "question": "ε–NFA → NFA conversion involves",
+            "options": {
+                "A": "state removal",
+                "B": "ε–closure computation",
+                "C": "change of alphabet",
+                "D": "removal of final state"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 15,
+            "unit": "UNIT 1",
+            "question": "Dead state is one which",
+            "options": {
+                "A": "has no transition",
+                "B": "is always final",
+                "C": "cannot reach final state",
+                "D": "accepts all input"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 16,
+            "unit": "UNIT 1",
+            "question": "(a+b)*bb means strings that",
+            "options": {
+                "A": "start with bb",
+                "B": "end with bb",
+                "C": "contain at least one bb",
+                "D": "only bb allowed"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 17,
+            "unit": "UNIT 1",
+            "question": "L = { strings with even number of 0s in binary } is",
+            "options": {
+                "A": "Regular",
+                "B": "Non-regular",
+                "C": "Undecidable",
+                "D": "Recursive Enumerable"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 18,
+            "unit": "UNIT 1",
+            "question": "(0+1)(0+1)* represents",
+            "options": {
+                "A": "All strings of length ≥1",
+                "B": "All binary strings",
+                "C": "Binary strings starting with 1",
+                "D": "Strings with equal 0 & 1"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 19,
+            "unit": "UNIT 1",
+            "question": "Language not containing substring 101 is represented by",
+            "options": {
+                "A": "(0+1)*101(0+1)*",
+                "B": "(1*01*)*",
+                "C": "(0+1)* - (0+1)*101(0+1)*",
+                "D": "(0+1)*10*1"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 20,
+            "unit": "UNIT 1",
+            "question": "L = { w | number of a = number of b } is",
+            "options": {
+                "A": "Regular",
+                "B": "Context-free",
+                "C": "Regular & CFL both",
+                "D": "None"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 21,
+            "unit": "UNIT 2",
+            "question": "CFG is defined as",
+            "options": {
+                "A": "(Q, Σ, δ, F)",
+                "B": "(V, T, P, S)",
+                "C": "(N, P, Σ, F)",
+                "D": "(T, S, δ, Q)"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 22,
+            "unit": "UNIT 2",
+            "question": "In CFG, symbols that can be replaced are called",
+            "options": {
+                "A": "Terminals",
+                "B": "Variables / Non-terminals",
+                "C": "Productions",
+                "D": "Operators"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 23,
+            "unit": "UNIT 2",
+            "question": "A grammar is ambiguous if",
+            "options": {
+                "A": "It has no production rules",
+                "B": "It generates no terminal strings",
+                "C": "A string has more than one parse tree",
+                "D": "A → ε exists"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 24,
+            "unit": "UNIT 2",
+            "question": "Production of Chomsky Normal Form should be",
+            "options": {
+                "A": "A → a | BC",
+                "B": "A → BCD",
+                "C": "A → bA",
+                "D": "A → ε only"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 25,
+            "unit": "UNIT 2",
+            "question": "In GNF, every production must begin with",
+            "options": {
+                "A": "Terminal",
+                "B": "Variable",
+                "C": "ε",
+                "D": "Both Terminal & Variable"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 26,
+            "unit": "UNIT 2",
+            "question": "Grammar generating {aⁿbⁿ | n ≥ 1} is",
+            "options": {
+                "A": "S → aSb | ab",
+                "B": "S → abS",
+                "C": "S → aS",
+                "D": "S → bSa"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 27,
+            "unit": "UNIT 2",
+            "question": "Derivation replacing leftmost variable first is",
+            "options": {
+                "A": "Rightmost derivation",
+                "B": "Leftmost derivation",
+                "C": "ε derivation",
+                "D": "Sequential derivation"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 28,
+            "unit": "UNIT 2",
+            "question": "Parse tree represents",
+            "options": {
+                "A": "Lexical analysis",
+                "B": "Derivation of string",
+                "C": "Automata minimization",
+                "D": "Turing machine trace"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 29,
+            "unit": "UNIT 2",
+            "question": "Removing ε-productions is required for",
+            "options": {
+                "A": "Converting CFG → CNF",
+                "B": "NFA → DFA conversion",
+                "C": "PDA → DFA",
+                "D": "Minimization of RE"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 30,
+            "unit": "UNIT 2",
+            "question": "If grammar G can generate the same string in two ways, G is",
+            "options": {
+                "A": "Regular",
+                "B": "Left recursive only",
+                "C": "Ambiguous",
+                "D": "Normalized"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 31,
+            "unit": "UNIT 2",
+            "question": "Unit production is of the form",
+            "options": {
+                "A": "A → αβγ",
+                "B": "A → B",
+                "C": "A → aB",
+                "D": "A → ε"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 32,
+            "unit": "UNIT 2",
+            "question": "Useless symbols are removed when",
+            "options": {
+                "A": "They never produce terminals",
+                "B": "They always lead to ε",
+                "C": "They generate empty grammar",
+                "D": "They accept all strings"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 33,
+            "unit": "UNIT 2",
+            "question": "CNF production does NOT allow",
+            "options": {
+                "A": "A → BC",
+                "B": "A → a",
+                "C": "A → ε (except start)",
+                "D": "A → BCD"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 34,
+            "unit": "UNIT 2",
+            "question": "CFLs are closed under",
+            "options": {
+                "A": "Union",
+                "B": "Complement",
+                "C": "Intersection with any language",
+                "D": "Difference"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 35,
+            "unit": "UNIT 2",
+            "question": "GNF stands for",
+            "options": {
+                "A": "Greibach Normal Form",
+                "B": "Grammar Normalized Format",
+                "C": "General Normal Form",
+                "D": "Global Normal Format"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 36,
+            "unit": "UNIT 2",
+            "question": "To convert CFG → CNF, we must",
+            "options": {
+                "A": "Remove Left Recursion",
+                "B": "Remove ε-productions",
+                "C": "Remove Unit Productions",
+                "D": "All of the above"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 37,
+            "unit": "UNIT 2",
+            "question": "The start symbol in CNF must not appear on RHS because",
+            "options": {
+                "A": "It increases ambiguity",
+                "B": "It can't derive terminals",
+                "C": "It may vanish",
+                "D": "It produces useless symbols"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 38,
+            "unit": "UNIT 2",
+            "question": "Ambiguity in grammar is",
+            "options": {
+                "A": "Always avoidable",
+                "B": "Sometimes unavoidable",
+                "C": "Never possible",
+                "D": "Due to lack of terminals"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 39,
+            "unit": "UNIT 2",
+            "question": "ε can be present in CNF only when",
+            "options": {
+                "A": "It is mandatory",
+                "B": "Grammar is ambiguous",
+                "C": "Start symbol derives ε",
+                "D": "αβ = S"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 40,
+            "unit": "UNIT 2",
+            "question": "In GNF, production is of the form",
+            "options": {
+                "A": "A → aB₁B₂…Bₙ",
+                "B": "A → BC",
+                "C": "A → a only",
+                "D": "A → ε"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 41,
+            "unit": "UNIT 3",
+            "question": "PDA uses which storage mechanism?",
+            "options": {
+                "A": "Queue",
+                "B": "Tape",
+                "C": "Stack",
+                "D": "Array"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 42,
+            "unit": "UNIT 3",
+            "question": "PDA is used to accept",
+            "options": {
+                "A": "Regular languages",
+                "B": "Context-free languages",
+                "C": "CSL only",
+                "D": "Recursive languages"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 43,
+            "unit": "UNIT 3",
+            "question": "A PDA is defined as",
+            "options": {
+                "A": "(Q, Σ, δ, F)",
+                "B": "(Q, Σ, Γ, δ, q₀, z₀, F)",
+                "C": "(V, T, P, S)",
+                "D": "(Q, Σ, δ)"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 44,
+            "unit": "UNIT 3",
+            "question": "In PDA, Γ denotes",
+            "options": {
+                "A": "Terminals",
+                "B": "Stack symbols",
+                "C": "Input alphabet",
+                "D": "States"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 45,
+            "unit": "UNIT 3",
+            "question": "PDA accepts language either by",
+            "options": {
+                "A": "Halting only",
+                "B": "Final state / Empty stack",
+                "C": "Minimization",
+                "D": "Recursion"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 46,
+            "unit": "UNIT 3",
+            "question": "Language L = {aⁿbⁿ} is accepted by",
+            "options": {
+                "A": "DFA",
+                "B": "PDA",
+                "C": "TM only",
+                "D": "None"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 47,
+            "unit": "UNIT 3",
+            "question": "Which one is not context-free?",
+            "options": {
+                "A": "aⁿbⁿcⁿ",
+                "B": "aⁿbⁿ",
+                "C": "{wwʳ | w∈{a,b}*}",
+                "D": "Even length palindromes"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 48,
+            "unit": "UNIT 3",
+            "question": "Pumping Lemma for CFL is used to prove",
+            "options": {
+                "A": "Language is regular",
+                "B": "Language is finite",
+                "C": "Language is not context-free",
+                "D": "Grammar is ambiguous"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 49,
+            "unit": "UNIT 3",
+            "question": "Stack is required in PDA mainly because",
+            "options": {
+                "A": "Random storage",
+                "B": "It remembers previous inputs",
+                "C": "It counts recursive patterns",
+                "D": "Simulates Turing machine"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 50,
+            "unit": "UNIT 3",
+            "question": "A DPDA differs from NPDA because DPDA has",
+            "options": {
+                "A": "No stack",
+                "B": "Deterministic moves only",
+                "C": "No final state",
+                "D": "Infinite tape"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 51,
+            "unit": "UNIT 3",
+            "question": "Which PDA has more power?",
+            "options": {
+                "A": "DPDA",
+                "B": "NPDA",
+                "C": "Both equal",
+                "D": "None"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 52,
+            "unit": "UNIT 3",
+            "question": "CFG → PDA conversion requires",
+            "options": {
+                "A": "Push variable on stack and expand",
+                "B": "Pop terminal first",
+                "C": "Convert to RE",
+                "D": "Define TM states"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 53,
+            "unit": "UNIT 3",
+            "question": "PDA → CFG conversion mainly replaces",
+            "options": {
+                "A": "states",
+                "B": "variables",
+                "C": "transitions with productions",
+                "D": "stack with TM tape"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 54,
+            "unit": "UNIT 3",
+            "question": "Which is closed for CFL?",
+            "options": {
+                "A": "Union",
+                "B": "Intersection",
+                "C": "Complement",
+                "D": "Difference"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 55,
+            "unit": "UNIT 3",
+            "question": "CFL is not closed under",
+            "options": {
+                "A": "Concatenation",
+                "B": "Kleene star",
+                "C": "Complement",
+                "D": "Union"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 56,
+            "unit": "UNIT 3",
+            "question": "Palindrome language over {a,b} is",
+            "options": {
+                "A": "Regular",
+                "B": "Context free",
+                "C": "Not CFL",
+                "D": "Regular & CFL both"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 57,
+            "unit": "UNIT 3",
+            "question": "PDA accepts L = {aⁿbᵐcⁿ} using",
+            "options": {
+                "A": "Two stacks",
+                "B": "No stack",
+                "C": "Single stack",
+                "D": "CFG only"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 58,
+            "unit": "UNIT 3",
+            "question": "Which variant of PDA = TM?",
+            "options": {
+                "A": "Deterministic PDA",
+                "B": "PDA with two stacks",
+                "C": "PDA with ε moves",
+                "D": "PDA without final state"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 59,
+            "unit": "UNIT 3",
+            "question": "Pumping Lemma for CFL splits string as",
+            "options": {
+                "A": "xyz",
+                "B": "uvw",
+                "C": "uvwxy",
+                "D": "xuvyz"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 60,
+            "unit": "UNIT 3",
+            "question": "For pumping lemma CFL, v and x represent",
+            "options": {
+                "A": "Middle removable portions",
+                "B": "Always terminals",
+                "C": "Always empty",
+                "D": "Start & end symbols"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 61,
+            "unit": "UNIT 4",
+            "question": "A Turing Machine consists of",
+            "options": {
+                "A": "Input tape only",
+                "B": "Stack + tape",
+                "C": "Infinite tape + finite control",
+                "D": "Queue + memory"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 62,
+            "unit": "UNIT 4",
+            "question": "TM transition function is represented as",
+            "options": {
+                "A": "δ : Q × Σ → Q",
+                "B": "δ : Q × Γ → Q × Γ × {L,R}",
+                "C": "δ : Q → Σ",
+                "D": "δ : Q × Γ → Σ"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 63,
+            "unit": "UNIT 4",
+            "question": "Language accepted by TM is called",
+            "options": {
+                "A": "Regular",
+                "B": "Context-Free",
+                "C": "Recursively Enumerable",
+                "D": "Non-computable"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 64,
+            "unit": "UNIT 4",
+            "question": "Turing Machine halts when",
+            "options": {
+                "A": "No transition exists",
+                "B": "Final state reached",
+                "C": "Tape finishes",
+                "D": "Both A and B"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 65,
+            "unit": "UNIT 4",
+            "question": "A language is decidable if TM",
+            "options": {
+                "A": "Loops for some inputs",
+                "B": "Halts for all inputs",
+                "C": "Has no tape",
+                "D": "Uses multiple tracks"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 66,
+            "unit": "UNIT 4",
+            "question": "Recursive languages are",
+            "options": {
+                "A": "Decidable by TM",
+                "B": "Context-free only",
+                "C": "Recognized but not decided",
+                "D": "Always regular"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 67,
+            "unit": "UNIT 4",
+            "question": "Recursively Enumerable languages are",
+            "options": {
+                "A": "Always decidable",
+                "B": "May not halt on some inputs",
+                "C": "Finite only",
+                "D": "CFL only"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 68,
+            "unit": "UNIT 4",
+            "question": "A TM with multiple tapes is",
+            "options": {
+                "A": "More powerful than single tape",
+                "B": "Equivalent in power",
+                "C": "Less powerful",
+                "D": "Cannot decide languages"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 69,
+            "unit": "UNIT 4",
+            "question": "Universal Turing Machine is used to",
+            "options": {
+                "A": "Minimize DFA",
+                "B": "Simulate any TM",
+                "C": "Generate CFG",
+                "D": "Recognize regular set"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 70,
+            "unit": "UNIT 4",
+            "question": "Which of the following is undecidable?",
+            "options": {
+                "A": "aⁿbⁿ language",
+                "B": "Halting Problem",
+                "C": "Regular language membership",
+                "D": "Palindrome checking"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 71,
+            "unit": "UNIT 4",
+            "question": "If both L and L' are RE, then L is",
+            "options": {
+                "A": "Recursive",
+                "B": "CFL",
+                "C": "Not RE",
+                "D": "Undecidable"
+            },
+            "answer": "(A)"
+        },
+        {
+            "id": 72,
+            "unit": "UNIT 4",
+            "question": "A language is RE but not recursive when",
+            "options": {
+                "A": "TM halts with yes/no both",
+                "B": "TM accepts but may loop forever",
+                "C": "TM rejects always",
+                "D": "Grammar ambiguous"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 73,
+            "unit": "UNIT 4",
+            "question": "Which is true about TM variants?",
+            "options": {
+                "A": "Multi-tape > Single tape in power",
+                "B": "Both equal in power",
+                "C": "Multi-track > Multi-tape",
+                "D": "Single tape > Multi-tape"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 74,
+            "unit": "UNIT 4",
+            "question": "Instantaneous Description (ID) represents",
+            "options": {
+                "A": "Grammar type",
+                "B": "TM state + tape + head position",
+                "C": "PDA rules only",
+                "D": "RE form"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 75,
+            "unit": "UNIT 4",
+            "question": "A language is recursive → always",
+            "options": {
+                "A": "Regular",
+                "B": "Undecidable",
+                "C": "Halting guaranteed",
+                "D": "CFL only"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 76,
+            "unit": "UNIT 4",
+            "question": "Recursive languages are closed under",
+            "options": {
+                "A": "Union",
+                "B": "Intersection",
+                "C": "Complement",
+                "D": "All of the above"
+            },
+            "answer": "(D)"
+        },
+        {
+            "id": 77,
+            "unit": "UNIT 4",
+            "question": "If L is not RE, then",
+            "options": {
+                "A": "L is recursive",
+                "B": "Complement(L) is RE",
+                "C": "Neither L nor L' is RE",
+                "D": "Both are recursive"
+            },
+            "answer": "(C)"
+        },
+        {
+            "id": 78,
+            "unit": "UNIT 4",
+            "question": "PCP is",
+            "options": {
+                "A": "Decidable",
+                "B": "Undecidable",
+                "C": "Regular",
+                "D": "CFL"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 79,
+            "unit": "UNIT 4",
+            "question": "A TM that never halts for some strings",
+            "options": {
+                "A": "Is always recursive",
+                "B": "Is RE but not recursive",
+                "C": "Cannot accept string",
+                "D": "Must be DPDA"
+            },
+            "answer": "(B)"
+        },
+        {
+            "id": 80,
+            "unit": "UNIT 4",
+            "question": "Halting problem was introduced by",
+            "options": {
+                "A": "Kleene",
+                "B": "Turing",
+                "C": "Chomsky",
+                "D": "Cook"
+            },
+            "answer": "(B)"
+        }
+    ]
+}
