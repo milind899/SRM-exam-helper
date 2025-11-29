@@ -16,7 +16,7 @@ export const subjects: Subject[] = [
         id: 'formal-languages',
         title: 'Formal Languages & Automata',
         shortTitle: 'FLA',
-        examDate: '2025-12-02T14:00:00', // Placeholder date
+        examDate: '2025-12-01T10:00:00',
         content: formalLanguages
     },
     {

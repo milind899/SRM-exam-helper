@@ -48,9 +48,9 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
     const updates = [
         {
             icon: Book,
-            title: 'Computer Networks MCQ Test Added! 📚',
-            description: 'Practice with the new Computer Networks syllabus questions.',
-            color: 'from-blue-500 to-cyan-500'
+            title: 'Formal Languages & Automata (FLA) Added! 🚀',
+            description: 'Track your progress for FLA with clickable source links for PYQs.',
+            color: 'from-purple-500 to-pink-500'
         },
         {
             icon: PartyPopper,

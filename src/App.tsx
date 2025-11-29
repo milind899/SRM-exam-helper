@@ -337,17 +337,17 @@ function App() {
       >
         <SignInBanner onSignIn={() => setShowSignInModal(true)} />
 
-        {/* New MCQ Banner */}
-        <div className="mb-8 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 flex items-start gap-4 relative animate-fade-in">
-          <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400 shrink-0">
+        {/* New FLA Banner */}
+        <div className="mb-8 p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex items-start gap-4 relative animate-fade-in">
+          <div className="p-2 bg-purple-500/20 rounded-lg text-purple-400 shrink-0">
             <AlertCircle size={20} />
           </div>
           <div className="flex-1">
-            <h3 className="font-bold text-blue-100 mb-1">New: Computer Networks MCQ Practice!</h3>
-            <p className="text-sm text-blue-200/70 leading-relaxed">
-              You can now practice unit-wise MCQs directly on the website.
+            <h3 className="font-bold text-purple-100 mb-1">New: Formal Languages & Automata (FLA) Added!</h3>
+            <p className="text-sm text-purple-200/70 leading-relaxed">
+              You can now track your progress for FLA.
               <br />
-              <span className="text-blue-300 font-medium">Note:</span> Taking the <strong>Test Mode</strong> and completing the syllabus will directly affect your ranking on the Leaderboard.
+              <span className="text-purple-300 font-medium">Note:</span> Sources with PDF links are now available.
             </p>
           </div>
         </div>
