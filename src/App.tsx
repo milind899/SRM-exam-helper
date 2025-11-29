@@ -5,6 +5,7 @@ import { Layout } from './components/Layout';
 import { ProgressBar } from './components/ProgressBar';
 import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
+import { StudyGuide } from './components/StudyGuide';
 import { subjects } from './data/subjects';
 import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
 import clsx from 'clsx';
@@ -347,7 +348,7 @@ function App() {
             <p className="text-sm text-purple-200/70 leading-relaxed">
               You can now track your progress for FLA.
               <br />
-              <span className="text-purple-300 font-medium">Note:</span> Sources with PDF links are now available.
+              <span className="text-purple-300 font-medium">Note:</span> Sources with PDF links and Study Guide are now available.
             </p>
           </div>
         </div>
@@ -585,6 +586,13 @@ function App() {
 
         {!focusMode && (
           <>
+            {/* Study Guide Section (Only for FLA) */}
+            {currentSubjectId === 'formal-languages' && (
+              <div className="mt-16 pt-16 border-t border-white/10">
+                <StudyGuide />
+              </div>
+            )}
+
             {/* More Subjects & Contribution Section */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">
               <div className="p-6 rounded-2xl border border-text-main/5 bg-surface/50 backdrop-blur-sm">

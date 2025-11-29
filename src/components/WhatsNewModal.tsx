@@ -49,7 +49,7 @@ export const WhatsNewModal: React.FC<WhatsNewModalProps> = ({ isOpen, onClose })
         {
             icon: Book,
             title: 'Formal Languages & Automata (FLA) Added! 🚀',
-            description: 'Track your progress for FLA with clickable source links for PYQs.',
+            description: 'Track progress, access PYQ links, and view the complete Video Study Guide.',
             color: 'from-purple-500 to-pink-500'
         },
         {
