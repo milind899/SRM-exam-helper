@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Analytics } from "@vercel/analytics/react";
 import { Layout } from './components/Layout';
@@ -293,6 +294,68 @@ function App() {
     );
   }
 
+  // Study Guide route
+  if (window.location.pathname === '/study-guide') {
+    return (
+      <>
+        <SpeedInsights />
+        <Toaster position="bottom-right" />
+        <Layout
+          currentTheme={theme}
+          onThemeChange={setTheme}
+          onShowShortcuts={() => setShowShortcutsHelp(true)}
+          progressPercentage={progressPercentage}
+          currentSubjectTitle="FLA Study Guide"
+          headerActions={
+            user ? (
+              <button
+                onClick={() => setShowProfileModal(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 border border-primary/20 text-primary rounded-lg transition-all font-medium text-sm"
+                title="Profile"
+              >
+                {user.user_metadata?.avatar_url ? (
+                  <img src={user.user_metadata.avatar_url} alt="Profile" className="w-5 h-5 rounded-full border border-primary/30" />
+                ) : (
+                  <UserIcon size={16} />
+                )}
+                <span className="hidden sm:inline">Profile</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowSignInModal(true)}
+                className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all font-medium text-sm shadow-lg shadow-primary/20"
+              >
+                Sign In
+              </button>
+            )
+          }
+          extraNav={
+            <Link
+              to="/"
+              className="px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2 bg-purple-500 text-white border border-purple-400"
+            >
+              <CheckCircle2 size={16} />
+              Back to Tracker
+            </Link>
+          }
+        >
+          <StudyGuide />
+        </Layout>
+        <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
+        <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
+        <ProfileModal
+          isOpen={showProfileModal}
+          onClose={() => setShowProfileModal(false)}
+          nickname={nickname}
+          tagline={tagline}
+          onUpdateNickname={updateNickname}
+          onUpdateTagline={updateTagline}
+          progressPercentage={progressPercentage}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <SpeedInsights />
@@ -346,27 +409,14 @@ function App() {
         }
         extraNav={
           currentSubjectId === 'formal-languages' && (
-            <button
-              onClick={() => setViewMode(prev => prev === 'tracker' ? 'guide' : 'tracker')}
-              className={clsx(
-                "px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2",
-                viewMode === 'guide'
-                  ? "bg-purple-500 text-white border border-purple-400 shadow-purple-500/30"
-                  : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
-              )}
+            <Link
+              to="/study-guide"
+              target="_blank"
+              className="px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
             >
-              {viewMode === 'guide' ? (
-                <>
-                  <CheckCircle2 size={16} />
-                  Tracker
-                </>
-              ) : (
-                <>
-                  <BookOpen size={16} />
-                  Study Guide
-                </>
-              )}
-            </button>
+              <BookOpen size={16} />
+              Study Guide
+            </Link>
           )
         }
       >
@@ -409,27 +459,14 @@ function App() {
           </div>
 
           {currentSubjectId === 'formal-languages' && (
-            <button
-              onClick={() => setViewMode(prev => prev === 'tracker' ? 'guide' : 'tracker')}
-              className={clsx(
-                "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 border",
-                viewMode === 'guide'
-                  ? "bg-purple-500 text-white border-purple-400 shadow-lg shadow-purple-500/25"
-                  : "bg-surface text-text-muted border-white/10 hover:bg-white/5 hover:text-text-main"
-              )}
+            <Link
+              to="/study-guide"
+              target="_blank"
+              className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 border bg-surface text-text-muted border-white/10 hover:bg-white/5 hover:text-text-main"
             >
-              {viewMode === 'guide' ? (
-                <>
-                  <CheckCircle2 size={16} />
-                  Back to Tracker
-                </>
-              ) : (
-                <>
-                  <BookOpen size={16} />
-                  Open Study Guide
-                </>
-              )}
-            </button>
+              <BookOpen size={16} />
+              Open Study Guide
+            </Link>
           )}
         </div>
 
@@ -658,12 +695,13 @@ function App() {
                           <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
                         </div>
                       </div>
-                      <button
-                        onClick={() => setViewMode('guide')}
+                      <Link
+                        to="/study-guide"
+                        target="_blank"
                         className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 whitespace-nowrap"
                       >
                         Open Study Guide
-                      </button>
+                      </Link>
                     </div>
                   )}
                 </div>
