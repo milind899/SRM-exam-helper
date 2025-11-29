@@ -16,6 +16,16 @@ const AttendanceCalculator: React.FC = () => {
         { id: '1', name: 'Subject 1', total: 0, present: 0 }
     ]);
 
+    // Sync State
+    const [showSyncModal, setShowSyncModal] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
+    const [captchaImage, setCaptchaImage] = useState<string | null>(null);
+    const [cookies, setCookies] = useState<any[]>([]);
+    const [credentials, setCredentials] = useState({ netId: '', password: '', captchaText: '' });
+    const [syncError, setSyncError] = useState<string | null>(null);
+
+    const API_BASE_URL = 'http://localhost:3000'; // TODO: Use env variable
+
     // Load from local storage on mount
     useEffect(() => {
         const savedData = localStorage.getItem('attendanceData');
@@ -61,12 +71,6 @@ const AttendanceCalculator: React.FC = () => {
         const target = 75;
 
         if (percentage >= target) {
-            // Safe: How many can I miss?
-            // (Present) / (Total + x) >= 0.75
-            // Present >= 0.75 * Total + 0.75 * x
-            // Present - 0.75 * Total >= 0.75 * x
-            // (Present - 0.75 * Total) / 0.75 >= x
-            // (4 * Present - 3 * Total) / 3 >= x
             const margin = Math.floor((4 * present - 3 * total) / 3);
             return {
                 status: 'safe',
@@ -75,11 +79,6 @@ const AttendanceCalculator: React.FC = () => {
                 percentage: percentage.toFixed(2)
             };
         } else {
-            // Danger: How many must I attend?
-            // (Present + x) / (Total + x) >= 0.75
-            // Present + x >= 0.75 * Total + 0.75 * x
-            // 0.25 * x >= 0.75 * Total - Present
-            // x >= 3 * Total - 4 * Present
             const required = Math.ceil(3 * total - 4 * present);
             return {
                 status: 'danger',
@@ -118,6 +117,75 @@ const AttendanceCalculator: React.FC = () => {
         }
     };
 
+    // Sync Logic
+    const handleSyncClick = async () => {
+        setShowSyncModal(true);
+        setSyncError(null);
+        setCaptchaImage(null);
+        await fetchCaptcha();
+    };
+
+    const fetchCaptcha = async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/crawl/captcha`);
+            const data = await res.json();
+            if (data.success) {
+                setCaptchaImage(data.captchaImage);
+                setCookies(data.cookies);
+            } else {
+                setSyncError('Failed to load captcha. Please try again.');
+            }
+        } catch (err) {
+            console.error(err);
+            setSyncError('Could not connect to crawler service.');
+        }
+    };
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSyncing(true);
+        setSyncError(null);
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/crawl/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    netId: credentials.netId,
+                    password: credentials.password,
+                    captchaText: credentials.captchaText,
+                    cookies
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                if (data.attendance && Array.isArray(data.attendance)) {
+                     const newSubjects: Subject[] = data.attendance.map((item: any) => ({
+                        id: item.code || Date.now().toString() + Math.random(),
+                        name: item.name,
+                        total: parseInt(item.total) || 0,
+                        present: parseInt(item.attended) || 0
+                    }));
+                    setSubjects(newSubjects);
+                    setShowSyncModal(false);
+                    alert('Attendance synced successfully!');
+                } else {
+                     setSyncError('Invalid data format received from portal.');
+                }
+            } else {
+                setSyncError(data.error || 'Login failed. Check credentials/captcha.');
+                await fetchCaptcha();
+                setCredentials(prev => ({ ...prev, captchaText: '' }));
+            }
+        } catch (err) {
+            console.error(err);
+            setSyncError('Sync failed. Please try again.');
+        } finally {
+            setIsSyncing(false);
+        }
+    };
+
     return (
         <div className="max-w-4xl mx-auto p-4 space-y-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
@@ -130,27 +198,119 @@ const AttendanceCalculator: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="flex bg-surface rounded-lg p-1 border border-white/10">
-                    <button
-                        onClick={() => setDepartment('ENT')}
-                        className={`px-4 py-2 rounded-md transition-all ${department === 'ENT'
-                                ? 'bg-primary text-white shadow-lg'
-                                : 'text-text-muted hover:text-text-main'
-                            }`}
+                <div className="flex gap-2">
+                     <button
+                        onClick={handleSyncClick}
+                        className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2"
                     >
-                        ENT (Subject-wise)
+                        <RefreshCw className="w-4 h-4" />
+                        Sync Portal
                     </button>
-                    <button
-                        onClick={() => setDepartment('FSH')}
-                        className={`px-4 py-2 rounded-md transition-all ${department === 'FSH'
-                                ? 'bg-primary text-white shadow-lg'
-                                : 'text-text-muted hover:text-text-main'
-                            }`}
-                    >
-                        FSH (Overall)
-                    </button>
+                    <div className="flex bg-surface rounded-lg p-1 border border-white/10">
+                        <button
+                            onClick={() => setDepartment('ENT')}
+                            className={`px-4 py-2 rounded-md transition-all ${department === 'ENT'
+                                    ? 'bg-primary text-white shadow-lg'
+                                    : 'text-text-muted hover:text-text-main'
+                                }`}
+                        >
+                            ENT
+                        </button>
+                        <button
+                            onClick={() => setDepartment('FSH')}
+                            className={`px-4 py-2 rounded-md transition-all ${department === 'FSH'
+                                    ? 'bg-primary text-white shadow-lg'
+                                    : 'text-text-muted hover:text-text-main'
+                                }`}
+                        >
+                            FSH
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Sync Modal */}
+            {showSyncModal && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-surface border border-white/10 rounded-xl p-6 max-w-md w-full shadow-2xl">
+                        <h2 className="text-xl font-bold mb-4">Sync with SRM Portal</h2>
+                        
+                        {syncError && (
+                            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-sm">
+                                {syncError}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div>
+                                <label className="block text-sm text-text-muted mb-1">NetID (Register No)</label>
+                                <input 
+                                    type="text" 
+                                    value={credentials.netId}
+                                    onChange={e => setCredentials({...credentials, netId: e.target.value})}
+                                    className="w-full bg-background/50 border border-white/10 rounded-lg px-3 py-2 focus:border-primary outline-none"
+                                    placeholder="RA..."
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-text-muted mb-1">Password</label>
+                                <input 
+                                    type="password" 
+                                    value={credentials.password}
+                                    onChange={e => setCredentials({...credentials, password: e.target.value})}
+                                    className="w-full bg-background/50 border border-white/10 rounded-lg px-3 py-2 focus:border-primary outline-none"
+                                    required
+                                />
+                            </div>
+                            
+                            {captchaImage ? (
+                                <div>
+                                    <label className="block text-sm text-text-muted mb-1">Captcha</label>
+                                    <div className="flex gap-2 mb-2">
+                                        <img src={captchaImage} alt="Captcha" className="h-10 rounded border border-white/10" />
+                                        <button type="button" onClick={fetchCaptcha} className="p-2 hover:bg-white/5 rounded">
+                                            <RefreshCw className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        value={credentials.captchaText}
+                                        onChange={e => setCredentials({...credentials, captchaText: e.target.value})}
+                                        className="w-full bg-background/50 border border-white/10 rounded-lg px-3 py-2 focus:border-primary outline-none"
+                                        placeholder="Enter code"
+                                        required
+                                    />
+                                </div>
+                            ) : (
+                                <div className="text-center py-4 text-text-muted">Loading Captcha...</div>
+                            )}
+
+                            <div className="flex gap-3 pt-2">
+                                <button 
+                                    type="button" 
+                                    onClick={() => setShowSyncModal(false)}
+                                    className="flex-1 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    disabled={isSyncing}
+                                    className="flex-1 bg-primary text-white py-2 rounded-lg hover:bg-primary/80 transition-colors disabled:opacity-50 flex justify-center items-center gap-2"
+                                >
+                                    {isSyncing ? (
+                                        <>
+                                            <RefreshCw className="w-4 h-4 animate-spin" />
+                                            Syncing...
+                                        </>
+                                    ) : 'Login & Sync'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             {/* FSH Overall Status Card */}
             {department === 'FSH' && (
