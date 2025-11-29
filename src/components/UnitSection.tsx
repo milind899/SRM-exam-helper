@@ -117,7 +117,10 @@ export const UnitSection: React.FC<UnitSectionProps> = ({ unit, checkedItems, on
                         className="overflow-hidden"
                     >
                         <div className="px-6 pb-6 pt-2">
-                            <div className="grid md:grid-cols-2 gap-6">
+                            <div className={clsx(
+                                "grid gap-6",
+                                unit.sections.length === 1 ? "grid-cols-1" : "md:grid-cols-2"
+                            )}>
                                 {unit.sections.map((section) => (
                                     <div key={section.title} className="space-y-3">
                                         <div className="flex items-center gap-2">
@@ -127,7 +130,10 @@ export const UnitSection: React.FC<UnitSectionProps> = ({ unit, checkedItems, on
                                             </h4>
                                             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                                         </div>
-                                        <div className="space-y-2">
+                                        <div className={clsx(
+                                            "gap-4",
+                                            unit.sections.length === 1 ? "grid grid-cols-1 md:grid-cols-2" : "space-y-2"
+                                        )}>
                                             {section.items.map((item) => (
                                                 <ChecklistItem
                                                     key={item.id}

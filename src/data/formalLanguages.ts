@@ -3,7 +3,7 @@ import type { Unit } from './examContent';
 export const formalLanguages: Unit[] = [
     {
         id: "fla-unit-1",
-        title: "UNIT–1 — REGULAR LANGUAGES, DFA, NFA, REGEX (CO-1)",
+        title: "UNIT–1 — REGULAR LANGUAGES, DFA, NFA, REGEX",
         sections: [
             {
                 title: "Important Topics",
@@ -50,7 +50,7 @@ export const formalLanguages: Unit[] = [
     },
     {
         id: "fla-unit-2",
-        title: "UNIT–2 — CFG, CNF, GNF, AMBIGUITY (CO-2)",
+        title: "UNIT–2 — CFG, CNF, GNF, AMBIGUITY",
         sections: [
             {
                 title: "Important Topics",
@@ -85,7 +85,7 @@ export const formalLanguages: Unit[] = [
     },
     {
         id: "fla-unit-3",
-        title: "UNIT–3 — PDA, CFL, CLOSURE & PUMPING LEMMA (CO-3)",
+        title: "UNIT–3 — PDA, CFL, CLOSURE & PUMPING LEMMA",
         sections: [
             {
                 title: "Important Topics",
@@ -120,7 +120,7 @@ export const formalLanguages: Unit[] = [
     },
     {
         id: "fla-unit-4",
-        title: "UNIT–4 — TURING MACHINE & DECIDABILITY (CO-4)",
+        title: "UNIT–4 — TURING MACHINE & DECIDABILITY",
         sections: [
             {
                 title: "Important Topics",
@@ -149,7 +149,7 @@ export const formalLanguages: Unit[] = [
     },
     {
         id: "fla-unit-5",
-        title: "UNIT–5 — PCP, RICE THEOREM, NP-COMPLEXITY (CO-5)",
+        title: "UNIT–5 — PCP, RICE THEOREM, NP-COMPLEXITY",
         sections: [
             {
                 title: "Important Topics",
