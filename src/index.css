@@ -182,3 +182,16 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--color-primary), 0.2) transparent;
 }
+
+/* Custom Float Animation for Study Guide Button */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotateX(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotateX(2deg);
+  }
+}

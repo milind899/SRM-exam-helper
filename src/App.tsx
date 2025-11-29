@@ -412,10 +412,24 @@ function App() {
             <Link
               to="/study-guide"
               target="_blank"
-              className="px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
+              className="group relative px-4 py-2 rounded-lg font-bold flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
+                animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:rotate-1 transition-all duration-300
+                shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
+                before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
+                after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
             >
-              <BookOpen size={16} />
-              Study Guide
+              <span className="relative z-10 flex items-center gap-2">
+                <BookOpen size={16} className="animate-pulse" />
+                Study Guide
+              </span>
+              {/* Sparkle effects */}
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
+              <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+              <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
             </Link>
           )
         }
@@ -462,10 +476,24 @@ function App() {
             <Link
               to="/study-guide"
               target="_blank"
-              className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 border bg-surface text-text-muted border-white/10 hover:bg-white/5 hover:text-text-main"
+              className="group relative px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border bg-gradient-to-r from-purple-500 to-pink-500 text-white border-purple-400 overflow-hidden
+                animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:-rotate-1 transition-all duration-300
+                shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
+                before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
+                after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
             >
-              <BookOpen size={16} />
-              Open Study Guide
+              <span className="relative z-10 flex items-center gap-2">
+                <BookOpen size={16} className="animate-pulse" />
+                Open Study Guide
+              </span>
+              {/* Sparkle effects */}
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
+              <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+              <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
             </Link>
           )}
         </div>
@@ -698,9 +726,21 @@ function App() {
                       <Link
                         to="/study-guide"
                         target="_blank"
-                        className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 whitespace-nowrap"
+                        className="group relative px-6 py-2.5 rounded-xl font-bold whitespace-nowrap bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
+                          animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:rotate-1 transition-all duration-300
+                          shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
+                          before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
+                          after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          perspective: '1000px'
+                        }}
                       >
-                        Open Study Guide
+                        <span className="relative z-10">Open Study Guide</span>
+                        {/* Sparkle effects */}
+                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
+                        <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+                        <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
                       </Link>
                     </div>
                   )}
