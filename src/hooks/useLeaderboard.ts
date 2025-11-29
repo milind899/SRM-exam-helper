@@ -48,7 +48,7 @@ export const useLeaderboard = (
             if (!supabase) return;
 
             try {
-                // 1. Fetch existing data to get MCQ score
+                // 1. Fetch existing data to get MCQ scores
                 const { data: existingData } = await supabase
                     .from('leaderboard')
                     .select('progress_data')
@@ -56,13 +56,32 @@ export const useLeaderboard = (
                     .single();
 
                 const currentData = existingData?.progress_data || {};
-                const mcqScore = currentData.cn_max_score || 0;
-                const totalMcqQuestions = currentData.cn_total_questions || 30; // Default to 30 if not set
-                const mcqPercentage = (mcqScore / totalMcqQuestions) * 100;
+
+                // Calculate MCQ percentage from all subjects
+                const cnScore = currentData.cn_max_score || 0;
+                const cnTotal = currentData.cn_total_questions || 30;
+                const flaScore = currentData.fla_max_score || 0;
+                const flaTotal = currentData.fla_total_questions || 30;
+
+                // Average MCQ performance across subjects that have been attempted
+                let totalMcqPercentage = 0;
+                let mcqSubjectsAttempted = 0;
+
+                if (cnTotal > 0 && cnScore > 0) {
+                    totalMcqPercentage += (cnScore / cnTotal) * 100;
+                    mcqSubjectsAttempted++;
+                }
+                if (flaTotal > 0 && flaScore > 0) {
+                    totalMcqPercentage += (flaScore / flaTotal) * 100;
+                    mcqSubjectsAttempted++;
+                }
+
+                const avgMcqPercentage = mcqSubjectsAttempted > 0
+                    ? totalMcqPercentage / mcqSubjectsAttempted
+                    : 0;
 
                 // 2. Calculate Weighted Percentage (50% Syllabus + 50% MCQ)
-                // Syllabus is passed as progressPercentage arg
-                const weightedPercentage = (progressPercentage * 0.5) + (mcqPercentage * 0.5);
+                const weightedPercentage = (progressPercentage * 0.5) + (avgMcqPercentage * 0.5);
 
                 // 3. Sync Leaderboard Data with Weighted Percentage
                 const { error: leaderboardError } = await supabase
@@ -71,16 +90,10 @@ export const useLeaderboard = (
                         user_id: user.id,
                         nickname: nickname,
                         tagline: tagline,
-                        progress_percentage: weightedPercentage, // Use weighted score for ranking
+                        progress_percentage: weightedPercentage,
                         completed_items: completedItems,
                         total_items: totalItems,
                         updated_at: new Date().toISOString(),
-                        // Ensure we preserve/update progress_data with syllabus info if needed, 
-                        // but for now just keeping existing data + maybe syllabus stats?
-                        // Actually, upsert might overwrite progress_data if we don't include it?
-                        // Supabase upsert updates ALL columns passed. If we don't pass progress_data, it might NOT update it?
-                        // BUT if it's a new row, it needs it.
-                        // Safe bet: include it.
                         progress_data: currentData
                     }, {
                         onConflict: 'user_id'
@@ -144,12 +157,32 @@ export const useLeaderboard = (
                     : 0;
 
                 const progressData = entry.progress_data || {};
-                const mcqScore = progressData.cn_max_score || 0;
-                const totalMcqQuestions = progressData.cn_total_questions || 30;
-                const mcqPercentage = (mcqScore / totalMcqQuestions) * 100;
+
+                // Calculate MCQ percentage from all subjects
+                const cnScore = progressData.cn_max_score || 0;
+                const cnTotal = progressData.cn_total_questions || 30;
+                const flaScore = progressData.fla_max_score || 0;
+                const flaTotal = progressData.fla_total_questions || 30;
+
+                // Average MCQ performance across subjects that have been attempted
+                let totalMcqPercentage = 0;
+                let mcqSubjectsAttempted = 0;
+
+                if (cnTotal > 0 && cnScore > 0) {
+                    totalMcqPercentage += (cnScore / cnTotal) * 100;
+                    mcqSubjectsAttempted++;
+                }
+                if (flaTotal > 0 && flaScore > 0) {
+                    totalMcqPercentage += (flaScore / flaTotal) * 100;
+                    mcqSubjectsAttempted++;
+                }
+
+                const avgMcqPercentage = mcqSubjectsAttempted > 0
+                    ? totalMcqPercentage / mcqSubjectsAttempted
+                    : 0;
 
                 // Weighted Score: 50% Syllabus + 50% MCQ
-                const weightedScore = (syllabusPercentage * 0.5) + (mcqPercentage * 0.5);
+                const weightedScore = (syllabusPercentage * 0.5) + (avgMcqPercentage * 0.5);
 
                 return {
                     ...entry,
