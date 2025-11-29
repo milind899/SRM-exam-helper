@@ -89,6 +89,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('current-subject', currentSubjectId);
+    setViewMode('tracker');
   }, [currentSubjectId]);
 
   useEffect(() => {
@@ -363,8 +364,8 @@ function App() {
 
         <CountdownTimer targetDate={currentSubject.examDate} />
 
-        {/* Subject Switcher */}
-        <div className="mb-6 flex justify-center gap-4 items-center flex-wrap">
+        {/* Subject Switcher & Study Guide Button */}
+        <div className="mb-6 flex flex-col sm:flex-row justify-center gap-4 items-center flex-wrap">
           <div className="relative inline-block text-left">
             <select
               value={currentSubjectId}
@@ -381,6 +382,30 @@ function App() {
               <ChevronDown size={16} />
             </div>
           </div>
+
+          {currentSubjectId === 'formal-languages' && (
+            <button
+              onClick={() => setViewMode(prev => prev === 'tracker' ? 'guide' : 'tracker')}
+              className={clsx(
+                "px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 border",
+                viewMode === 'guide'
+                  ? "bg-purple-500 text-white border-purple-400 shadow-lg shadow-purple-500/25"
+                  : "bg-surface text-text-muted border-white/10 hover:bg-white/5 hover:text-text-main"
+              )}
+            >
+              {viewMode === 'guide' ? (
+                <>
+                  <CheckCircle2 size={16} />
+                  Back to Tracker
+                </>
+              ) : (
+                <>
+                  <BookOpen size={16} />
+                  Open Study Guide
+                </>
+              )}
+            </button>
+          )}
         </div>
 
         {/* CN MCQ Banner */}
@@ -514,7 +539,7 @@ function App() {
           </div>
         </div>
 
-        {focusMode ? (
+        {focusMode && (
           <div className="fixed inset-0 bg-gradient-to-br from-background via-background to-surface z-50 overflow-auto">
             {/* Minimal Header */}
             <div className="max-w-5xl mx-auto px-4 py-6">
@@ -563,69 +588,10 @@ function App() {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-8 w-1 bg-primary rounded-full"></div>
-              <h2 className="text-xl font-bold text-text-main">{currentSubject.title}</h2>
-              <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
-                Active
-              </span>
-            </div>
-
-            {filteredContent.length > 0 ? (
-              filteredContent.map(unit => (
-                <UnitSection
-                  key={unit.id}
-                  unit={unit}
-                  checkedItems={checkedItems}
-                  onToggleItem={handleToggleItem}
-                  forceExpanded={expandAll}
-                />
-              ))
-            ) : (
-              <div className="text-center py-12 text-text-muted">
-                <Filter size={48} className="mx-auto mb-4 opacity-20" />
-                <p>No topics found matching your criteria.</p>
-              </div>
-            )}
-          </div>
         )}
 
         {!focusMode && (
           <>
-            {/* Tab Navigation (Only for FLA) */}
-            {currentSubjectId === 'formal-languages' && (
-              <div className="flex justify-center mb-8">
-                <div className="bg-surface/50 backdrop-blur-sm p-1.5 rounded-xl border border-white/10 inline-flex shadow-lg">
-                  <button
-                    onClick={() => setViewMode('tracker')}
-                    className={clsx(
-                      "px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2",
-                      viewMode === 'tracker'
-                        ? "bg-primary text-white shadow-lg shadow-primary/25"
-                        : "text-text-muted hover:text-text-main hover:bg-white/5"
-                    )}
-                  >
-                    <CheckCircle2 size={16} />
-                    Tracker
-                  </button>
-                  <button
-                    onClick={() => setViewMode('guide')}
-                    className={clsx(
-                      "px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2",
-                      viewMode === 'guide'
-                        ? "bg-purple-500 text-white shadow-lg shadow-purple-500/25"
-                        : "text-text-muted hover:text-text-main hover:bg-white/5"
-                    )}
-                  >
-                    <BookOpen size={16} />
-                    Study Guide
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* Content Area */}
             <div className="min-h-[500px]">
               {viewMode === 'tracker' ? (
