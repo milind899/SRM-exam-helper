@@ -1,5 +1,6 @@
 import { examContent } from './examContent';
 import type { Unit } from './examContent';
+import { formalLanguages } from './formalLanguages';
 import { computerNetworks } from './computerNetworks';
 
 export interface Subject {
@@ -11,6 +12,13 @@ export interface Subject {
 }
 
 export const subjects: Subject[] = [
+    {
+        id: 'formal-languages',
+        title: 'Formal Languages & Automata',
+        shortTitle: 'FLA',
+        examDate: '2025-12-02T14:00:00', // Placeholder date
+        content: formalLanguages
+    },
     {
         id: 'discrete-math',
         title: 'Discrete Mathematics',

@@ -33,6 +33,26 @@ export const resources: Resource[] = [
         url: "https://drive.google.com/drive/folders/1zd6GUBcAGx9tARChea5ldx6BM-cQuVXX?usp=sharing",
         type: "Other",
         subjectId: "computer-networks"
+    },
+    {
+        title: "FLA Playlist by Anita R",
+        url: "https://www.youtube.com/playlist?list=PL6xbXi2C3sePDwyboAcu7l1UYuUT2SWYd",
+        author: "Anita R",
+        type: "Video",
+        subjectId: "formal-languages"
+    },
+    {
+        title: "FLA All Units",
+        url: "https://www.youtube.com/playlist?list=PLAeJqLIux2WMSxzieR45QVTftR-FskFJR",
+        author: "Deeba Kannan",
+        type: "Video",
+        subjectId: "formal-languages"
+    },
+    {
+        title: "FLA PYQs (Google Drive)",
+        url: "https://drive.google.com/drive/folders/1-4Tk085E-T59sLOhITJOBL90EMio4WBO?usp=sharing",
+        type: "Other",
+        subjectId: "formal-languages"
     }
 ];
 

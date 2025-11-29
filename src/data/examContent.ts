@@ -3,6 +3,8 @@ export interface ChecklistItem {
     text: string;
     isRepeated?: boolean;
     year?: string;
+    link?: string;
+    source?: string;
 }
 
 export interface UnitSection {

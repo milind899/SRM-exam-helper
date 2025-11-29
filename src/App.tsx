@@ -34,7 +34,7 @@ function App() {
   const { user } = useAuth();
 
   const [currentSubjectId, setCurrentSubjectId] = useState(() => {
-    return localStorage.getItem('current-subject') || 'computer-networks';
+    return localStorage.getItem('current-subject') || 'formal-languages';
   });
 
   const currentSubject = useMemo(() =>

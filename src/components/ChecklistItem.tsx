@@ -54,6 +54,25 @@ export const ChecklistItem: React.FC<ChecklistItemProps> = ({ item, isChecked, o
                         )}
                     </div>
                 )}
+
+                {item.source && (
+                    <div className="mt-2 text-xs text-text-muted">
+                        <span className="font-semibold text-primary/80">Source: </span>
+                        {item.link ? (
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-primary hover:underline transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {item.source}
+                            </a>
+                        ) : (
+                            <span>{item.source}</span>
+                        )}
+                    </div>
+                )}
             </div>
         </motion.div>
     );
