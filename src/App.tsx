@@ -7,7 +7,7 @@ import { UnitSection } from './components/UnitSection';
 import { ResourcesSection } from './components/ResourcesSection';
 import { StudyGuide } from './components/StudyGuide';
 import { subjects } from './data/subjects';
-import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy, AlertCircle } from 'lucide-react';
+import { RotateCcw, Search, Filter, Github, Focus, Timer, ChevronDown, Trophy, AlertCircle, CheckCircle2, BookOpen } from 'lucide-react';
 import clsx from 'clsx';
 import confetti from 'canvas-confetti';
 import { Toaster } from 'react-hot-toast';
@@ -34,35 +34,18 @@ function App() {
   // Get current user first
   const { user } = useAuth();
 
+  // What's New modal - version-based
+  const CURRENT_VERSION = 'v4.0.0'; // FLA Update
+
   const [currentSubjectId, setCurrentSubjectId] = useState(() => {
+    const lastSeenVersion = localStorage.getItem('lastSeenVersion');
+    // Force FLA for users who haven't seen this update yet
+    if (lastSeenVersion !== CURRENT_VERSION) {
+      return 'formal-languages';
+    }
     return localStorage.getItem('current-subject') || 'formal-languages';
   });
 
-  const currentSubject = useMemo(() =>
-    subjects.find(s => s.id === currentSubjectId) || subjects[0],
-    [currentSubjectId]
-  );
-
-  // Progress management with sync
-  const { checkedItems, toggleItem, resetProgress } = useProgress(user, currentSubjectId);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
-
-  type Theme = 'emerald' | 'dark' | 'blue' | 'neon-dark' | 'nature-green' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
-
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('theme');
-    return (saved as Theme) || 'emerald';
-  });
-
-  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
-  const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
-  const [focusMode, setFocusMode] = useState(false);
-  const [focusedUnitIndex, setFocusedUnitIndex] = useState(0);
-
-  // What's New modal - version-based
-  const CURRENT_VERSION = 'v3.0.0'; // CN + Auth features
   const [showWhatsNew, setShowWhatsNew] = useState(() => {
     const lastSeenVersion = localStorage.getItem('lastSeenVersion');
     return lastSeenVersion !== CURRENT_VERSION;
@@ -586,12 +569,71 @@ function App() {
 
         {!focusMode && (
           <>
-            {/* Study Guide Section (Only for FLA) */}
+            {/* Tab Navigation (Only for FLA) */}
             {currentSubjectId === 'formal-languages' && (
-              <div className="mt-16 pt-16 border-t border-white/10">
-                <StudyGuide />
+              <div className="flex justify-center mb-8">
+                <div className="bg-surface/50 backdrop-blur-sm p-1.5 rounded-xl border border-white/10 inline-flex shadow-lg">
+                  <button
+                    onClick={() => setViewMode('tracker')}
+                    className={clsx(
+                      "px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2",
+                      viewMode === 'tracker'
+                        ? "bg-primary text-white shadow-lg shadow-primary/25"
+                        : "text-text-muted hover:text-text-main hover:bg-white/5"
+                    )}
+                  >
+                    <CheckCircle2 size={16} />
+                    Tracker
+                  </button>
+                  <button
+                    onClick={() => setViewMode('guide')}
+                    className={clsx(
+                      "px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2",
+                      viewMode === 'guide'
+                        ? "bg-purple-500 text-white shadow-lg shadow-purple-500/25"
+                        : "text-text-muted hover:text-text-main hover:bg-white/5"
+                    )}
+                  >
+                    <BookOpen size={16} />
+                    Study Guide
+                  </button>
+                </div>
               </div>
             )}
+
+            {/* Content Area */}
+            <div className="min-h-[500px]">
+              {viewMode === 'tracker' ? (
+                <div className="space-y-6 animate-fade-in">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="h-8 w-1 bg-primary rounded-full"></div>
+                    <h2 className="text-xl font-bold text-text-main">{currentSubject.title}</h2>
+                    <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
+                      Active
+                    </span>
+                  </div>
+
+                  {filteredContent.length > 0 ? (
+                    filteredContent.map(unit => (
+                      <UnitSection
+                        key={unit.id}
+                        unit={unit}
+                        checkedItems={checkedItems}
+                        onToggleItem={handleToggleItem}
+                        forceExpanded={expandAll}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-center py-12 text-text-muted">
+                      <Filter size={48} className="mx-auto mb-4 opacity-20" />
+                      <p>No topics found matching your criteria.</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <StudyGuide />
+              )}
+            </div>
 
             {/* More Subjects & Contribution Section */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">

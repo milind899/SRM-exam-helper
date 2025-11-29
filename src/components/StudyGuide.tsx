@@ -112,12 +112,12 @@ export const StudyGuide: React.FC = () => {
                                         <BookOpen size={14} />
                                         Topics & Video Mapping
                                     </h4>
-                                    <div className="bg-black/20 rounded-xl overflow-hidden border border-white/5">
-                                        <table className="w-full text-sm text-left">
+                                    <div className="bg-black/20 rounded-xl overflow-hidden border border-white/5 overflow-x-auto">
+                                        <table className="w-full text-sm text-left min-w-[300px]">
                                             <thead className="bg-white/5 text-text-muted">
                                                 <tr>
-                                                    <th className="px-4 py-3 font-medium">Topic Coverage</th>
-                                                    <th className="px-4 py-3 font-medium w-24 text-right">Video No.</th>
+                                                    <th className="px-4 py-3 font-medium whitespace-nowrap">Topic Coverage</th>
+                                                    <th className="px-4 py-3 font-medium w-24 text-right whitespace-nowrap">Video No.</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-white/5">
@@ -163,12 +163,12 @@ export const StudyGuide: React.FC = () => {
                 className="mt-12 bg-gradient-to-br from-surface to-surface/50 border border-white/10 rounded-2xl p-8 text-center"
             >
                 <h3 className="text-2xl font-bold text-text-main mb-6">💎 Final Quick Reference</h3>
-                <div className="max-w-3xl mx-auto overflow-hidden rounded-xl border border-white/10 shadow-2xl">
-                    <table className="w-full">
+                <div className="max-w-3xl mx-auto overflow-hidden rounded-xl border border-white/10 shadow-2xl overflow-x-auto">
+                    <table className="w-full min-w-[400px]">
                         <thead className="bg-primary/20 text-primary">
                             <tr>
-                                <th className="px-6 py-4 text-left font-bold">Unit Name</th>
-                                <th className="px-6 py-4 text-right font-bold">Video Range</th>
+                                <th className="px-6 py-4 text-left font-bold whitespace-nowrap">Unit Name</th>
+                                <th className="px-6 py-4 text-right font-bold whitespace-nowrap">Video Range</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 bg-surface/80">
@@ -182,6 +182,14 @@ export const StudyGuide: React.FC = () => {
                     </table>
                 </div>
             </motion.div>
+
+            {/* Disclaimer */}
+            <div className="mt-8 p-4 rounded-xl bg-yellow-500/5 border border-yellow-500/10 text-center">
+                <p className="text-xs text-yellow-500/60">
+                    <strong>Disclaimer:</strong> This study guide is based on publicly available resources and is intended for reference only.
+                    While we strive for accuracy, please cross-check with your official syllabus and exam pattern.
+                </p>
+            </div>
         </div>
     );
 };
