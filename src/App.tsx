@@ -536,6 +536,32 @@ function App() {
           </div>
         )}
 
+        {/* FLA MCQ Banner */}
+        {currentSubjectId === 'formal-languages' && (
+          <div className="mb-6">
+            <button
+              onClick={() => window.location.href = '/formal-languages-mcq'}
+              className="w-full p-4 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 hover:border-emerald-500/50 transition-all group relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors" />
+              <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4 w-full sm:w-auto">
+                  <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+                    <Trophy size={24} />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-lg font-bold text-emerald-100">FLA MCQ Practice</h3>
+                    <p className="text-sm text-emerald-200/70">80 questions across 4 units • Practice mode + Mock test</p>
+                  </div>
+                </div>
+                <div className="w-full sm:w-auto px-4 py-2 rounded-lg bg-emerald-500 text-white font-medium text-sm group-hover:scale-105 transition-transform text-center">
+                  Start Practice →
+                </div>
+              </div>
+            </button>
+          </div>
+        )}
+
         {/* Enhanced Search and Filter Card */}
         <div className="bg-gradient-to-br from-surface via-surface to-surface/50 border border-white/10 rounded-2xl p-6 mb-6 shadow-xl">
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
@@ -725,7 +751,7 @@ function App() {
 
                   {/* Study Guide & MCQ Promo Section */}
                   {currentSubjectId === 'formal-languages' && (
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-8">
                       {/* Study Guide Banner */}
                       <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
                         <div className="flex items-center gap-4">
@@ -757,28 +783,6 @@ function App() {
                           <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
                         </Link>
                       </div>
-
-                      {/* FLA MCQ Banner */}
-                      <button
-                        onClick={() => window.location.href = '/formal-languages-mcq'}
-                        className="w-full p-6 rounded-2xl bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-500/30 hover:border-emerald-500/50 transition-all group relative overflow-hidden"
-                      >
-                        <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors" />
-                        <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
-                          <div className="flex items-center gap-4 w-full sm:w-auto">
-                            <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
-                              <Trophy size={24} />
-                            </div>
-                            <div className="text-left">
-                              <h3 className="text-lg font-bold text-emerald-100">FLA MCQ Practice</h3>
-                              <p className="text-sm text-emerald-200/70">80 questions across 4 units • Practice mode + Mock test</p>
-                            </div>
-                          </div>
-                          <div className="w-full sm:w-auto px-4 py-2 rounded-lg bg-emerald-500 text-white font-medium text-sm group-hover:scale-105 transition-transform text-center">
-                            Start Practice →
-                          </div>
-                        </div>
-                      </button>
                     </div>
                   )}
                 </div>
