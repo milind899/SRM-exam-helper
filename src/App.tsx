@@ -645,32 +645,32 @@ function App() {
                       <p>No topics found matching your criteria.</p>
                     </div>
                   )}
-                </div>
 
-                {/* Study Guide Promo Section */}
-              {currentSubjectId === 'formal-languages' && (
-                <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400 shrink-0">
-                      <BookOpen size={24} />
+                  {/* Study Guide Promo Section */}
+                  {currentSubjectId === 'formal-languages' && (
+                    <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+                      <div className="flex items-center gap-4">
+                        <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400 shrink-0">
+                          <BookOpen size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-purple-100">Need help with concepts?</h3>
+                          <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setViewMode('guide')}
+                        className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 whitespace-nowrap"
+                      >
+                        Open Study Guide
+                      </button>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-purple-100">Need help with concepts?</h3>
-                      <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setViewMode('guide')}
-                    className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 whitespace-nowrap"
-                  >
-                    Open Study Guide
-                  </button>
+                  )}
                 </div>
+              ) : (
+                <StudyGuide />
               )}
             </div>
-            ) : (
-            <StudyGuide />
-            )}
 
             {/* More Subjects & Contribution Section */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">
@@ -728,6 +728,7 @@ function App() {
         }}
       />
       <Analytics />
+      {/* TODO: Implement leaderboard reset functionality */}
       <StickyLeaderboard
         entries={leaderboard}
         currentUserId={user?.id}
