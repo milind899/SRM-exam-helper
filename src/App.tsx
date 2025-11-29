@@ -51,6 +51,31 @@ function App() {
     return lastSeenVersion !== CURRENT_VERSION;
   });
 
+  const [viewMode, setViewMode] = useState<'tracker' | 'guide'>('tracker');
+
+  const currentSubject = useMemo(() =>
+    subjects.find(s => s.id === currentSubjectId) || subjects[0],
+    [currentSubjectId]
+  );
+
+  // Progress management with sync
+  const { checkedItems, toggleItem, resetProgress } = useProgress(user, currentSubjectId);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState<'all' | 'repeated' | 'incomplete'>('all');
+
+  type Theme = 'emerald' | 'dark' | 'blue' | 'neon-dark' | 'nature-green' | 'modern-gradient' | 'retro-vintage' | 'gold-black';
+
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('theme');
+    return (saved as Theme) || 'emerald';
+  });
+
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [expandAll, setExpandAll] = useState<boolean | undefined>(undefined);
+  const [focusMode, setFocusMode] = useState(false);
+  const [focusedUnitIndex, setFocusedUnitIndex] = useState(0);
+
   // Sign In modal
   const [showSignInModal, setShowSignInModal] = useState(false);
 
