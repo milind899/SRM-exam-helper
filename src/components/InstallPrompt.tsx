@@ -46,31 +46,40 @@ export const InstallPrompt: React.FC = () => {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 50 }}
-                    className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-96 z-50"
+                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                    className="fixed bottom-6 right-6 z-50 animate-[float_3s_ease-in-out_infinite]"
                 >
-                    <div className="bg-surface border border-primary/20 rounded-xl shadow-2xl p-4 flex items-center gap-4 backdrop-blur-xl">
-                        <div className="p-3 bg-primary/10 rounded-lg">
-                            <Download className="text-primary" size={24} />
+                    <div className="relative bg-gradient-to-r from-emerald-500 to-teal-500 border-2 border-emerald-400 rounded-2xl shadow-2xl p-5 flex items-center gap-4 backdrop-blur-xl max-w-sm
+                        shadow-[0_0_30px_rgba(16,185,129,0.5)]">
+                        {/* Sparkle effects */}
+                        <span className="absolute -top-2 -right-2 w-3 h-3 bg-yellow-300 rounded-full animate-ping" />
+                        <span className="absolute top-1/2 -left-2 w-2 h-2 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+                        <span className="absolute -bottom-2 right-1/4 w-2 h-2 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
+
+                        {/* Download icon with animation */}
+                        <div className="p-4 bg-white/20 rounded-xl animate-pulse">
+                            <Download className="text-white" size={32} />
                         </div>
+
                         <div className="flex-1">
-                            <h3 className="font-semibold text-text-main">Install App</h3>
-                            <p className="text-sm text-text-muted">Install for a better experience!</p>
+                            <h3 className="font-bold text-white text-lg mb-1">Install Desktop App</h3>
+                            <p className="text-sm text-white/90">Get the app for offline access & better performance!</p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={handleClose}
-                                className="p-2 hover:bg-white/5 rounded-lg text-text-muted transition-colors"
-                            >
-                                <X size={20} />
-                            </button>
+
+                        <div className="flex flex-col gap-2">
                             <button
                                 onClick={handleInstallClick}
-                                className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+                                className="px-5 py-2 bg-white text-emerald-600 rounded-xl font-bold hover:bg-white/90 transition-all shadow-lg hover:scale-105"
                             >
                                 Install
+                            </button>
+                            <button
+                                onClick={handleClose}
+                                className="p-2 hover:bg-white/10 rounded-lg text-white/80 hover:text-white transition-colors flex items-center justify-center"
+                            >
+                                <X size={20} />
                             </button>
                         </div>
                     </div>
