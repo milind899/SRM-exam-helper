@@ -344,6 +344,31 @@ function App() {
             </button>
           )
         }
+        extraNav={
+          currentSubjectId === 'formal-languages' && (
+            <button
+              onClick={() => setViewMode(prev => prev === 'tracker' ? 'guide' : 'tracker')}
+              className={clsx(
+                "px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2",
+                viewMode === 'guide'
+                  ? "bg-purple-500 text-white border border-purple-400 shadow-purple-500/30"
+                  : "bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20"
+              )}
+            >
+              {viewMode === 'guide' ? (
+                <>
+                  <CheckCircle2 size={16} />
+                  Tracker
+                </>
+              ) : (
+                <>
+                  <BookOpen size={16} />
+                  Study Guide
+                </>
+              )}
+            </button>
+          )
+        }
       >
         <SignInBanner onSignIn={() => setShowSignInModal(true)} />
 
@@ -621,10 +646,31 @@ function App() {
                     </div>
                   )}
                 </div>
-              ) : (
-                <StudyGuide />
+
+                {/* Study Guide Promo Section */}
+              {currentSubjectId === 'formal-languages' && (
+                <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400 shrink-0">
+                      <BookOpen size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-purple-100">Need help with concepts?</h3>
+                      <p className="text-sm text-purple-200/70">Check out the comprehensive Study Guide with roadmaps and resources.</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setViewMode('guide')}
+                    className="px-6 py-2.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 whitespace-nowrap"
+                  >
+                    Open Study Guide
+                  </button>
+                </div>
               )}
             </div>
+            ) : (
+            <StudyGuide />
+            )}
 
             {/* More Subjects & Contribution Section */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">

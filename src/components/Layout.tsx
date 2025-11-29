@@ -15,6 +15,7 @@ interface LayoutProps {
     progressPercentage?: number;
     currentSubjectTitle?: string;
     headerActions?: React.ReactNode;
+    extraNav?: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -25,6 +26,7 @@ export const Layout: React.FC<LayoutProps> = ({
     progressPercentage = 0,
     currentSubjectTitle = "DM",
     headerActions,
+    extraNav,
 }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
@@ -103,6 +105,7 @@ export const Layout: React.FC<LayoutProps> = ({
                                     >
                                         Attendance
                                     </a>
+                                    {extraNav}
                                 </nav>
 
                                 {/* Progress Ring */}
