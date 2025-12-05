@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MoreVertical, Check, X, Shield, AlertTriangle } from 'lucide-react';
-import { AttendanceSubject } from '../hooks/useAttendance';
+import { Check, X, Shield, AlertTriangle } from 'lucide-react';
+import type { AttendanceSubject } from '../hooks/useAttendance';
 
 interface AttendanceCardProps {
     subject: AttendanceSubject;

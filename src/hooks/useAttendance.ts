@@ -88,7 +88,7 @@ export function useAttendance() {
 
             // Upsert Subjects
             const upserts = syncedData.map(s => ({
-                user_id: (supabase.auth.getUser() as any).id, // handled by default usually
+                user_id: (supabase?.auth.getUser() as any).id, // handled by default usually
                 code: s.code,
                 name: s.name,
                 total_hours: s.total,

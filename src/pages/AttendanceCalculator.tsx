@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, RefreshCw, ExternalLink } from 'lucide-react';
-import { motion } from 'framer-motion';
+/* import { motion } from 'framer-motion'; */
 import { toast } from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 import { AddSubjectModal } from '../components/AddSubjectModal';
@@ -29,6 +29,7 @@ const AttendanceCalculator: React.FC = () => {
     };
 
     const handleUpdate = (id: string, status: 'Present' | 'Absent') => {
+        console.log('Update requested:', id, status);
         // We need an update mutation in useAttendance basically.
         // For now, let's just toast since we focused on fetch/sync first.
         // Real implementation would call updateSubject mutation.

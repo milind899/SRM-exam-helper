@@ -1,5 +1,5 @@
 import React from 'react';
-import { AttendanceSubject } from '../hooks/useAttendance';
+import type { AttendanceSubject } from '../hooks/useAttendance';
 // We'll use simple SVG charts to keep bundle size low, effectively creating our own "Recharts-lite"
 // or just use BentoGrid style stats if Recharts isn't installed.
 // Assuming user might not have Recharts installed, I'll stick to CSS/SVG charts for robustness.

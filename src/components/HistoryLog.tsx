@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { format } from 'date-fns';
-import { AttendanceSubject } from '../hooks/useAttendance';
+import type { AttendanceSubject } from '../hooks/useAttendance';
 import { Search, Calendar } from 'lucide-react';
 
 interface HistoryLogProps {
@@ -58,7 +58,7 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ subjects }) => {
                         <div key={idx} className="flex items-center justify-between p-4 bg-zinc-950/30 border border-white/5 rounded-2xl hover:bg-zinc-950/50 transition-colors">
                             <div className="flex items-center gap-4">
                                 <div className={`w-2 h-10 rounded-full ${log.status === 'Present' ? 'bg-emerald-500' :
-                                        log.status === 'Absent' ? 'bg-rose-500' : 'bg-yellow-500'
+                                    log.status === 'Absent' ? 'bg-rose-500' : 'bg-yellow-500'
                                     }`} />
                                 <div>
                                     <div className="font-bold text-white">{log.subjectName}</div>
@@ -66,7 +66,7 @@ export const HistoryLog: React.FC<HistoryLogProps> = ({ subjects }) => {
                                 </div>
                             </div>
                             <div className={`px-3 py-1 rounded-lg text-xs font-bold ${log.status === 'Present' ? 'bg-emerald-500/10 text-emerald-500' :
-                                    log.status === 'Absent' ? 'bg-rose-500/10 text-rose-500' : 'bg-yellow-500/10 text-yellow-500'
+                                log.status === 'Absent' ? 'bg-rose-500/10 text-rose-500' : 'bg-yellow-500/10 text-yellow-500'
                                 }`}>
                                 {log.status}
                             </div>
