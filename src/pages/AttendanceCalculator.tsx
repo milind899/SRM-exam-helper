@@ -48,8 +48,8 @@ const AttendanceCalculator: React.FC = () => {
 
         const timeoutId = setTimeout(() => {
             setIsSyncing(false);
-            toast.error('Timeout: Ensure Portal tab is open.', { id: toastId });
-        }, 15000);
+            toast.error('Sync timed out. The Portal might be slow or closed. Check the tab and try again.', { id: toastId });
+        }, 45000);
 
         const handleMessage = async (event: MessageEvent) => {
             if (event.source !== window) return;
@@ -62,12 +62,14 @@ const AttendanceCalculator: React.FC = () => {
                     console.log("Extension Data Received:", event.data.data);
 
                     // Transform data for Supabase
+                    // Scraper returns: { code, name, total, attended, scrapedPercentage }
                     const portalData = event.data.data.attendance.map((s: any) => ({
                         code: s.code,
-                        name: s.courseTitle,
-                        total: parseInt(s.hoursConducted) || 0,
-                        present: parseInt(s.hoursAttended) || 0,
-                        logs: s.logs || [] // Detailed logs from scraper
+                        name: s.name,
+                        total: s.total || 0,
+                        attended: s.attended || 0, // Pass as 'attended' to match useAttendance expectation
+                        scrapedPercentage: s.scrapedPercentage || 0,
+                        logs: s.logs || []
                     }));
 
                     console.log("Formatted Portal Data:", portalData);
@@ -78,11 +80,18 @@ const AttendanceCalculator: React.FC = () => {
                         confetti();
                     } catch (e: any) {
                         console.error("Sync Error:", e);
-                        toast.error('Sync failed: ' + (e.message || 'Unknown error'), { id: toastId });
+                        toast.error('Sync failed: ' + (e?.message || 'Unknown error'), { id: toastId });
                     }
                 } else {
                     console.error("Extension returned error:", event.data.error);
-                    toast.error('Sync failed: ' + event.data.error, { id: toastId });
+                    let errMsg = "Unknown extension error";
+                    if (event.data.error) {
+                        errMsg = typeof event.data.error === 'object'
+                            ? (event.data.error.message || JSON.stringify(event.data.error))
+                            : String(event.data.error);
+                    }
+                    if (errMsg === 'undefined') errMsg = "An undefined error occurred";
+                    toast.error('Sync failed: ' + errMsg, { id: toastId });
                 }
             }
         };

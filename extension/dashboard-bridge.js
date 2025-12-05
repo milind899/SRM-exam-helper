@@ -19,11 +19,11 @@ window.addEventListener("message", (event) => {
         const runtime = (typeof chrome !== 'undefined' && chrome.runtime) ? chrome.runtime : (typeof browser !== 'undefined' ? browser.runtime : null);
 
         if (!runtime) {
-            console.error("SRM Zen Bridge: Runtime not found. This script might be running outside of extension context.");
+            console.error("SRM Zen Bridge: Runtime not found. Script likely orphaned.");
             window.postMessage({
                 type: "SYNC_RESPONSE",
                 success: false,
-                error: "Extension runtime missing"
+                error: "Extension updated. Please Refresh this page to reconnect."
             }, "*");
             return;
         }

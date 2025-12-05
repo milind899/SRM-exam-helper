@@ -10,7 +10,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({ status: "SUCCESS", data: data });
         }).catch(err => {
             console.error(err);
-            sendResponse({ status: "ERROR", error: err.message });
+            const msg = err instanceof Error ? err.message : String(err);
+            sendResponse({ status: "ERROR", error: msg || "Unknown Scraper Error" });
         });
         return true; // Keep channel open for async response
     }
@@ -31,8 +32,6 @@ async function scrapeAllData() {
         const timetable = scrapeTimetable(document);
 
         // Fetch other pages if possible (optional enhancement)
-        // For now, we assume we are on the Attendance page or Main page, 
-        // but to get Marks/Exams we might need to fetch other URLs or rely on what's visible.
 
         // A. Marks
         let marksData = [];
@@ -328,7 +327,6 @@ function scrapeAcademicHistory(doc) {
 
 async function scrapeMarks(doc) {
     const marks = [];
-    // Basic impl - we might not find .table-billing-history on all pages
     const rows = Array.from(doc.querySelectorAll('table tr'));
     const subjectsToFetch = [];
 
@@ -361,11 +359,16 @@ async function scrapeMarks(doc) {
             formData.append('iden', '1');
             formData.append('hdnSubjectId', subject.subjectId);
             formData.append('status', '1');
-            const response = await fetch('/srmiststudentportal/students/report/studentInternalMarkDetailsInner.jsp', {
+
+            // Use safeFetch with timeout to prevent hanging
+            const response = await safeFetch('/srmiststudentportal/students/report/studentInternalMarkDetailsInner.jsp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: formData
-            });
+            }, 8000); // 8 second timeout per subject
+
+            if (!response.ok) throw new Error("Network response was not ok");
+
             const html = await response.text();
             const detailDoc = new DOMParser().parseFromString(html, 'text/html');
             const detailRows = Array.from(detailDoc.querySelectorAll('tr'));
@@ -390,7 +393,24 @@ async function scrapeMarks(doc) {
                 }
             });
             return details;
-        } catch (e) { return { code: subject.code, error: true }; }
+        } catch (e) {
+            console.warn(`Failed to fetch marks for ${subject.code}:`, e);
+            return { code: subject.code, error: true };
+        }
     });
     return Promise.all(promises);
+}
+
+// Wrapper for fetch with timeout
+async function safeFetch(url, options = {}, timeout = 10000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (err) {
+        clearTimeout(id);
+        throw err;
+    }
 }
