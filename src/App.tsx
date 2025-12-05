@@ -18,8 +18,6 @@ import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
 import FormalLanguagesMCQ from './pages/FormalLanguagesMCQ';
 import AdminUsers from './pages/AdminUsers';
-import ChallengePage from './pages/ChallengePage';
-import AttendanceCalculator from './pages/AttendanceCalculator';
 import Home from './pages/Home';
 import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from './lib/queryClient';
