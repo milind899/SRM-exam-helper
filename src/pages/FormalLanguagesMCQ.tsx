@@ -8,6 +8,7 @@ import { Layout } from '../components/Layout';
 import { User as UserIcon } from 'lucide-react';
 import { SignInModal } from '../components/SignInModal';
 import { useNavigate } from 'react-router-dom';
+import { BentoGrid, BentoItem } from '../components/BentoGrid';
 
 interface Question {
     id: number;
@@ -345,111 +346,129 @@ export default function FormalLanguagesMCQ({ theme = 'emerald', onThemeChange = 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
-                            className="grid md:grid-cols-3 gap-6"
                         >
-                            {/* ... Dashboard Content ... */}
-                            {/* Practice Card */}
-                            <div className="bg-surface border border-white/10 rounded-2xl p-6 hover:border-primary/50 transition-all group cursor-pointer relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <BookOpen size={100} />
-                                </div>
-                                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
-                                    <BookOpen className="text-primary" size={24} />
-                                </div>
-                                <h2 className="text-xl font-bold mb-2 relative z-10">Practice Mode</h2>
-                                <p className="text-text-muted mb-6 relative z-10">Master concepts unit by unit or shuffle everything. Instant feedback with "Show Answer".</p>
-
-                                <div className="space-y-3 relative z-10">
-                                    <select
-                                        value={practiceUnit}
-                                        onChange={(e) => setPracticeUnit(e.target.value)}
-                                        className="w-full bg-background border border-white/10 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <option value="random">Random Questions</option>
-                                        <option value="UNIT 1">Unit 1 - DFA/NFA/Regex</option>
-                                        <option value="UNIT 2">Unit 2 - CFG/CNF/GNF</option>
-                                        <option value="UNIT 3">Unit 3 - PDA/CFL</option>
-                                        <option value="UNIT 4">Unit 4 - Turing Machine</option>
-                                        <option value="UNIT 5">Unit 5 - Decidability</option>
-                                    </select>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            fetchQuestions('practice', practiceUnit);
-                                        }}
-                                        className="w-full py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
-                                    >
-                                        Start Practice
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Test Card */}
-                            <div className="bg-surface border border-white/10 rounded-2xl p-6 hover:border-accent/50 transition-all group cursor-pointer relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <Trophy size={100} />
-                                </div>
-                                <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
-                                    <Trophy className="text-accent" size={24} />
-                                </div>
-                                <h2 className="text-xl font-bold mb-2 relative z-10">Test Mode</h2>
-                                <p className="text-text-muted mb-6 relative z-10">Simulate the real exam. 30 questions, 30 minutes. Affects leaderboard.</p>
-
-                                <div className="space-y-3 relative z-10">
-                                    <div className="flex items-center justify-between text-sm text-text-muted">
-                                        <div className="flex items-center gap-2">
-                                            <Clock size={16} />
-                                            <span>30 Minutes</span>
+                            <BentoGrid className="md:grid-cols-3">
+                                {/* Practice Card */}
+                                <BentoItem
+                                    colSpan={1}
+                                    className="group cursor-pointer relative overflow-hidden hover:border-primary/50 transition-all"
+                                    noPadding
+                                >
+                                    <div className="p-6 h-full flex flex-col">
+                                        <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <BookOpen size={100} />
                                         </div>
-                                        {!user && (
-                                            <div className="flex items-center gap-1 text-red-400">
-                                                <Lock size={14} />
-                                                <span>Sign in required</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <button
-                                        onClick={() => fetchQuestions('test')}
-                                        className="w-full py-2 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
-                                    >
-                                        {user ? 'Start Test' : 'Sign In to Start Test'}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Challenge Card */}
-                            <div className="bg-surface border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition-all group cursor-pointer relative overflow-hidden">
-                                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <Swords size={100} />
-                                </div>
-                                <div className="h-12 w-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
-                                    <Swords className="text-violet-500" size={24} />
-                                </div>
-                                <h2 className="text-xl font-bold mb-2 relative z-10">Challenge Mode</h2>
-                                <p className="text-text-muted mb-6 relative z-10">Compete with friends in real-time. Create a room and battle for the highest score.</p>
-
-                                <div className="space-y-3 relative z-10">
-                                    <div className="flex items-center justify-between text-sm text-text-muted">
-                                        <div className="flex items-center gap-2">
-                                            <Swords size={16} />
-                                            <span>Multiplayer</span>
+                                        <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
+                                            <BookOpen className="text-primary" size={24} />
                                         </div>
-                                        {!user && (
-                                            <div className="flex items-center gap-1 text-red-400">
-                                                <Lock size={14} />
-                                                <span>Sign in required</span>
-                                            </div>
-                                        )}
+                                        <h2 className="text-xl font-bold mb-2 relative z-10">Practice Mode</h2>
+                                        <p className="text-text-muted mb-6 relative z-10 flex-grow">Master concepts unit by unit or shuffle everything. Instant feedback with "Show Answer".</p>
+
+                                        <div className="space-y-3 relative z-10 mt-auto">
+                                            <select
+                                                value={practiceUnit}
+                                                onChange={(e) => setPracticeUnit(e.target.value)}
+                                                className="w-full bg-background border border-white/10 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <option value="random">Random Questions</option>
+                                                <option value="UNIT 1">Unit 1 - DFA/NFA/Regex</option>
+                                                <option value="UNIT 2">Unit 2 - CFG/CNF/GNF</option>
+                                                <option value="UNIT 3">Unit 3 - PDA/CFL</option>
+                                                <option value="UNIT 4">Unit 4 - Turing Machine</option>
+                                                <option value="UNIT 5">Unit 5 - Decidability</option>
+                                            </select>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    fetchQuestions('practice', practiceUnit);
+                                                }}
+                                                className="w-full py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                                            >
+                                                Start Practice
+                                            </button>
+                                        </div>
                                     </div>
-                                    <button
-                                        onClick={handleCreateChallenge}
-                                        className="w-full py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
-                                    >
-                                        {user ? 'Challenge a Friend' : 'Sign In to Challenge'}
-                                    </button>
-                                </div>
-                            </div>
+                                </BentoItem>
+
+                                {/* Test Card */}
+                                <BentoItem
+                                    colSpan={1}
+                                    className="group cursor-pointer relative overflow-hidden hover:border-accent/50 transition-all"
+                                    noPadding
+                                >
+                                    <div className="p-6 h-full flex flex-col">
+                                        <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <Trophy size={100} />
+                                        </div>
+                                        <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
+                                            <Trophy className="text-accent" size={24} />
+                                        </div>
+                                        <h2 className="text-xl font-bold mb-2 relative z-10">Test Mode</h2>
+                                        <p className="text-text-muted mb-6 relative z-10 flex-grow">Simulate the real exam. 30 questions, 30 minutes. Affects leaderboard.</p>
+
+                                        <div className="space-y-3 relative z-10 mt-auto">
+                                            <div className="flex items-center justify-between text-sm text-text-muted">
+                                                <div className="flex items-center gap-2">
+                                                    <Clock size={16} />
+                                                    <span>30 Minutes</span>
+                                                </div>
+                                                {!user && (
+                                                    <div className="flex items-center gap-1 text-red-400">
+                                                        <Lock size={14} />
+                                                        <span>Sign in required</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <button
+                                                onClick={() => fetchQuestions('test')}
+                                                className="w-full py-2 bg-accent text-white rounded-lg font-medium hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
+                                            >
+                                                {user ? 'Start Test' : 'Sign In to Start Test'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </BentoItem>
+
+                                {/* Challenge Card */}
+                                <BentoItem
+                                    colSpan={1}
+                                    className="group cursor-pointer relative overflow-hidden hover:border-violet-500/50 transition-all"
+                                    noPadding
+                                >
+                                    <div className="p-6 h-full flex flex-col">
+                                        <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <Swords size={100} />
+                                        </div>
+                                        <div className="h-12 w-12 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10">
+                                            <Swords className="text-violet-500" size={24} />
+                                        </div>
+                                        <h2 className="text-xl font-bold mb-2 relative z-10">Challenge Mode</h2>
+                                        <p className="text-text-muted mb-6 relative z-10 flex-grow">Compete with friends in real-time. Create a room and battle for the highest score.</p>
+
+                                        <div className="space-y-3 relative z-10 mt-auto">
+                                            <div className="flex items-center justify-between text-sm text-text-muted">
+                                                <div className="flex items-center gap-2">
+                                                    <Swords size={16} />
+                                                    <span>Multiplayer</span>
+                                                </div>
+                                                {!user && (
+                                                    <div className="flex items-center gap-1 text-red-400">
+                                                        <Lock size={14} />
+                                                        <span>Sign in required</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <button
+                                                onClick={handleCreateChallenge}
+                                                className="w-full py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20"
+                                            >
+                                                {user ? 'Challenge a Friend' : 'Sign In to Challenge'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </BentoItem>
+                            </BentoGrid>
                         </motion.div>
                     )}
 

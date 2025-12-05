@@ -27,7 +27,13 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@extension/*": [
+        "./extension/*"
+      ]
+    }
   },
   "include": [
     "src",

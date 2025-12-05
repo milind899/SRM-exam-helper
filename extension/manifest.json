@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "SRM Zen Bridge",
+    "version": "1.0",
+    "description": "Bridges SRM Zen Dashboard with SRM Academia Portal for data syncing.",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "*://sp.srmist.edu.in/*",
+        "*://academia.srmist.edu.in/*",
+        "*://*.srmist.edu.in/*",
+        "http://localhost:5173/*",
+        "http://localhost:4173/*",
+        "http://127.0.0.1:5173/*",
+        "http://127.0.0.1:4173/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://sp.srmist.edu.in/*",
+                "*://academia.srmist.edu.in/*",
+                "*://*.srmist.edu.in/*"
+            ],
+            "js": [
+                "srm-scraper.js"
+            ]
+        },
+        {
+            "matches": [
+                "http://localhost:5173/*",
+                "http://localhost:4173/*",
+                "http://127.0.0.1:5173/*",
+                "http://127.0.0.1:4173/*"
+            ],
+            "js": [
+                "dashboard-bridge.js"
+            ]
+        }
+    ]
+}
