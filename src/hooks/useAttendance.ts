@@ -26,23 +26,39 @@ export interface AttendanceLog {
 // Fetch helper
 const fetchSubjects = async () => {
     if (!supabase) throw new Error("Supabase not defined");
-    const { data, error } = await supabase
-        .from('subjects')
-        .select('*')
-        .select('*')
-        .order('name');
 
-    console.log("Fetch Subjects Result:", { data, error, user: (await supabase.auth.getUser()).data.user });
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
 
-    if (error) throw error;
+        if (!user) {
+            console.log("Fetch Subjects: No active user found.");
+            return [];
+        }
 
-    // Transform JSONB logs to array if needed, and calculate percentage
-    return (data || []).map((sub: any) => ({
-        ...sub,
-        percentage: sub.total_hours > 0 ? (sub.present_hours / sub.total_hours) * 100 : 0,
-        logs: sub.logs || [],
-        settings: sub.settings || { target: 75, credits: 3 }
-    })) as AttendanceSubject[];
+        const { data, error } = await supabase
+            .from('subjects')
+            .select('*')
+            .eq('user_id', user.id) // Explicitly filter by user_id to be safe/clear
+            .order('name');
+
+        if (error) {
+            console.error("Fetch Subjects Error:", error);
+            throw error;
+        }
+
+        console.log("Fetch Subjects Success:", data?.length, "records found for user", user.id);
+
+        // Transform JSONB logs to array if needed, and calculate percentage
+        return (data || []).map((sub: any) => ({
+            ...sub,
+            percentage: sub.total_hours > 0 ? (sub.present_hours / sub.total_hours) * 100 : 0,
+            logs: sub.logs || [],
+            settings: sub.settings || { target: 75, credits: 3 }
+        })) as AttendanceSubject[];
+    } catch (err) {
+        console.error("Fetch Subjects Unexpected Error:", err);
+        throw err;
+    }
 };
 
 export function useAttendance() {
