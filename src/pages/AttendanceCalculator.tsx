@@ -72,8 +72,9 @@ const AttendanceCalculator: React.FC = () => {
                         await syncData(portalData);
                         toast.success('Synced successfully!', { id: toastId });
                         confetti();
-                    } catch (e) {
-                        toast.error('Sync failed to save.', { id: toastId });
+                    } catch (e: any) {
+                        console.error("Sync Error:", e);
+                        toast.error('Sync failed: ' + (e.message || 'Unknown error'), { id: toastId });
                     }
                 } else {
                     toast.error('Sync failed: ' + event.data.error, { id: toastId });
