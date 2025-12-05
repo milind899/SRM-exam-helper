@@ -35,10 +35,12 @@ const fetchSubjects = async () => {
             return [];
         }
 
+        console.log("Fetch Subjects: Fetching for user", user.id);
+
         const { data, error } = await supabase
             .from('subjects')
             .select('*')
-            .eq('user_id', user.id) // Explicitly filter by user_id to be safe/clear
+            // .eq('user_id', user.id) // Rely on RLS policies to filter
             .order('name');
 
         if (error) {
@@ -46,7 +48,7 @@ const fetchSubjects = async () => {
             throw error;
         }
 
-        console.log("Fetch Subjects Success:", data?.length, "records found for user", user.id);
+        console.log("Fetch Subjects Success: DB returned", data?.length, "records.");
 
         // Transform JSONB logs to array if needed, and calculate percentage
         return (data || []).map((sub: any) => ({
@@ -68,7 +70,7 @@ export function useAttendance() {
     const { data: subjects = [], isLoading, error } = useQuery({
         queryKey: ['attendance_subjects', user?.id],
         queryFn: fetchSubjects,
-        staleTime: 1000 * 60 * 60 * 24,
+        // staleTime removed to force fresh fetch on mount/update during debug
         enabled: !authLoading && !!user,
     });
 
@@ -155,8 +157,9 @@ export function useAttendance() {
                 console.log("Upsert Success. Rows confirmed:", data.length);
             }
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['attendance_subjects'] });
+        onSuccess: async () => {
+            // Invalidate exactly the active query to ensure refetch
+            await queryClient.invalidateQueries({ queryKey: ['attendance_subjects'] });
             toast.success('Synced successfully!');
         }
     });
