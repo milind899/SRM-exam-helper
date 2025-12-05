@@ -133,18 +133,26 @@ export function useAttendance() {
 
             if (upserts.length === 0) {
                 console.warn("No valid subjects to sync (all missed codes)");
-                return; // Nothing to save
+                throw new Error("No valid subjects found. detection failed or empty data.");
             }
 
             console.log("Upserting subjects:", upserts);
 
-            const { error } = await supabase
+            const { data, error } = await supabase
                 .from('subjects')
-                .upsert(upserts, { onConflict: 'user_id,code' });
+                .upsert(upserts, { onConflict: 'user_id,code' })
+                .select();
 
             if (error) {
                 console.error("Supabase Upsert Error:", error);
                 throw error;
+            }
+
+            if (!data || data.length === 0) {
+                console.warn("Upsert returned no data. RLS might be blocking or conflict ignored.");
+                // We don't throw here strictly unless we are sure, but it is suspicious.
+            } else {
+                console.log("Upsert Success. Rows confirmed:", data.length);
             }
         },
         onSuccess: () => {
