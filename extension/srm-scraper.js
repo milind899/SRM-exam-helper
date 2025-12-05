@@ -383,38 +383,20 @@ function scrapeAttendanceFromDocument(doc) {
                 if (total < attended) {
                     // Maybe swapped?
                     if (total === absent && attended > total) {
-                        // Weird case, just swap? No, unsafe.
+                        const onclick = link.getAttribute('onclick');
+                        // Pattern: viewDetails('12345') or similar
+                        if (onclick) {
+                            const match = onclick.match(/'(\d+)'/);
+                            if (match) subject.subjectId = match[1];
+                        }
                     }
+
+                    if (subject.code && subject.name) subjects.push(subject);
                 }
-
-                if (code && name) {
-                    code,
-                        name,
-                        total,
-                        attended,
-                        percentage: percentageText,
-                            subjectId: null // Placeholder
-                };
-
-                // Try to find subjectId (onClick or hidden input)
-                // Check for a link/button in the row
-                const actionCell = cells[0]; // Often the Code is a link
-                const link = actionCell.querySelector('a, button') || row.querySelector('a[onclick], button[onclick]');
-                if (link) {
-                    const onclick = link.getAttribute('onclick');
-                    // Pattern: viewDetails('12345') or similar
-                    if (onclick) {
-                        const match = onclick.match(/'(\d+)'/);
-                        if (match) subject.subjectId = match[1];
-                    }
-                }
-
-                if (subject.code && subject.name) subjects.push(subject);
             }
         }
     }
-}
-return subjects;
+    return subjects;
 }
 
 async function scrapeAttendanceDetails(subjectId) {
