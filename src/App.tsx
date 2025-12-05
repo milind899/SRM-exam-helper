@@ -18,6 +18,7 @@ import { InstallPrompt } from './components/InstallPrompt';
 import ComputerNetworks from './pages/ComputerNetworks';
 import FormalLanguagesMCQ from './pages/FormalLanguagesMCQ';
 import AdminUsers from './pages/AdminUsers';
+import AttendanceCalculator from './pages/AttendanceCalculator';
 import Home from './pages/Home';
 import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from './lib/queryClient';
@@ -164,6 +165,58 @@ function AppContent() {
       <>
         <Toaster position="bottom-right" />
         <AdminUsers />
+      </>
+    );
+  }
+
+  if (window.location.pathname === '/attendance') {
+    return (
+      <>
+        <Toaster position="bottom-right" />
+        <Layout
+          currentTheme={theme}
+          onThemeChange={setTheme}
+          onShowShortcuts={() => setShowShortcutsHelp(true)}
+          progressPercentage={progressPercentage}
+          currentSubjectTitle="Attendance"
+          headerActions={
+            user ? (
+              <button
+                onClick={() => setShowProfileModal(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 border border-primary/20 text-primary rounded-lg transition-all font-medium text-sm"
+                title="Profile"
+              >
+                {user.user_metadata?.avatar_url ? (
+                  <img src={user.user_metadata.avatar_url} alt="Profile" className="w-5 h-5 rounded-full border border-primary/30" />
+                ) : (
+                  <UserIcon size={16} />
+                )}
+                <span className="hidden sm:inline">Profile</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowSignInModal(true)}
+                className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all font-medium text-sm shadow-lg shadow-primary/20"
+              >
+                Sign In
+              </button>
+            )
+          }
+        >
+          <ErrorBoundary>
+            <AttendanceCalculator />
+          </ErrorBoundary>
+        </Layout>
+        <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
+        <ProfileModal
+          isOpen={showProfileModal}
+          onClose={() => setShowProfileModal(false)}
+          nickname={nickname}
+          tagline={tagline}
+          onUpdateNickname={updateNickname}
+          onUpdateTagline={updateTagline}
+          progressPercentage={progressPercentage}
+        />
       </>
     );
   }

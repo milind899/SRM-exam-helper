@@ -86,42 +86,50 @@ export function useAttendance() {
     const syncMutation = useMutation({
         mutationFn: async (syncedData: any[]) => {
             if (!supabase) throw new Error("Supabase not defined");
-            // This is a complex bulk upsert.
-            // For each subject in sync data, we upsert into DB.
-            // Since we use JSONB, we just replace the whole record or merge logs?
-            // For simplicity/cost: We OVERWRITE local data with Portal Data (Source of Truth).
-            // But we preserve "Custom Logs" if we had that feature.
 
-            // Upsert Subjects
             const { data: { user } } = await supabase.auth.getUser();
             const userId = user?.id;
 
             if (!userId) {
-                // If not logged in, we can't save to explicit user_id. 
-                // But we should rely on the session being active. 
-                // Throwing error here to alert dev/user.
-                throw new Error("User not authenticated. Refresh page or sign in.");
+                throw new Error("User not authenticated. Please refresh.");
             }
 
-            const upserts = syncedData.map(s => ({
-                user_id: userId,
-                code: s.code,
-                name: s.name,
-                total_hours: s.total,
-                present_hours: s.present,
-                logs: s.logs || [], // If the scraper provides logs
-                settings: { target: 75, credits: 3 } // Default
-            }));
+            console.log("Preparing to sync subjects:", syncedData.length);
+
+            // 1. Sanitize and Deduplicate
+            const validSubjects = syncedData.filter(s => s.code && s.code.trim().length > 0);
+
+            // Map to ensure uniqueness by Code
+            const uniqueSubjects = new Map();
+            validSubjects.forEach(s => {
+                uniqueSubjects.set(s.code.trim(), {
+                    user_id: userId,
+                    code: s.code.trim(),
+                    name: s.name,
+                    total_hours: s.total,
+                    present_hours: s.present,
+                    logs: s.logs || [],
+                    settings: { target: 75, credits: 3 }
+                });
+            });
+
+            const upserts = Array.from(uniqueSubjects.values());
+
+            if (upserts.length === 0) {
+                console.warn("No valid subjects to sync (all missed codes)");
+                return; // Nothing to save
+            }
+
+            console.log("Upserting subjects:", upserts);
 
             const { error } = await supabase
                 .from('subjects')
-                .upsert(upserts, { onConflict: 'code,user_id' as any }); // We need a unique constraint on code?
-            // Actually unique constraint might be 'id'.
-            // We will match by 'name' or 'code' manually or assume 'code' is unique per user.
-            // For now, let's just assume we might duplicate if we don't have unique constraint.
-            // We should add a unique index on (user_id, code) in SQL.
+                .upsert(upserts, { onConflict: 'user_id,code' });
 
-            if (error) throw error;
+            if (error) {
+                console.error("Supabase Upsert Error:", error);
+                throw error;
+            }
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['attendance_subjects'] });

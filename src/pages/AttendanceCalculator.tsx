@@ -59,6 +59,8 @@ const AttendanceCalculator: React.FC = () => {
                 setIsSyncing(false);
 
                 if (event.data.success) {
+                    console.log("Extension Data Received:", event.data.data);
+
                     // Transform data for Supabase
                     const portalData = event.data.data.attendance.map((s: any) => ({
                         code: s.code,
@@ -67,6 +69,8 @@ const AttendanceCalculator: React.FC = () => {
                         present: parseInt(s.hoursAttended) || 0,
                         logs: s.logs || [] // Detailed logs from scraper
                     }));
+
+                    console.log("Formatted Portal Data:", portalData);
 
                     try {
                         await syncData(portalData);
@@ -77,6 +81,7 @@ const AttendanceCalculator: React.FC = () => {
                         toast.error('Sync failed: ' + (e.message || 'Unknown error'), { id: toastId });
                     }
                 } else {
+                    console.error("Extension returned error:", event.data.error);
                     toast.error('Sync failed: ' + event.data.error, { id: toastId });
                 }
             }
