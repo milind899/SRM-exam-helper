@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 export interface AttendanceSubject {
     id: string;
@@ -28,7 +29,10 @@ const fetchSubjects = async () => {
     const { data, error } = await supabase
         .from('subjects')
         .select('*')
+        .select('*')
         .order('name');
+
+    console.log("Fetch Subjects Result:", { data, error, user: (await supabase.auth.getUser()).data.user });
 
     if (error) throw error;
 
@@ -43,11 +47,13 @@ const fetchSubjects = async () => {
 
 export function useAttendance() {
     const queryClient = useQueryClient();
+    const { user, loading: authLoading } = useAuth();
 
     const { data: subjects = [], isLoading, error } = useQuery({
-        queryKey: ['attendance_subjects'],
+        queryKey: ['attendance_subjects', user?.id],
         queryFn: fetchSubjects,
-        staleTime: 1000 * 60 * 60 * 24, // 24 hours stale time (Offline first)
+        staleTime: 1000 * 60 * 60 * 24,
+        enabled: !authLoading && !!user,
     });
 
     // Example Mutation: Add Subject
@@ -87,8 +93,18 @@ export function useAttendance() {
             // But we preserve "Custom Logs" if we had that feature.
 
             // Upsert Subjects
+            const { data: { user } } = await supabase.auth.getUser();
+            const userId = user?.id;
+
+            if (!userId) {
+                // If not logged in, we can't save to explicit user_id. 
+                // But we should rely on the session being active. 
+                // Throwing error here to alert dev/user.
+                throw new Error("User not authenticated. Refresh page or sign in.");
+            }
+
             const upserts = syncedData.map(s => ({
-                user_id: (supabase?.auth.getUser() as any).id, // handled by default usually
+                user_id: userId,
                 code: s.code,
                 name: s.name,
                 total_hours: s.total,
