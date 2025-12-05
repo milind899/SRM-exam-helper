@@ -14,6 +14,7 @@ export interface AttendanceSubject {
     settings: {
         target: number; // e.g. 75
         credits: number;
+        scraped_percentage?: number; // From portal if hours missing
     };
 }
 
@@ -51,12 +52,18 @@ const fetchSubjects = async () => {
         console.log("Fetch Subjects Success: DB returned", data?.length, "records.");
 
         // Transform JSONB logs to array if needed, and calculate percentage
-        return (data || []).map((sub: any) => ({
-            ...sub,
-            percentage: sub.total_hours > 0 ? (sub.present_hours / sub.total_hours) * 100 : 0,
-            logs: sub.logs || [],
-            settings: sub.settings || { target: 75, credits: 3 }
-        })) as AttendanceSubject[];
+        return (data || []).map((sub: any) => {
+            const calculatedPercentage = sub.total_hours > 0 ? (sub.present_hours / sub.total_hours) * 100 : 0;
+            // Prefer calculated percentage if hours exist, otherwise use scraped percentage from settings
+            const percentage = sub.total_hours > 0 ? calculatedPercentage : (sub.settings?.scraped_percentage || 0);
+
+            return {
+                ...sub,
+                percentage: percentage,
+                logs: sub.logs || [],
+                settings: sub.settings || { target: 75, credits: 3 }
+            };
+        }) as AttendanceSubject[];
     } catch (err) {
         console.error("Fetch Subjects Unexpected Error:", err);
         throw err;
@@ -124,10 +131,14 @@ export function useAttendance() {
                     user_id: userId,
                     code: s.code.trim(),
                     name: s.name,
-                    total_hours: s.total,
-                    present_hours: s.present,
+                    total_hours: s.total || 0,
+                    present_hours: s.attended || 0, // Ensure naming matches scraper
                     logs: s.logs || [],
-                    settings: { target: 75, credits: 3 }
+                    settings: {
+                        target: 75,
+                        credits: 3,
+                        scraped_percentage: s.scrapedPercentage // Save this!
+                    }
                 });
             });
 
@@ -152,7 +163,6 @@ export function useAttendance() {
 
             if (!data || data.length === 0) {
                 console.warn("Upsert returned no data. RLS might be blocking or conflict ignored.");
-                // We don't throw here strictly unless we are sure, but it is suspicious.
             } else {
                 console.log("Upsert Success. Rows confirmed:", data.length);
             }
