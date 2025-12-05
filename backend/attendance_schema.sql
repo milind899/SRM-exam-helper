@@ -12,7 +12,8 @@ create table if not exists public.subjects (
   present_hours int default 0,
   logs jsonb default '[]'::jsonb, -- Array of { date: "2024-01-01", status: "Present", slot: "1" }
   settings jsonb default '{"target": 75, "credits": 3}'::jsonb,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  unique (user_id, code)
 );
 
 -- TIMETABLE TABLE

@@ -26,10 +26,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const client = supabase;
 
         // Get initial session
-        client.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            setLoading(false);
+        client.auth.getSession().then(async ({ data: { session } }) => {
+            if (!session) {
+                console.log("No session found. attempting anonymous sign-in...");
+                const { data, error } = await client.auth.signInAnonymously();
+                if (error) {
+                    console.error("Anon sign-in failed:", error);
+                    setLoading(false);
+                } else {
+                    console.log("Anon sign-in success", data.session);
+                    // Session listener will pick this up
+                }
+            } else {
+                setSession(session);
+                setUser(session?.user ?? null);
+                setLoading(false);
+            }
         });
 
         // Listen for auth changes
