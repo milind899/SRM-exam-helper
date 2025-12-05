@@ -16,7 +16,19 @@ window.addEventListener("message", (event) => {
         console.log("Bridge: Received SYNC_REQUEST from Dashboard");
 
         // Forward to Background Script
-        chrome.runtime.sendMessage({ action: "SYNC_DATA" }, (response) => {
+        const runtime = (typeof chrome !== 'undefined' && chrome.runtime) ? chrome.runtime : (typeof browser !== 'undefined' ? browser.runtime : null);
+
+        if (!runtime) {
+            console.error("SRM Zen Bridge: Runtime not found. This script might be running outside of extension context.");
+            window.postMessage({
+                type: "SYNC_RESPONSE",
+                success: false,
+                error: "Extension runtime missing"
+            }, "*");
+            return;
+        }
+
+        runtime.sendMessage({ action: "SYNC_DATA" }, (response) => {
             console.log("Bridge: Received response from Extension", response);
 
             // Send response back to Dashboard

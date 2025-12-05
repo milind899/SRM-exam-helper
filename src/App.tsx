@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Layout } from './components/Layout';
 import { StudyGuide } from './components/StudyGuide';
@@ -130,6 +130,8 @@ function AppContent() {
   const completedItems = checkedItems.size;
   const progressPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
 
+  // React Router location for reactive routing
+  const location = useLocation();
   const {
     nickname,
     tagline,
@@ -137,8 +139,8 @@ function AppContent() {
     updateTagline,
   } = useLeaderboard(progressPercentage, completedItems, totalItems);
 
-  // Simple routing
-  if (window.location.pathname === '/computer-networks') {
+  // Simple routing using location.pathname
+  if (location.pathname === '/computer-networks') {
     return (
       <>
         <Toaster position="bottom-right" />
@@ -149,7 +151,7 @@ function AppContent() {
     );
   }
 
-  if (window.location.pathname === '/formal-languages-mcq') {
+  if (location.pathname === '/formal-languages-mcq') {
     return (
       <>
         <Toaster position="bottom-right" />
@@ -160,7 +162,7 @@ function AppContent() {
     );
   }
 
-  if (window.location.pathname === '/admin/users') {
+  if (location.pathname === '/admin/users') {
     return (
       <>
         <Toaster position="bottom-right" />
@@ -169,7 +171,7 @@ function AppContent() {
     );
   }
 
-  if (window.location.pathname === '/attendance') {
+  if (location.pathname === '/attendance') {
     return (
       <>
         <Toaster position="bottom-right" />
@@ -222,7 +224,7 @@ function AppContent() {
   }
 
   // Study Guide route
-  if (window.location.pathname === '/study-guide') {
+  if (location.pathname === '/study-guide') {
     return (
       <>
         <SpeedInsights />
