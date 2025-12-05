@@ -169,6 +169,55 @@ function AppContent() {
       </>
     );
   }
+
+  // Study Guide route
+  if (window.location.pathname === '/study-guide') {
+    return (
+      <>
+        <SpeedInsights />
+        <Toaster position="bottom-right" />
+        <Layout
+          currentTheme={theme}
+          onThemeChange={setTheme}
+          onShowShortcuts={() => setShowShortcutsHelp(true)}
+          progressPercentage={progressPercentage}
+          currentSubjectTitle="FLA Study Guide"
+          headerActions={
+            user ? (
+              <button
+                onClick={() => setShowProfileModal(true)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 border border-primary/20 text-primary rounded-lg transition-all font-medium text-sm"
+                title="Profile"
+              >
+                {user.user_metadata?.avatar_url ? (
+                  <img src={user.user_metadata.avatar_url} alt="Profile" className="w-5 h-5 rounded-full border border-primary/30" />
+                ) : (
+                  <UserIcon size={16} />
+                )}
+                <span className="hidden sm:inline">Profile</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowSignInModal(true)}
+                className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all font-medium text-sm shadow-lg shadow-primary/20"
+              >
+                Sign In
+              </button>
+            )
+          }
+          extraNav={
+            <Link
+              to="/"
+              className="px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2 bg-purple-500 text-white border border-purple-400"
+            >
+              <CheckCircle2 size={16} />
+              Back to Tracker
+            </Link>
+          }
+        >
+          <StudyGuide />
+        </Layout>
+        <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
         <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
         <ProfileModal
           isOpen={showProfileModal}
@@ -181,20 +230,36 @@ function AppContent() {
         />
       </>
     );
-}
+  }
 
-// Study Guide route
-if (window.location.pathname === '/study-guide') {
   return (
     <>
       <SpeedInsights />
-      <Toaster position="bottom-right" />
+      {/* Development Banner */}
+      <div className="bg-yellow-500/10 border-b border-yellow-500/20 text-yellow-200 px-4 py-2 text-xs text-center font-medium backdrop-blur-sm fixed top-0 left-0 right-0 z-[100]">
+        🚧 Website is currently under development. You may encounter some bugs.
+      </div>
+      <div className="mt-8"></div> {/* Spacer for fixed banner */}
+
+      <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
+      <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
+      <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
+      <ProfileModal
+        isOpen={showProfileModal}
+        onClose={() => setShowProfileModal(false)}
+        nickname={nickname}
+        tagline={tagline}
+        onUpdateNickname={updateNickname}
+        onUpdateTagline={updateTagline}
+        progressPercentage={progressPercentage}
+      />
+      <InstallPrompt />
       <Layout
         currentTheme={theme}
         onThemeChange={setTheme}
         onShowShortcuts={() => setShowShortcutsHelp(true)}
         progressPercentage={progressPercentage}
-        currentSubjectTitle="FLA Study Guide"
+        currentSubjectTitle={currentSubject.shortTitle}
         headerActions={
           user ? (
             <button
@@ -219,126 +284,48 @@ if (window.location.pathname === '/study-guide') {
           )
         }
         extraNav={
-          <Link
-            to="/"
-            className="px-4 py-2 rounded-lg transition-all font-bold shadow-[0_0_10px_rgba(var(--color-primary),0.2)] hover:shadow-[0_0_15px_rgba(var(--color-primary),0.4)] flex items-center gap-2 bg-purple-500 text-white border border-purple-400"
-          >
-            <CheckCircle2 size={16} />
-            Back to Tracker
-          </Link>
-        }
-      >
-        <StudyGuide />
-      </Layout>
-      <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
-      <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
-      <ProfileModal
-        isOpen={showProfileModal}
-        onClose={() => setShowProfileModal(false)}
-        nickname={nickname}
-        tagline={tagline}
-        onUpdateNickname={updateNickname}
-        onUpdateTagline={updateTagline}
-        progressPercentage={progressPercentage}
-      />
-    </>
-  );
-}
-
-return (
-  <>
-    <SpeedInsights />
-    {/* Development Banner */}
-    <div className="bg-yellow-500/10 border-b border-yellow-500/20 text-yellow-200 px-4 py-2 text-xs text-center font-medium backdrop-blur-sm fixed top-0 left-0 right-0 z-[100]">
-      🚧 Website is currently under development. You may encounter some bugs.
-    </div>
-    <div className="mt-8"></div> {/* Spacer for fixed banner */}
-
-    <ShortcutsHelp isOpen={showShortcutsHelp} onClose={() => setShowShortcutsHelp(false)} />
-    <WhatsNewModal isOpen={showWhatsNew} onClose={handleCloseWhatsNew} />
-    <SignInModal isOpen={showSignInModal} onClose={() => setShowSignInModal(false)} />
-    <ProfileModal
-      isOpen={showProfileModal}
-      onClose={() => setShowProfileModal(false)}
-      nickname={nickname}
-      tagline={tagline}
-      onUpdateNickname={updateNickname}
-      onUpdateTagline={updateTagline}
-      progressPercentage={progressPercentage}
-    />
-    <InstallPrompt />
-    <Layout
-      currentTheme={theme}
-      onThemeChange={setTheme}
-      onShowShortcuts={() => setShowShortcutsHelp(true)}
-      progressPercentage={progressPercentage}
-      currentSubjectTitle={currentSubject.shortTitle}
-      headerActions={
-        user ? (
-          <button
-            onClick={() => setShowProfileModal(true)}
-            className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 border border-primary/20 text-primary rounded-lg transition-all font-medium text-sm"
-            title="Profile"
-          >
-            {user.user_metadata?.avatar_url ? (
-              <img src={user.user_metadata.avatar_url} alt="Profile" className="w-5 h-5 rounded-full border border-primary/30" />
-            ) : (
-              <UserIcon size={16} />
-            )}
-            <span className="hidden sm:inline">Profile</span>
-          </button>
-        ) : (
-          <button
-            onClick={() => setShowSignInModal(true)}
-            className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg transition-all font-medium text-sm shadow-lg shadow-primary/20"
-          >
-            Sign In
-          </button>
-        )
-      }
-      extraNav={
-        currentSubjectId === 'formal-languages' && (
-          <Link
-            to="/study-guide"
-            target="_blank"
-            className="group relative px-4 py-2 rounded-lg font-bold flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
+          currentSubjectId === 'formal-languages' && (
+            <Link
+              to="/study-guide"
+              target="_blank"
+              className="group relative px-4 py-2 rounded-lg font-bold flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-purple-400 overflow-hidden
                 animate-[float_3s_ease-in-out_infinite] hover:scale-105 hover:rotate-1 transition-all duration-300
                 shadow-[0_4px_15px_rgba(168,85,247,0.4)] hover:shadow-[0_6px_25px_rgba(168,85,247,0.6)]
                 before:absolute before:inset-0 before:bg-white before:opacity-0 before:transition-opacity hover:before:opacity-20
                 after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:translate-x-[-200%] hover:after:translate-x-[200%] after:transition-transform after:duration-700"
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: '1000px'
-            }}
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              <BookOpen size={16} className="animate-pulse" />
-              Study Guide
-            </span>
-            {/* Sparkle effects */}
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
-            <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
-            <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
-          </Link>
-        )
-      }
-    >
-      <ErrorBoundary>
-        <Home
-          currentSubjectId={currentSubjectId}
-          setCurrentSubjectId={setCurrentSubjectId}
-          onShowSignIn={() => setShowSignInModal(true)}
-          checkedItems={checkedItems}
-          toggleItem={toggleItem}
-          resetProgress={resetProgress}
-          progressPercentage={progressPercentage}
-          totalItems={totalItems}
-          completedItems={completedItems}
-        />
-      </ErrorBoundary>
-    </Layout>
-  </>
-);
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px'
+              }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <BookOpen size={16} className="animate-pulse" />
+                Study Guide
+              </span>
+              {/* Sparkle effects */}
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-300 rounded-full animate-ping" />
+              <span className="absolute top-1/2 -left-1 w-1.5 h-1.5 bg-pink-300 rounded-full animate-[ping_2s_ease-in-out_infinite_0.5s]" />
+              <span className="absolute -bottom-1 right-1/4 w-1 h-1 bg-purple-300 rounded-full animate-[ping_3s_ease-in-out_infinite_1s]" />
+            </Link>
+          )
+        }
+      >
+        <ErrorBoundary>
+          <Home
+            currentSubjectId={currentSubjectId}
+            setCurrentSubjectId={setCurrentSubjectId}
+            onShowSignIn={() => setShowSignInModal(true)}
+            checkedItems={checkedItems}
+            toggleItem={toggleItem}
+            resetProgress={resetProgress}
+            progressPercentage={progressPercentage}
+            totalItems={totalItems}
+            completedItems={completedItems}
+          />
+        </ErrorBoundary>
+      </Layout>
+    </>
+  );
 }
 
 export default App;
